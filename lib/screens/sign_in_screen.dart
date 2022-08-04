@@ -1,10 +1,44 @@
-import 'dart:io';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_food_app/screens/home_screen.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
-class SignIn extends StatelessWidget {
-  const SignIn({Key? key}) : super(key: key);
+class SignInScreen extends StatefulWidget {
+  const SignInScreen({Key? key}) : super(key: key);
+
+  @override
+  State<SignInScreen> createState() => _SignInState();
+}
+
+class _SignInState extends State<SignInScreen> {
+  Future<User?> _googleSignUp() async {
+    try {
+      final GoogleSignIn googleSignIn = GoogleSignIn(
+        scopes: ['email'],
+      );
+      final FirebaseAuth auth = FirebaseAuth.instance;
+
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      final User? user = (await auth.signInWithCredential(credential)).user;
+
+      debugPrint('Signed User Name: ${user?.displayName}');
+
+      return user;
+    } catch (e) {
+      debugPrint('Signup Error: ${e.toString()}');
+      return null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +56,7 @@ class SignIn extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              height: 400,
+              height: MediaQuery.of(context).size.height * 0.50,
               width: double.infinity,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -53,14 +87,25 @@ class SignIn extends StatelessWidget {
                         text: "Sign in with Facebook",
                         onPressed: () {},
                       ),
-                      !Platform.isIOS
+                      const SizedBox(height: 5),
+                      (defaultTargetPlatform != TargetPlatform.iOS)
                           ? SignInButton(
                               Buttons.Google,
                               text: "Sign in with Google",
-                              onPressed: () {},
+                              onPressed: () {
+                                _googleSignUp().then(
+                                  (value) =>
+                                      Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                      builder: (context) => const HomeScreen(),
+                                    ),
+                                  ),
+                                );
+                              },
                             )
                           : Container(),
-                      !Platform.isAndroid
+                      const SizedBox(height: 5),
+                      (defaultTargetPlatform != TargetPlatform.android)
                           ? SignInButton(
                               Buttons.Apple,
                               text: "Sign in with Apple",
