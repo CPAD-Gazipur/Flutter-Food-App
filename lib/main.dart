@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_food_app/config/config.dart';
 
 import 'firebase_options.dart';
 import 'screens/screens.dart';
@@ -23,7 +24,8 @@ class MyApp extends StatelessWidget {
       title: 'Food Order App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: primaryColor,
+        scaffoldBackgroundColor: backgroundColor,
       ),
       home: FirebaseAuth.instance.currentUser != null
           ? const HomeScreen()
