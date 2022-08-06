@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
+import '../screens.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -73,7 +75,7 @@ class HomeScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(
           vertical: 10,
         ),
-        child: Column(
+        child: ListView(
           children: [
             CarouselSlider(
               items: imageList
@@ -121,88 +123,83 @@ class HomeScreen extends StatelessWidget {
                             children: [
                               Expanded(
                                 flex: 2,
-                                child: Container(
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                          right: 160,
-                                        ),
-                                        child: Container(
-                                          height: 40,
-                                          width: 100,
-                                          decoration: BoxDecoration(
-                                            color: Colors.amber.shade400,
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                              bottomRight: Radius.circular(10),
-                                              bottomLeft: Radius.circular(0),
-                                              topLeft: Radius.circular(10),
-                                            ),
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        right: 160,
+                                      ),
+                                      child: Container(
+                                        height: 40,
+                                        width: 100,
+                                        decoration: BoxDecoration(
+                                          color: Colors.amber.shade400,
+                                          borderRadius: const BorderRadius.only(
+                                            bottomRight: Radius.circular(10),
+                                            bottomLeft: Radius.circular(0),
+                                            topLeft: Radius.circular(10),
                                           ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                              top: 5,
-                                            ),
-                                            child: Text(
-                                              'Foodie',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                                color: Colors.white,
-                                                fontFamily: 'Roboto',
-                                                fontWeight: FontWeight.w500,
-                                                shadows: [
-                                                  BoxShadow(
-                                                    color:
-                                                        Colors.green.shade900,
-                                                    blurRadius: 5,
-                                                    offset: const Offset(3, 3),
-                                                  )
-                                                ],
-                                              ),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                            top: 5,
+                                          ),
+                                          child: Text(
+                                            'Foodie',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.white,
+                                              fontFamily: 'Roboto',
+                                              fontWeight: FontWeight.w500,
+                                              shadows: [
+                                                BoxShadow(
+                                                  color: Colors.green.shade900,
+                                                  blurRadius: 5,
+                                                  offset: const Offset(3, 3),
+                                                )
+                                              ],
                                             ),
                                           ),
                                         ),
                                       ),
-                                      Container(
-                                        margin: const EdgeInsets.only(
-                                          left: 20,
-                                          top: 10,
-                                        ),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              '30% off',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.green[100],
-                                                fontFamily: 'Roboto',
-                                                fontSize: 40,
-                                                shadows: [
-                                                  BoxShadow(
-                                                    color:
-                                                        Colors.green.shade900,
-                                                    blurRadius: 5,
-                                                    offset: const Offset(3, 3),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            Text(
-                                              'On all vegetable products',
-                                              style: TextStyle(
-                                                color: Colors.green[100],
-                                                fontFamily: 'Roboto',
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.only(
+                                        left: 20,
+                                        top: 10,
                                       ),
-                                    ],
-                                  ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            '30% off',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.green[100],
+                                              fontFamily: 'Roboto',
+                                              fontSize: 40,
+                                              shadows: [
+                                                BoxShadow(
+                                                  color: Colors.green.shade900,
+                                                  blurRadius: 5,
+                                                  offset: const Offset(3, 3),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          Text(
+                                            'On all vegetable products',
+                                            style: TextStyle(
+                                              color: Colors.green[100],
+                                              fontFamily: 'Roboto',
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                               Expanded(
@@ -226,94 +223,56 @@ class HomeScreen extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 15,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Herbs Seasonings',
-                    style: TextStyle(
-                      //color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Roboto',
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      debugPrint('View All Clicked');
-                    },
-                    child: const Text(
-                      'View All',
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'Roboto',
-                      ),
-                    ),
-                  ),
-                ],
+            HeaderTitleText(
+              title: 'Herbs Seasonings',
+              buttonText: 'View All',
+              onButtonClicked: () {
+                debugPrint('View All Clicked');
+              },
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 0,
+                ),
+                child: Row(
+                  children: const [
+                    Product(),
+                    Product(),
+                    Product(),
+                    Product(),
+                    Product(),
+                    Product(),
+                  ],
+                ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 5,
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    height: 230,
-                    width: 160,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                    ),
-                    child: Column(
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Image.network(
-                              'https://assets.stickpng.com/images/58bf1e2ae443f41d77c734ab.png',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Fresh Basil',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text(
-                                '\$0.10/50 gram',
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
+            HeaderTitleText(
+              title: 'Fresh Fruits',
+              buttonText: 'View All',
+              onButtonClicked: () {
+                debugPrint('View All Clicked');
+              },
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 0,
+                ),
+                child: Row(
+                  children: const [
+                    Product(),
+                    Product(),
+                    Product(),
+                    Product(),
+                    Product(),
+                    Product(),
+                  ],
+                ),
               ),
             ),
           ],
