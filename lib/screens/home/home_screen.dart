@@ -17,7 +17,7 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
-      drawer: const Drawer(),
+      drawer: const AppDrawer(),
       appBar: AppBar(
         backgroundColor: Colors.amber,
         iconTheme: const IconThemeData(color: Colors.black),
@@ -71,13 +71,13 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 10,
-        ),
-        child: ListView(
-          children: [
-            CarouselSlider(
+      body: ListView(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 10,
+            ),
+            child: CarouselSlider(
               items: imageList
                   .map(
                     (image) => Container(
@@ -223,60 +223,61 @@ class HomeScreen extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
               ),
             ),
-            HeaderTitleText(
-              title: 'Herbs Seasonings',
-              buttonText: 'View All',
-              onButtonClicked: () {
-                debugPrint('View All Clicked');
-              },
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 0,
-                ),
-                child: Row(
-                  children: const [
-                    Product(),
-                    Product(),
-                    Product(),
-                    Product(),
-                    Product(),
-                    Product(),
-                  ],
-                ),
+          ),
+          HeaderTitleText(
+            title: 'Herbs Seasonings',
+            buttonText: 'View All',
+            onButtonClicked: () {
+              debugPrint('View All Clicked');
+            },
+          ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 0,
+              ),
+              child: Row(
+                children: const [
+                  Product(),
+                  Product(),
+                  Product(),
+                  Product(),
+                  Product(),
+                  Product(),
+                ],
               ),
             ),
-            HeaderTitleText(
-              title: 'Fresh Fruits',
-              buttonText: 'View All',
-              onButtonClicked: () {
-                debugPrint('View All Clicked');
-              },
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 0,
-                ),
-                child: Row(
-                  children: const [
-                    Product(),
-                    Product(),
-                    Product(),
-                    Product(),
-                    Product(),
-                    Product(),
-                  ],
-                ),
+          ),
+          HeaderTitleText(
+            title: 'Fresh Fruits',
+            buttonText: 'View All',
+            onButtonClicked: () {
+              debugPrint('View All Clicked');
+            },
+          ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 0,
+              ),
+              child: Row(
+                children: const [
+                  Product(),
+                  Product(),
+                  Product(),
+                  Product(),
+                  Product(),
+                  Product(),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 20),
+        ],
       ),
     );
   }
