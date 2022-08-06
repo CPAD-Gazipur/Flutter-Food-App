@@ -14,22 +14,22 @@ class Product extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onProductClicked,
-      child: Container(
-        height: 230,
-        width: 160,
-        margin: const EdgeInsets.only(
-          right: 10,
-        ),
-        padding: const EdgeInsets.only(
-          top: 5,
-          bottom: 5,
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
-        ),
+    return Container(
+      height: 230,
+      width: 160,
+      margin: const EdgeInsets.only(
+        right: 10,
+      ),
+      padding: const EdgeInsets.only(
+        top: 5,
+        bottom: 5,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.white,
+      ),
+      child: InkWell(
+        onTap: onProductClicked,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

@@ -245,7 +245,13 @@ class HomeScreen extends StatelessWidget {
                     productName: 'Fresh Basil',
                     productImage:
                         'https://assets.stickpng.com/images/58bf1e2ae443f41d77c734ab.png',
-                    onProductClicked: () {},
+                    onProductClicked: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const ProductScreen(),
+                        ),
+                      );
+                    },
                   ),
                   Product(
                     productName: 'Fresh Mint',
