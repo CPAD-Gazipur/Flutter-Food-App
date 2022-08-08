@@ -38,9 +38,12 @@ class Product extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Center(
-                  child: Image.network(
-                    productImage,
-                    fit: BoxFit.cover,
+                  child: Hero(
+                    tag: productImage,
+                    child: Image.network(
+                      productImage,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),

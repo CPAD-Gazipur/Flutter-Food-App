@@ -1,0 +1,4 @@
+enum SignInCharacter {
+  fill,
+  cover,
+}
