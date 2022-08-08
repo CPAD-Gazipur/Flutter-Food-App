@@ -4,7 +4,12 @@ import 'package:flutter_food_app/config/config.dart';
 import '../screens.dart';
 
 class ProductScreen extends StatefulWidget {
-  const ProductScreen({Key? key}) : super(key: key);
+  final String productName, productImage;
+  const ProductScreen({
+    Key? key,
+    required this.productName,
+    required this.productImage,
+  }) : super(key: key);
 
   @override
   State<ProductScreen> createState() => _ProductScreenState();
@@ -52,18 +57,16 @@ class _ProductScreenState extends State<ProductScreen> {
               width: double.infinity,
               child: Column(
                 children: [
-                  const ListTile(
-                    title: Text('Fresh Basil'),
+                  ListTile(
+                    title: Text(widget.productName),
                     subtitle: Text('\$50'),
                   ),
                   Container(
                     height: 250,
                     padding: const EdgeInsets.all(40),
                     child: Hero(
-                      tag:
-                          'https://assets.stickpng.com/images/58bf1e2ae443f41d77c734ab.png',
-                      child: Image.network(
-                          'https://assets.stickpng.com/images/58bf1e2ae443f41d77c734ab.png'),
+                      tag: widget.productImage,
+                      child: Image.network(widget.productImage),
                     ),
                   ),
                   Container(

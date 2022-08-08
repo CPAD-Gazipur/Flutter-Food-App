@@ -235,9 +235,9 @@ class HomeScreen extends StatelessWidget {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 0,
+              padding: const EdgeInsets.only(
+                left: 20,
+                right: 10,
               ),
               child: Row(
                 children: [
@@ -248,7 +248,11 @@ class HomeScreen extends StatelessWidget {
                     onProductClicked: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => const ProductScreen(),
+                          builder: (context) => const ProductScreen(
+                            productName: 'Fresh Basil',
+                            productImage:
+                                'https://assets.stickpng.com/images/58bf1e2ae443f41d77c734ab.png',
+                          ),
                         ),
                       );
                     },
@@ -291,9 +295,9 @@ class HomeScreen extends StatelessWidget {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 0,
+              padding: const EdgeInsets.only(
+                left: 20,
+                right: 10,
               ),
               child: Row(
                 children: [
@@ -301,7 +305,17 @@ class HomeScreen extends StatelessWidget {
                     productName: 'Water Melons',
                     productImage:
                         'https://www.transparentpng.com/thumb/watermelon/TsIHwz-watermelon-clipart-file.png',
-                    onProductClicked: () {},
+                    onProductClicked: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const ProductScreen(
+                            productName: 'Water Melons',
+                            productImage:
+                                'https://www.transparentpng.com/thumb/watermelon/TsIHwz-watermelon-clipart-file.png',
+                          ),
+                        ),
+                      );
+                    },
                   ),
                   Product(
                     productName: 'Berries',
@@ -341,9 +355,9 @@ class HomeScreen extends StatelessWidget {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 0,
+              padding: const EdgeInsets.only(
+                left: 20,
+                right: 10,
               ),
               child: Row(
                 children: [
@@ -351,7 +365,17 @@ class HomeScreen extends StatelessWidget {
                     productName: 'Carrots',
                     productImage:
                         'https://www.pngmart.com/files/8/Carrot-Transparent-Background.png',
-                    onProductClicked: () {},
+                    onProductClicked: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const ProductScreen(
+                            productName: 'Carrots',
+                            productImage:
+                                'https://www.pngmart.com/files/8/Carrot-Transparent-Background.png',
+                          ),
+                        ),
+                      );
+                    },
                   ),
                   Product(
                     productName: 'Beets',
