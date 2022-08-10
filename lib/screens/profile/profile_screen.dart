@@ -155,12 +155,56 @@ class ProfileScreen extends StatelessWidget {
                       text: 'Logout',
                       icon: Icons.exit_to_app_outlined,
                       onTap: () {
-                        auth.signOut();
-                        Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                            builder: (context) => const SignInScreen(),
+                        AlertDialog alert = AlertDialog(
+                          title: const Text(
+                            'Warning!!!',
+                            style: TextStyle(
+                              fontFamily: 'Roboto',
+                              color: Colors.red,
+                            ),
                           ),
-                          (route) => false,
+                          content: const Text(
+                              'Are you sure to logout from the app?'),
+                          actions: [
+                            TextButton(
+                              child: const Text(
+                                'Yes',
+                                style: TextStyle(
+                                  fontFamily: 'Roboto',
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              onPressed: () {
+                                auth.signOut();
+                                Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(
+                                    builder: (context) => const SignInScreen(),
+                                  ),
+                                  (route) => false,
+                                );
+                              },
+                            ),
+                            TextButton(
+                              child: Text(
+                                'No',
+                                style: TextStyle(
+                                  fontFamily: 'Roboto',
+                                  color: textColor,
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        );
+
+                        // show the dialog
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return alert;
+                          },
                         );
                       },
                     ),
