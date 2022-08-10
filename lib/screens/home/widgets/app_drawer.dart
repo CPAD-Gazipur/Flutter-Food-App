@@ -1,10 +1,32 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_food_app/config/config.dart';
+
+import '../../screens.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+
+    String? userName;
+    String? userImage;
+
+    if (auth.currentUser != null) {
+      try {
+        userName = auth.currentUser?.displayName;
+        userImage = auth.currentUser?.photoURL;
+      } catch (e) {
+        userName = 'Guest';
+        userImage = '';
+      }
+    } else {
+      userName = 'Guest';
+      userImage = '';
+    }
+
     return Drawer(
       child: Container(
         color: Colors.amber,
@@ -13,12 +35,13 @@ class AppDrawer extends StatelessWidget {
             DrawerHeader(
               child: Row(
                 children: [
-                  const CircleAvatar(
+                  CircleAvatar(
                     radius: 43,
-                    backgroundColor: Colors.white,
+                    backgroundColor: backgroundColor,
                     child: CircleAvatar(
                       radius: 40,
-                      backgroundColor: Colors.yellow,
+                      backgroundColor: primaryColor,
+                      backgroundImage: NetworkImage(userImage!),
                     ),
                   ),
                   const SizedBox(width: 20),
@@ -26,38 +49,40 @@ class AppDrawer extends StatelessWidget {
                     //crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
-                        'Welcome Guest',
-                        style: TextStyle(
+                      Text(
+                        'Welcome, $userName',
+                        style: const TextStyle(
                           fontFamily: 'Roboto',
                         ),
                       ),
                       const SizedBox(height: 7),
-                      InkWell(
-                        onTap: () {
-                          debugPrint('Login Clicked');
-                        },
-                        child: Container(
-                          height: 30,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 15,
-                            vertical: 5,
-                          ),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.white54,
-                              width: 2,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: const Text(
-                            'LOGIN',
-                            style: TextStyle(
-                              fontFamily: 'Roboto',
-                            ),
-                          ),
-                        ),
-                      )
+                      auth.currentUser == null
+                          ? InkWell(
+                              onTap: () {
+                                debugPrint('Login Clicked');
+                              },
+                              child: Container(
+                                height: 30,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 15,
+                                  vertical: 5,
+                                ),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.white54,
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                child: const Text(
+                                  'LOGIN',
+                                  style: TextStyle(
+                                    fontFamily: 'Roboto',
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Container(),
                     ],
                   ),
                 ],
@@ -93,7 +118,13 @@ class AppDrawer extends StatelessWidget {
               ),
             ),
             ListTile(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const ProfileScreen(),
+                  ),
+                );
+              },
               leading: const Icon(
                 Icons.person_outlined,
                 size: 32,

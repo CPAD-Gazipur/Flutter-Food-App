@@ -5,3 +5,5 @@ export 'home/widgets/header_title_text.dart';
 export 'home/widgets/product.dart';
 export 'product/product_screen.dart';
 export 'product/widgets/product_bottom_navigation_bar.dart';
+export 'profile/profile_screen.dart';
+export 'profile/widgets/custom_list_tile.dart';
