@@ -37,7 +37,11 @@ class HomeScreen extends StatelessWidget {
               child: Center(
                 child: InkWell(
                   onTap: () {
-                    debugPrint('Search Icon Clicked');
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const SearchScreen(),
+                      ),
+                    );
                   },
                   child: Icon(
                     Icons.search,

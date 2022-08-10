@@ -43,7 +43,6 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
       ),
-      drawer: const AppDrawer(),
       body: Stack(
         children: [
           Column(
