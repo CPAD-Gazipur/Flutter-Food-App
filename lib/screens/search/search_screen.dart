@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_food_app/screens/screens.dart';
 
 import '../../config/config.dart';
+import '../../widgets/widgets.dart';
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -21,11 +21,14 @@ class SearchScreen extends StatelessWidget {
             color: textColor,
           ),
         ),
-        actions: const [
+        actions: [
           Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(
-              Icons.menu_rounded,
+            padding: const EdgeInsets.only(right: 8.0),
+            child: IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.filter_alt_outlined,
+              ),
             ),
           ),
         ],
@@ -52,10 +55,10 @@ class SearchScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          const SearchItem(),
-          const SearchItem(),
-          const SearchItem(),
-          const SearchItem(),
+          const SingleItem(),
+          const SingleItem(),
+          const SingleItem(),
+          const SingleItem(),
         ],
       ),
     );

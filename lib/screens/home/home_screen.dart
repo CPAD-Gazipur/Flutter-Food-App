@@ -27,50 +27,32 @@ class HomeScreen extends StatelessWidget {
           style: TextStyle(color: textColor),
         ),
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(
-              right: 5,
-            ),
-            child: CircleAvatar(
-              radius: 14,
-              backgroundColor: iconBackground,
-              child: Center(
-                child: InkWell(
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const SearchScreen(),
-                      ),
-                    );
-                  },
-                  child: Icon(
-                    Icons.search,
-                    color: textColor,
-                    size: 17,
-                  ),
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const SearchScreen(),
                 ),
-              ),
+              );
+            },
+            icon: Icon(
+              Icons.search,
+              color: textColor,
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(
-              left: 5.0,
-              right: 16.0,
-            ),
-            child: CircleAvatar(
-              radius: 14,
-              backgroundColor: iconBackground,
-              child: Center(
-                child: InkWell(
-                  onTap: () {
-                    debugPrint('Cart Icon Clicked');
-                  },
-                  child: Icon(
-                    Icons.shop,
-                    color: textColor,
-                    size: 17,
+            padding: const EdgeInsets.only(right: 8.0),
+            child: IconButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const CartScreen(),
                   ),
-                ),
+                );
+              },
+              icon: Icon(
+                Icons.shop,
+                color: textColor,
               ),
             ),
           ),

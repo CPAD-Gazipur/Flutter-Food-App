@@ -11,20 +11,26 @@ class AppDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final FirebaseAuth auth = FirebaseAuth.instance;
 
-    String? userName;
-    String? userImage;
+    String? userName, userEmail, userPhoneNumber, userImage;
 
     if (auth.currentUser != null) {
       try {
         userName = auth.currentUser?.displayName;
+        userEmail = auth.currentUser?.email;
+        userPhoneNumber = auth.currentUser?.phoneNumber;
         userImage = auth.currentUser?.photoURL;
       } catch (e) {
         userName = 'Guest';
         userImage = '';
+        userEmail = 'example@gmail.com';
+        userPhoneNumber = '+8801621893919';
+        debugPrint('Error: $e');
       }
     } else {
       userName = 'Guest';
       userImage = '';
+      userEmail = 'example@gmail.com';
+      userPhoneNumber = '+8801621893919';
     }
 
     return Drawer(
@@ -104,7 +110,13 @@ class AppDrawer extends StatelessWidget {
               ),
             ),
             ListTile(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const CartScreen(),
+                  ),
+                );
+              },
               leading: const Icon(
                 Icons.shop_outlined,
                 size: 32,
@@ -260,19 +272,19 @@ class AppDrawer extends StatelessWidget {
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
+                        children: [
                           Text(
-                            '+8801621893919',
-                            style: TextStyle(
+                            userPhoneNumber ?? '+8801621893919',
+                            style: const TextStyle(
                               fontSize: 16,
                               fontFamily: 'Roboto',
                               color: Colors.black45,
                             ),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           Text(
-                            'alamin.karno@outlook.com',
-                            style: TextStyle(
+                            userEmail!,
+                            style: const TextStyle(
                               fontSize: 16,
                               fontFamily: 'Roboto',
                               color: Colors.black45,

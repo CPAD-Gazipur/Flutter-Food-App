@@ -1,4 +1,5 @@
 export 'auth/sign_in_screen.dart';
+export 'cart/cart_screen.dart';
 export 'home/home_screen.dart';
 export 'home/widgets/app_drawer.dart';
 export 'home/widgets/header_title_text.dart';
@@ -8,4 +9,3 @@ export 'product/widgets/product_bottom_navigation_bar.dart';
 export 'profile/profile_screen.dart';
 export 'profile/widgets/custom_list_tile.dart';
 export 'search/search_screen.dart';
-export 'search/widgets/search_item.dart';
