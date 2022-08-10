@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/config/config.dart';
+import 'package:flutter_food_app/providers/providers.dart';
+import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
 import 'screens/screens.dart';
@@ -20,16 +22,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Food Order App',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: primaryColor,
-        scaffoldBackgroundColor: backgroundColor,
+    return ChangeNotifierProvider<ProductProvider>(
+      create: (context) => ProductProvider(),
+      child: MaterialApp(
+        title: 'Food Order App',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primaryColor: primaryColor,
+          scaffoldBackgroundColor: backgroundColor,
+        ),
+        home: FirebaseAuth.instance.currentUser != null
+            ? const HomeScreen()
+            : const SignInScreen(),
       ),
-      home: FirebaseAuth.instance.currentUser != null
-          ? const HomeScreen()
-          : const SignInScreen(),
     );
   }
 }

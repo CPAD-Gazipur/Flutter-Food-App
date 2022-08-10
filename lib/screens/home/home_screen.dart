@@ -1,11 +1,25 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/config/config.dart';
+import 'package:flutter_food_app/providers/providers.dart';
+import 'package:provider/provider.dart';
 
 import '../screens.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    ProductProvider productProvider = Provider.of(context, listen: false);
+    productProvider.getHerbsProduct();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
