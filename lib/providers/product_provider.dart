@@ -5,6 +5,7 @@ import '../models/models.dart';
 
 class ProductProvider extends ChangeNotifier {
   List<dynamic> homeBannerList = [];
+  List<ProductModel> allProductList = [];
   List<ProductModel> herbsProductList = [];
   List<ProductModel> freshFruitsProductList = [];
   List<ProductModel> rootVegetableProductList = [];
@@ -31,12 +32,7 @@ class ProductProvider extends ChangeNotifier {
         await FirebaseFirestore.instance.collection('HerbsProductList').get();
 
     for (var product in snapshot.docs) {
-      productModel = ProductModel(
-        productName: product.get('productName'),
-        productImage: product.get('productImage'),
-        productDetails: product.get('productDetails'),
-        productPrice: product.get('productPrice'),
-      );
+      productModels(product);
       newList.add(productModel);
     }
 
@@ -52,12 +48,7 @@ class ProductProvider extends ChangeNotifier {
         await FirebaseFirestore.instance.collection('FreshFruitList').get();
 
     for (var product in snapshot.docs) {
-      productModel = ProductModel(
-        productName: product.get('productName'),
-        productImage: product.get('productImage'),
-        productDetails: product.get('productDetails'),
-        productPrice: product.get('productPrice'),
-      );
+      productModels(product);
       newList.add(productModel);
     }
 
@@ -73,12 +64,7 @@ class ProductProvider extends ChangeNotifier {
         await FirebaseFirestore.instance.collection('RootVegetableList').get();
 
     for (var product in snapshot.docs) {
-      productModel = ProductModel(
-        productName: product.get('productName'),
-        productImage: product.get('productImage'),
-        productDetails: product.get('productDetails'),
-        productPrice: product.get('productPrice'),
-      );
+      productModels(product);
       newList.add(productModel);
     }
 
@@ -87,8 +73,22 @@ class ProductProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  productModels(var product) {
+    productModel = ProductModel(
+      productName: product.get('productName'),
+      productImage: product.get('productImage'),
+      productDetails: product.get('productDetails'),
+      productPrice: product.get('productPrice'),
+    );
+    allProductList.add(productModel);
+  }
+
   List<dynamic> get getHomeBannerList {
     return homeBannerList;
+  }
+
+  List<ProductModel> get getAllProductList {
+    return allProductList;
   }
 
   List<ProductModel> get getHerbsProductList {

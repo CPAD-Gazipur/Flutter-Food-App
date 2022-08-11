@@ -5,11 +5,11 @@ import '../../models/models.dart';
 import '../../widgets/widgets.dart';
 
 class SearchScreen extends StatefulWidget {
-  final List<ProductModel>? searchProducts;
+  final List<ProductModel> searchProducts;
 
   const SearchScreen({
     Key? key,
-    this.searchProducts,
+    required this.searchProducts,
   }) : super(key: key);
 
   @override
@@ -17,8 +17,20 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  String query = '';
+
+  searchItems(String query) {
+    List<ProductModel> searchItem = widget.searchProducts
+        .where((product) => product.productName.toLowerCase().contains(query))
+        .toList();
+
+    return searchItem;
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<ProductModel> searchItem = searchItems(query);
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -53,6 +65,11 @@ class _SearchScreenState extends State<SearchScreen> {
             height: 52,
             margin: const EdgeInsets.symmetric(horizontal: 20),
             child: TextField(
+              onChanged: (value) {
+                setState(() {
+                  query = value.toLowerCase();
+                });
+              },
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30),
@@ -67,7 +84,7 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
           const SizedBox(height: 10),
           Column(
-            children: widget.searchProducts!
+            children: searchItem
                 .map((product) => SingleItem(
                       isCarted: false,
                       product: product,
