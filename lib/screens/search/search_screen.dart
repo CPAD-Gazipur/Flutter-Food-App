@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
 
 import '../../config/config.dart';
+import '../../models/models.dart';
 import '../../widgets/widgets.dart';
 
-class SearchScreen extends StatelessWidget {
-  const SearchScreen({Key? key}) : super(key: key);
+class SearchScreen extends StatefulWidget {
+  final List<ProductModel>? searchProducts;
 
+  const SearchScreen({
+    Key? key,
+    this.searchProducts,
+  }) : super(key: key);
+
+  @override
+  State<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,10 +66,14 @@ class SearchScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          const SingleItem(),
-          const SingleItem(),
-          const SingleItem(),
-          const SingleItem(),
+          Column(
+            children: widget.searchProducts!
+                .map((product) => SingleItem(
+                      isCarted: false,
+                      product: product,
+                    ))
+                .toList(),
+          ),
         ],
       ),
     );

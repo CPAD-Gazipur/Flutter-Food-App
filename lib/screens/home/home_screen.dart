@@ -231,7 +231,13 @@ class _HomeScreenState extends State<HomeScreen> {
             title: 'Herbs Seasonings',
             buttonText: 'View All',
             onButtonClicked: () {
-              debugPrint('View All Clicked');
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => SearchScreen(
+                    searchProducts: productProvider!.getHerbsProductList,
+                  ),
+                ),
+              );
             },
           ),
           SingleChildScrollView(
@@ -262,7 +268,13 @@ class _HomeScreenState extends State<HomeScreen> {
             title: 'Fresh Fruits',
             buttonText: 'View All',
             onButtonClicked: () {
-              debugPrint('View All Clicked');
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => SearchScreen(
+                    searchProducts: productProvider!.getFreshFruitsList,
+                  ),
+                ),
+              );
             },
           ),
           SingleChildScrollView(
@@ -293,7 +305,13 @@ class _HomeScreenState extends State<HomeScreen> {
             title: 'Root Vegetable',
             buttonText: 'View All',
             onButtonClicked: () {
-              debugPrint('View All Clicked');
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => SearchScreen(
+                    searchProducts: productProvider!.getRootVegetableList,
+                  ),
+                ),
+              );
             },
           ),
           SingleChildScrollView(

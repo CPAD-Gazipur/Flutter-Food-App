@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/config/config.dart';
 
-import '../../widgets/widgets.dart';
-
 class CartScreen extends StatelessWidget {
   const CartScreen({Key? key}) : super(key: key);
 
@@ -56,10 +54,10 @@ class CartScreen extends StatelessWidget {
       body: ListView(
         children: const [
           SizedBox(height: 10),
+          /* SingleItem(isCarted: true),
           SingleItem(isCarted: true),
           SingleItem(isCarted: true),
-          SingleItem(isCarted: true),
-          SingleItem(isCarted: true),
+          SingleItem(isCarted: true),*/
           SizedBox(height: 10),
         ],
       ),

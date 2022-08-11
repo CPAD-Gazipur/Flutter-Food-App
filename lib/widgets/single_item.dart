@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/config/colors.dart';
 
+import '../models/models.dart';
+
 class SingleItem extends StatelessWidget {
   final bool isCarted;
+  final ProductModel product;
 
   const SingleItem({
     Key? key,
     this.isCarted = false,
+    required this.product,
   }) : super(key: key);
 
   @override
@@ -28,9 +32,17 @@ class SingleItem extends StatelessWidget {
               child: SizedBox(
                 height: 100,
                 child: Center(
-                  child: Image.network(
-                    'https://assets.stickpng.com/images/58bf1e2ae443f41d77c734ab.png',
-                    fit: BoxFit.cover,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      right: 16,
+                      left: 8,
+                      top: 8,
+                      bottom: 8,
+                    ),
+                    child: Image.network(
+                      product.productImage,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
@@ -48,7 +60,7 @@ class SingleItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Fresh Basil',
+                          product.productName,
                           style: TextStyle(
                             color: textColor,
                             fontFamily: 'Roboto',
@@ -56,9 +68,9 @@ class SingleItem extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 5),
-                        const Text(
-                          '\$0.10/50 gram',
-                          style: TextStyle(
+                        Text(
+                          '\$${product.productPrice.toString()}/50 gram',
+                          style: const TextStyle(
                             fontFamily: 'Roboto',
                             fontWeight: FontWeight.w400,
                           ),
