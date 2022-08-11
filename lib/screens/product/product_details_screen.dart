@@ -1,21 +1,23 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/config/config.dart';
 import 'package:flutter_food_app/models/models.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../screens.dart';
 
-class ProductScreen extends StatefulWidget {
+class ProductDetailsScreen extends StatefulWidget {
   final ProductModel product;
-  const ProductScreen({
+  const ProductDetailsScreen({
     Key? key,
     required this.product,
   }) : super(key: key);
 
   @override
-  State<ProductScreen> createState() => _ProductScreenState();
+  State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
 }
 
-class _ProductScreenState extends State<ProductScreen> {
+class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   SignInCharacter? _character = SignInCharacter.fill;
 
   @override
@@ -57,12 +59,27 @@ class _ProductScreenState extends State<ProductScreen> {
                 title: Text(widget.product.productName),
                 subtitle: Text('\$${widget.product.productPrice}'),
               ),
-              Container(
-                height: 250,
-                padding: const EdgeInsets.all(40),
-                child: Hero(
-                  tag: widget.product.productImage,
-                  child: Image.network(widget.product.productImage),
+              CachedNetworkImage(
+                imageUrl: widget.product.productImage,
+                imageBuilder: (context, imageProvider) => Container(
+                  height: 250,
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(40),
+                  child: Hero(
+                    tag: widget.product.productImage,
+                    child: Image.network(widget.product.productImage),
+                  ),
+                ),
+                placeholder: (context, url) => SizedBox(
+                  height: 250,
+                  child: Shimmer.fromColors(
+                    baseColor: Colors.grey,
+                    highlightColor: Colors.white,
+                    child: Image.asset('assets/images/placeholder_image.png'),
+                  ),
+                ),
+                errorWidget: (context, url, error) => const Center(
+                  child: Icon(Icons.error),
                 ),
               ),
               Container(

@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/config/config.dart';
 import 'package:flutter_food_app/models/models.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ProductItem extends StatelessWidget {
   final ProductModel product;
@@ -35,16 +37,30 @@ class ProductItem extends StatelessWidget {
           children: [
             Expanded(
               flex: 2,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Center(
-                  child: Hero(
-                    tag: product.productImage,
-                    child: Image.network(
-                      product.productImage,
-                      fit: BoxFit.cover,
+              child: CachedNetworkImage(
+                imageUrl: product.productImage,
+                imageBuilder: (context, imageProvider) => Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Center(
+                    child: Hero(
+                      tag: product.productImage,
+                      child: Image.network(
+                        product.productImage,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
+                ),
+                placeholder: (context, url) => Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Shimmer.fromColors(
+                    baseColor: Colors.grey,
+                    highlightColor: Colors.white,
+                    child: Image.asset('assets/images/placeholder_image.png'),
+                  ),
+                ),
+                errorWidget: (context, url, error) => const Center(
+                  child: Icon(Icons.error),
                 ),
               ),
             ),

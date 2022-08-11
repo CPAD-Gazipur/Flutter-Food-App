@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/config/colors.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../models/models.dart';
 
@@ -29,21 +31,43 @@ class SingleItem extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-              child: SizedBox(
-                height: 100,
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      right: 16,
-                      left: 8,
-                      top: 8,
-                      bottom: 8,
-                    ),
-                    child: Image.network(
-                      product.productImage,
-                      fit: BoxFit.cover,
+              child: CachedNetworkImage(
+                imageUrl: product.productImage,
+                imageBuilder: (context, imageProvider) => SizedBox(
+                  height: 100,
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        right: 16,
+                        left: 8,
+                        top: 8,
+                        bottom: 8,
+                      ),
+                      child: Image.network(
+                        product.productImage,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
+                ),
+                placeholder: (context, url) => SizedBox(
+                  height: 100,
+                  child: Shimmer.fromColors(
+                    baseColor: Colors.grey,
+                    highlightColor: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        right: 16,
+                        left: 8,
+                        top: 8,
+                        bottom: 8,
+                      ),
+                      child: Image.asset('assets/images/placeholder_image.png'),
+                    ),
+                  ),
+                ),
+                errorWidget: (context, url, error) => const Center(
+                  child: Icon(Icons.error),
                 ),
               ),
             ),

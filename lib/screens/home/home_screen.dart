@@ -257,7 +257,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    ProductScreen(product: product),
+                                    ProductDetailsScreen(product: product),
                               ),
                             );
                           },
@@ -294,7 +294,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    ProductScreen(product: product),
+                                    ProductDetailsScreen(product: product),
                               ),
                             );
                           },
@@ -331,7 +331,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    ProductScreen(product: product),
+                                    ProductDetailsScreen(product: product),
                               ),
                             );
                           },
