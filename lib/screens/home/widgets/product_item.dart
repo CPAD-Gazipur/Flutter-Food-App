@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/config/config.dart';
+import 'package:flutter_food_app/models/models.dart';
 
-class Product extends StatelessWidget {
-  final String productName, productImage;
+class ProductItem extends StatelessWidget {
+  final ProductModel product;
   final Function() onProductClicked;
 
-  const Product({
+  const ProductItem({
     Key? key,
-    required this.productName,
-    required this.productImage,
+    required this.product,
     required this.onProductClicked,
   }) : super(key: key);
 
@@ -39,9 +39,9 @@ class Product extends StatelessWidget {
                 padding: const EdgeInsets.all(16.0),
                 child: Center(
                   child: Hero(
-                    tag: productImage,
+                    tag: product.productImage,
                     child: Image.network(
-                      productImage,
+                      product.productImage,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -58,16 +58,16 @@ class Product extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      productName,
+                      product.productName,
                       style: TextStyle(
                         color: textColor,
                         fontFamily: 'Roboto',
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const Text(
-                      '\$0.10/50 gram',
-                      style: TextStyle(
+                    Text(
+                      '\$${product.productPrice.toString()}/50 gram',
+                      style: const TextStyle(
                         color: Colors.grey,
                         fontFamily: 'Roboto',
                         fontWeight: FontWeight.bold,

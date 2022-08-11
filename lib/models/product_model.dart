@@ -1,6 +1,6 @@
 class ProductModel {
   String productName, productImage, productDetails;
-  double productPrice;
+  num productPrice;
 
   ProductModel({
     required this.productName,

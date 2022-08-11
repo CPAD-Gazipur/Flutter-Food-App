@@ -14,21 +14,23 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  ProductProvider? productProvider;
+
   @override
   void initState() {
     ProductProvider productProvider = Provider.of(context, listen: false);
-    productProvider.getHerbsProduct();
+    productProvider.fetchHomeBanners();
+    productProvider.fetchHerbsProduct();
+    productProvider.fetchFreshFruitsProduct();
+    productProvider.fetchRootVegetableProduct();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final imageList = [
-      'https://wallpaperaccess.com/full/1306571.jpg',
-      'https://www.eatthis.com/wp-content/uploads/sites/4/2021/11/basket-of-vegetables.jpg?quality=82&strip=1',
-      'https://images.unsplash.com/photo-1518843875459-f738682238a6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8dmVnZXRhYmxlfGVufDB8fDB8fA%3D%3D&w=1000&q=80',
-      'https://w0.peakpx.com/wallpaper/575/305/HD-wallpaper-vegitable-medly-cabbage-onion-vegitables-food-sweet-pepers-veggies.jpg',
-    ];
+    productProvider = Provider.of(context);
+
+    final imageList = productProvider!.getHomeBannerList;
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -240,48 +242,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 right: 10,
               ),
               child: Row(
-                children: [
-                  Product(
-                    productName: 'Fresh Basil',
-                    productImage:
-                        'https://assets.stickpng.com/images/58bf1e2ae443f41d77c734ab.png',
-                    onProductClicked: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const ProductScreen(
-                            productName: 'Fresh Basil',
-                            productImage:
-                                'https://assets.stickpng.com/images/58bf1e2ae443f41d77c734ab.png',
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  Product(
-                    productName: 'Fresh Mint',
-                    productImage:
-                        'https://www.nicepng.com/png/full/927-9276396_mint-png-clipart-background-fresh-mint.png',
-                    onProductClicked: () {},
-                  ),
-                  Product(
-                    productName: 'Cilantro',
-                    productImage:
-                        'https://www.pngkey.com/png/full/137-1373372_parsley-coriander-cilantro.png',
-                    onProductClicked: () {},
-                  ),
-                  Product(
-                    productName: 'Dill',
-                    productImage:
-                        'https://www.pngmart.com/files/22/Dill-PNG.png',
-                    onProductClicked: () {},
-                  ),
-                  Product(
-                    productName: 'Oregano',
-                    productImage:
-                        'https://assets.stickpng.com/images/58bf1e57e443f41d77c734b1.png',
-                    onProductClicked: () {},
-                  ),
-                ],
+                children: productProvider!.getHerbsProductList
+                    .map((product) => ProductItem(
+                          product: product,
+                          onProductClicked: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ProductScreen(product: product),
+                              ),
+                            );
+                          },
+                        ))
+                    .toList(),
               ),
             ),
           ),
@@ -300,48 +273,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 right: 10,
               ),
               child: Row(
-                children: [
-                  Product(
-                    productName: 'Water Melons',
-                    productImage:
-                        'https://www.transparentpng.com/thumb/watermelon/TsIHwz-watermelon-clipart-file.png',
-                    onProductClicked: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const ProductScreen(
-                            productName: 'Water Melons',
-                            productImage:
-                                'https://www.transparentpng.com/thumb/watermelon/TsIHwz-watermelon-clipart-file.png',
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  Product(
-                    productName: 'Berries',
-                    productImage:
-                        'https://www.pngkey.com/png/full/45-456152_berries-transparent-and-food-image-transparent-fruit.png',
-                    onProductClicked: () {},
-                  ),
-                  Product(
-                    productName: 'Winter Squash',
-                    productImage:
-                        'https://assets.stickpng.com/images/585ea823cb11b227491c3542.png',
-                    onProductClicked: () {},
-                  ),
-                  Product(
-                    productName: 'Apples',
-                    productImage:
-                        'http://assets.stickpng.com/images/580b57fbd9996e24bc43c118.png',
-                    onProductClicked: () {},
-                  ),
-                  Product(
-                    productName: 'Beans and Lentils',
-                    productImage:
-                        'http://www.alliancezone.ca/dir/wp-content/uploads/2013/07/beans-global-sourcing.png',
-                    onProductClicked: () {},
-                  ),
-                ],
+                children: productProvider!.getFreshFruitsList
+                    .map((product) => ProductItem(
+                          product: product,
+                          onProductClicked: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ProductScreen(product: product),
+                              ),
+                            );
+                          },
+                        ))
+                    .toList(),
               ),
             ),
           ),
@@ -360,48 +304,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 right: 10,
               ),
               child: Row(
-                children: [
-                  Product(
-                    productName: 'Carrots',
-                    productImage:
-                        'https://www.pngmart.com/files/8/Carrot-Transparent-Background.png',
-                    onProductClicked: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const ProductScreen(
-                            productName: 'Carrots',
-                            productImage:
-                                'https://www.pngmart.com/files/8/Carrot-Transparent-Background.png',
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  Product(
-                    productName: 'Beets',
-                    productImage:
-                        'https://www.pngmart.com/files/15/Organic-Beetroot-Transparent-PNG.png',
-                    onProductClicked: () {},
-                  ),
-                  Product(
-                    productName: 'Parsnips',
-                    productImage:
-                        'https://www.natureandmore.com/sites/www.natureandmore.com/files/styles/zijbalk/public/product/thumb/pastinaak_kopieeren.png?itok=uom2IimW',
-                    onProductClicked: () {},
-                  ),
-                  Product(
-                    productName: 'Turnips',
-                    productImage:
-                        'https://purepng.com/public/uploads/large/purepng.com-turnipvegetables-root-vegetable-rutabaga-swede-turnip-neep-941524702928b62ft.png',
-                    onProductClicked: () {},
-                  ),
-                  Product(
-                    productName: 'Jicama',
-                    productImage:
-                        'https://purepng.com/public/uploads/large/purepng.com-jicamavegetablesjicama-mexican-potato-mexican-yam-bean-941524705374x5018.png',
-                    onProductClicked: () {},
-                  ),
-                ],
+                children: productProvider!.getRootVegetableList
+                    .map((product) => ProductItem(
+                          product: product,
+                          onProductClicked: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ProductScreen(product: product),
+                              ),
+                            );
+                          },
+                        ))
+                    .toList(),
               ),
             ),
           ),
