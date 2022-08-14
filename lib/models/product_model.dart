@@ -1,8 +1,9 @@
 class ProductModel {
-  String productName, productImage, productDetails;
+  String productID, productName, productImage, productDetails;
   num productPrice;
 
   ProductModel({
+    required this.productID,
     required this.productName,
     required this.productImage,
     required this.productDetails,

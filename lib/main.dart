@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/config/config.dart';
+import 'package:flutter_food_app/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
@@ -29,6 +30,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<UserProvider>(
           create: (context) => UserProvider(),
+        ),
+        ChangeNotifierProvider<CartProvider>(
+          create: (context) => CartProvider(),
         ),
       ],
       child: MaterialApp(

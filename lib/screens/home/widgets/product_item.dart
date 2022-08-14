@@ -129,8 +129,8 @@ class ProductItem extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(width: 10),
-                            const Expanded(
-                              child: ProductCount(),
+                            Expanded(
+                              child: ProductCount(product: product),
                             ),
                           ],
                         ),

@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_food_app/models/models.dart';
+import 'package:flutter_food_app/providers/cart_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../config/config.dart';
 
 class ProductCount extends StatefulWidget {
-  const ProductCount({Key? key}) : super(key: key);
+  final ProductModel product;
+  const ProductCount({
+    Key? key,
+    required this.product,
+  }) : super(key: key);
 
   @override
   State<ProductCount> createState() => _ProductCountState();
@@ -15,6 +22,7 @@ class _ProductCountState extends State<ProductCount> {
 
   @override
   Widget build(BuildContext context) {
+    CartProvider cartProvider = Provider.of<CartProvider>(context);
     return Container(
       height: 30,
       width: 50,
@@ -70,6 +78,14 @@ class _ProductCountState extends State<ProductCount> {
                 setState(() {
                   isAdded = true;
                 });
+
+                cartProvider.addProductToCart(
+                  cartID: widget.product.productID,
+                  cartName: widget.product.productName,
+                  cartImage: widget.product.productImage,
+                  cartPrice: widget.product.productPrice,
+                  cartQuantity: productCount,
+                );
               },
               child: Center(
                 child: Text(

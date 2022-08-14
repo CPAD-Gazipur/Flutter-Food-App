@@ -75,6 +75,7 @@ class ProductProvider extends ChangeNotifier {
 
   productModels(var product) {
     productModel = ProductModel(
+      productID: product.get('productID'),
       productName: product.get('productName'),
       productImage: product.get('productImage'),
       productDetails: product.get('productDetails'),
