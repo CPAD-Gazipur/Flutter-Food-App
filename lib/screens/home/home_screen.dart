@@ -224,18 +224,33 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                       ),
-                      placeholder: (context, url) => Shimmer.fromColors(
-                        baseColor: Colors.grey,
-                        highlightColor: Colors.white,
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            right: 16,
-                            left: 8,
-                            top: 8,
-                            bottom: 8,
+                      placeholder: (context, url) => Container(
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 5,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.white54,
+                              spreadRadius: 1,
+                              blurRadius: 2,
+                              offset: Offset(0, 0),
+                            )
+                          ],
+                        ),
+                        child: Shimmer.fromColors(
+                          baseColor: Colors.grey,
+                          highlightColor: Colors.white,
+                          child: SizedBox(
+                            width: double.infinity,
+                            height: 170,
+                            child: Image.asset(
+                              'assets/images/placeholder_image.png',
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                          child: Image.asset(
-                              'assets/images/placeholder_image.png'),
                         ),
                       ),
                       errorWidget: (context, url, error) => const Center(
