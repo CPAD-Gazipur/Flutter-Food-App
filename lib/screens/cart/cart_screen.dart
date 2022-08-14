@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/config/config.dart';
+import 'package:flutter_food_app/models/models.dart';
+import 'package:flutter_food_app/providers/cart_provider.dart';
+import 'package:flutter_food_app/widgets/single_item.dart';
+import 'package:provider/provider.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    CartProvider cartProvider = Provider.of<CartProvider>(context);
+    cartProvider.fetchCartedProducts();
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -51,16 +57,64 @@ class CartScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: ListView(
-        children: const [
-          SizedBox(height: 10),
-          /* SingleItem(isCarted: true),
-          SingleItem(isCarted: true),
-          SingleItem(isCarted: true),
-          SingleItem(isCarted: true),*/
-          SizedBox(height: 10),
-        ],
-      ),
+      body: cartProvider.getCartedProductList.isNotEmpty
+          ? ListView.builder(
+              itemCount: cartProvider.getCartedProductList.length,
+              itemBuilder: (context, index) {
+                CartModel data = cartProvider.getCartedProductList[index];
+                ProductModel product = ProductModel(
+                  productID: data.cartID,
+                  productName: data.cartName,
+                  productImage: data.cartImage,
+                  productDetails: '',
+                  productPrice: data.cartPrice,
+                );
+                return Column(
+                  children: [
+                    const SizedBox(height: 5),
+                    SingleItem(
+                      product: product,
+                      quantity: data.cartQuantity,
+                      isCarted: true,
+                    ),
+                  ],
+                );
+              },
+            )
+          : Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    'No product Added into Cart',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 16,
+                      fontFamily: 'Roboto',
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: primaryColor,
+                      minimumSize: const Size(150, 40),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      'Go Shop',
+                      style: TextStyle(
+                        color: textColor,
+                        fontFamily: 'Roboto',
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
     );
   }
 }

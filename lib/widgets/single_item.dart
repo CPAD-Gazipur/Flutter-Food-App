@@ -8,11 +8,13 @@ import '../models/models.dart';
 class SingleItem extends StatelessWidget {
   final bool isCarted;
   final ProductModel product;
+  final int? quantity;
 
   const SingleItem({
     Key? key,
     this.isCarted = false,
     required this.product,
+    this.quantity,
   }) : super(key: key);
 
   @override
@@ -206,7 +208,7 @@ class SingleItem extends StatelessWidget {
                                   ),
                                   const SizedBox(width: 5),
                                   Text(
-                                    '1',
+                                    '$quantity',
                                     style: TextStyle(
                                       color: primaryColor,
                                       fontWeight: FontWeight.bold,
