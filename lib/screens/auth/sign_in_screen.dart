@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_food_app/providers/providers.dart';
 import 'package:flutter_food_app/screens/home/home_screen.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -13,6 +15,8 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInState extends State<SignInScreen> {
+  late UserProvider userProvider;
+
   Future<User?> _googleSignUp() async {
     try {
       final GoogleSignIn googleSignIn = GoogleSignIn(
@@ -33,6 +37,15 @@ class _SignInState extends State<SignInScreen> {
 
       debugPrint('Signed User Name: ${user?.displayName}');
 
+      if (user != null) {
+        userProvider.addUserData(
+          currentUser: user,
+          userName: user.displayName!,
+          userEmail: user.email!,
+          userImage: user.photoURL!,
+        );
+      }
+
       return user;
     } catch (e) {
       debugPrint('Signup Error: ${e.toString()}');
@@ -42,6 +55,7 @@ class _SignInState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
+    userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       body: Container(
         height: double.infinity,
