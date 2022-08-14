@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/config/config.dart';
 import 'package:flutter_food_app/models/models.dart';
+import 'package:flutter_food_app/widgets/widgets.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ProductItem extends StatelessWidget {
@@ -128,40 +129,8 @@ class ProductItem extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(width: 10),
-                            Expanded(
-                              child: Container(
-                                height: 30,
-                                width: 50,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Icon(
-                                      Icons.remove,
-                                      size: 14,
-                                      color: primaryColor,
-                                    ),
-                                    const Text(
-                                      '1',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Icon(
-                                      Icons.add,
-                                      size: 14,
-                                      color: primaryColor,
-                                    ),
-                                  ],
-                                ),
-                              ),
+                            const Expanded(
+                              child: ProductCount(),
                             ),
                           ],
                         ),
