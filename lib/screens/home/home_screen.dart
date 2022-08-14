@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/config/config.dart';
 import 'package:flutter_food_app/providers/providers.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../screens.dart';
 
@@ -85,138 +87,161 @@ class _HomeScreenState extends State<HomeScreen> {
             child: CarouselSlider(
               items: imageList
                   .map(
-                    (image) => Container(
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 15,
-                        vertical: 5,
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                          image: NetworkImage(image),
-                          fit: BoxFit.cover,
+                    (image) => CachedNetworkImage(
+                      imageUrl: image,
+                      imageBuilder: (context, imageProvider) => Container(
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 5,
                         ),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.grey,
-                            spreadRadius: 1,
-                            blurRadius: 2,
-                            offset: Offset(0, 0),
-                          )
-                        ],
-                      ),
-                      child: Stack(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                gradient: LinearGradient(
-                                  colors: [
-                                    textColor,
-                                    Colors.transparent,
-                                  ],
-                                  begin: Alignment.bottomLeft,
-                                  end: Alignment.bottomCenter,
-                                ),
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Colors.black26,
-                                  )
-                                ]),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
                           ),
-                          Row(
-                            children: [
-                              Expanded(
-                                flex: 2,
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                        right: 160,
-                                      ),
-                                      child: Container(
-                                        height: 40,
-                                        width: 100,
-                                        decoration: BoxDecoration(
-                                          color: Colors.amber.shade400,
-                                          borderRadius: const BorderRadius.only(
-                                            bottomRight: Radius.circular(10),
-                                            bottomLeft: Radius.circular(0),
-                                            topLeft: Radius.circular(10),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.grey,
+                              spreadRadius: 1,
+                              blurRadius: 2,
+                              offset: Offset(0, 0),
+                            )
+                          ],
+                        ),
+                        child: Stack(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      textColor,
+                                      Colors.transparent,
+                                    ],
+                                    begin: Alignment.bottomLeft,
+                                    end: Alignment.bottomCenter,
+                                  ),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                    )
+                                  ]),
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  flex: 2,
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          right: 160,
+                                        ),
+                                        child: Container(
+                                          height: 40,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                            color: Colors.amber.shade400,
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                              bottomRight: Radius.circular(10),
+                                              bottomLeft: Radius.circular(0),
+                                              topLeft: Radius.circular(10),
+                                            ),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                              top: 5,
+                                            ),
+                                            child: Text(
+                                              'Foodie',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.white,
+                                                fontFamily: 'Roboto',
+                                                fontWeight: FontWeight.w500,
+                                                shadows: [
+                                                  BoxShadow(
+                                                    color:
+                                                        Colors.green.shade900,
+                                                    blurRadius: 5,
+                                                    offset: const Offset(3, 3),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                            top: 5,
-                                          ),
-                                          child: Text(
-                                            'Foodie',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.white,
-                                              fontFamily: 'Roboto',
-                                              fontWeight: FontWeight.w500,
-                                              shadows: [
-                                                BoxShadow(
-                                                  color: Colors.green.shade900,
-                                                  blurRadius: 5,
-                                                  offset: const Offset(3, 3),
-                                                )
-                                              ],
+                                      ),
+                                      Container(
+                                        margin: const EdgeInsets.only(
+                                          left: 20,
+                                          top: 10,
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              '30% off',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.green[100],
+                                                fontFamily: 'Roboto',
+                                                fontSize: 40,
+                                                shadows: [
+                                                  BoxShadow(
+                                                    color:
+                                                        Colors.green.shade900,
+                                                    blurRadius: 5,
+                                                    offset: const Offset(3, 3),
+                                                  )
+                                                ],
+                                              ),
                                             ),
-                                          ),
+                                            Text(
+                                              'On all vegetable products',
+                                              style: TextStyle(
+                                                color: Colors.green[100],
+                                                fontFamily: 'Roboto',
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                    ),
-                                    Container(
-                                      margin: const EdgeInsets.only(
-                                        left: 20,
-                                        top: 10,
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            '30% off',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.green[100],
-                                              fontFamily: 'Roboto',
-                                              fontSize: 40,
-                                              shadows: [
-                                                BoxShadow(
-                                                  color: Colors.green.shade900,
-                                                  blurRadius: 5,
-                                                  offset: const Offset(3, 3),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                          Text(
-                                            'On all vegetable products',
-                                            style: TextStyle(
-                                              color: Colors.green[100],
-                                              fontFamily: 'Roboto',
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Expanded(
-                                child: Column(
-                                  children: [],
+                                Expanded(
+                                  child: Column(
+                                    children: [],
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
+                      placeholder: (context, url) => Shimmer.fromColors(
+                        baseColor: Colors.grey,
+                        highlightColor: Colors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            right: 16,
+                            left: 8,
+                            top: 8,
+                            bottom: 8,
+                          ),
+                          child: Image.asset(
+                              'assets/images/placeholder_image.png'),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => const Center(
+                        child: Icon(Icons.error),
+                      ),
+                    ), /**/
                   )
                   .toList(),
               options: CarouselOptions(

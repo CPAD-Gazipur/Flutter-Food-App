@@ -44,9 +44,13 @@ class ProductItem extends StatelessWidget {
                   child: Center(
                     child: Hero(
                       tag: product.productImage,
-                      child: Image.network(
-                        product.productImage,
-                        fit: BoxFit.cover,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
                       ),
                     ),
                   ),

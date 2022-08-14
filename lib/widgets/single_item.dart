@@ -33,20 +33,18 @@ class SingleItem extends StatelessWidget {
             Expanded(
               child: CachedNetworkImage(
                 imageUrl: product.productImage,
-                imageBuilder: (context, imageProvider) => SizedBox(
+                imageBuilder: (context, imageProvider) => Container(
                   height: 100,
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        right: 16,
-                        left: 8,
-                        top: 8,
-                        bottom: 8,
-                      ),
-                      child: Image.network(
-                        product.productImage,
-                        fit: BoxFit.cover,
-                      ),
+                  margin: const EdgeInsets.only(
+                    right: 16,
+                    left: 8,
+                    top: 8,
+                    bottom: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.contain,
                     ),
                   ),
                 ),

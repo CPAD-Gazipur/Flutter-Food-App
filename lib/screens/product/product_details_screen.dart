@@ -61,13 +61,23 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               ),
               CachedNetworkImage(
                 imageUrl: widget.product.productImage,
-                imageBuilder: (context, imageProvider) => Container(
-                  height: 250,
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(40),
+                imageBuilder: (context, imageProvider) => Padding(
+                  padding: const EdgeInsets.only(
+                    left: 40,
+                    right: 40,
+                    bottom: 40,
+                  ),
                   child: Hero(
                     tag: widget.product.productImage,
-                    child: Image.network(widget.product.productImage),
+                    child: Container(
+                      height: 250,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: imageProvider,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 placeholder: (context, url) => SizedBox(
