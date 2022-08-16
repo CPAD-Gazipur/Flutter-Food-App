@@ -9,12 +9,14 @@ class SingleItem extends StatelessWidget {
   final bool isCarted;
   final ProductModel product;
   final int? quantity;
+  final Function()? onDeletePressed;
 
   const SingleItem({
     Key? key,
     this.isCarted = false,
     required this.product,
     this.quantity,
+    this.onDeletePressed,
   }) : super(key: key);
 
   @override
@@ -186,7 +188,7 @@ class SingleItem extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           IconButton(
-                            onPressed: () {},
+                            onPressed: onDeletePressed,
                             icon: const Icon(Icons.delete),
                           ),
                           const SizedBox(height: 5),

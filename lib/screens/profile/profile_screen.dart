@@ -197,7 +197,6 @@ class ProfileScreen extends StatelessWidget {
                             ),
                           ],
                         );
-
                         // show the dialog
                         showDialog(
                           context: context,

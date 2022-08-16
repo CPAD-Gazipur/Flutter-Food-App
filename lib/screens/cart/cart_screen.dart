@@ -76,6 +76,54 @@ class CartScreen extends StatelessWidget {
                       product: product,
                       quantity: data.cartQuantity,
                       isCarted: true,
+                      onDeletePressed: () {
+                        AlertDialog alert = AlertDialog(
+                          title: const Text(
+                            'Remove Product',
+                            style: TextStyle(
+                              fontFamily: 'Roboto',
+                              color: Colors.red,
+                            ),
+                          ),
+                          content: Text(
+                              'Are you sure to remove "${data.cartName}" from cart?'),
+                          actions: [
+                            TextButton(
+                              child: const Text(
+                                'Yes',
+                                style: TextStyle(
+                                  fontFamily: 'Roboto',
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              onPressed: () {
+                                cartProvider.deleteCartedProduct(
+                                    cartID: data.cartID);
+                                Navigator.pop(context);
+                              },
+                            ),
+                            TextButton(
+                              child: Text(
+                                'No',
+                                style: TextStyle(
+                                  fontFamily: 'Roboto',
+                                  color: textColor,
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        );
+                        // show the dialog
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return alert;
+                          },
+                        );
+                      },
                     ),
                   ],
                 );

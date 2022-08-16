@@ -58,4 +58,17 @@ class CartProvider extends ChangeNotifier {
   List<CartModel> get getCartedProductList {
     return cartedProductList;
   }
+
+  void deleteCartedProduct({required String cartID}) async {
+    await FirebaseFirestore.instance
+        .collection('cart')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('MyCartedProducts')
+        .doc(cartID)
+        .delete()
+        .then((value) => debugPrint('Product deleted from cart'))
+        .onError((error, stackTrace) => debugPrint('Error: $error'));
+
+    notifyListeners();
+  }
 }
