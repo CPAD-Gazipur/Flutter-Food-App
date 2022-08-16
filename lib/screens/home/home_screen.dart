@@ -77,9 +77,10 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               icon: cartProvider.getCartedProductList.isNotEmpty
                   ? Badge(
-                      toAnimate: false,
+                      toAnimate: true,
                       shape: BadgeShape.circle,
                       animationType: BadgeAnimationType.slide,
+                      //animationDuration: Duration(milliseconds: 200),
                       badgeColor: Colors.red,
                       elevation: 2,
                       borderRadius: BorderRadius.circular(8),
