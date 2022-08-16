@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/models/models.dart';
-import 'package:flutter_food_app/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../config/config.dart';
+import '../providers/providers.dart';
 
 class ProductCount extends StatefulWidget {
   final ProductModel product;
@@ -74,7 +74,8 @@ class _ProductCountState extends State<ProductCount> {
                       } else {
                         isAdded = false;
                         cartProvider.deleteCartedProduct(
-                            cartID: widget.product.productID);
+                          cartID: widget.product.productID,
+                        );
                       }
                     });
                   },

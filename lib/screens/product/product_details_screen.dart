@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/config/config.dart';
 import 'package:flutter_food_app/models/models.dart';
+import 'package:flutter_food_app/providers/providers.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../screens.dart';
@@ -20,8 +22,12 @@ class ProductDetailsScreen extends StatefulWidget {
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   SignInCharacter? _character = SignInCharacter.fill;
 
+  bool isWishListed = false;
+
   @override
   Widget build(BuildContext context) {
+    WishListProvider wishListProvider = Provider.of<WishListProvider>(context);
+    wishListProvider.fetchWishListedProducts();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColor,
@@ -36,11 +42,29 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       bottomNavigationBar: Row(
         children: [
           ProductBottomNavigationBar(
-            title: 'Add To WishList',
-            iconData: Icons.favorite_outline,
+            title: isWishListed ? 'Added To WishList' : 'Add To WishList',
+            iconData: isWishListed ? Icons.favorite : Icons.favorite_outline,
             color: Colors.white70,
             backgroundColor: textColor,
-            iconColor: Colors.grey,
+            iconColor: isWishListed ? Colors.red : Colors.grey,
+            onTap: () {
+              setState(() {
+                isWishListed = !isWishListed;
+
+                if (isWishListed) {
+                  wishListProvider.addProductToWishList(
+                    wishListID: widget.product.productID,
+                    wishListName: widget.product.productName,
+                    wishListImage: widget.product.productImage,
+                    wishListPrice: widget.product.productPrice,
+                    wishListQuantity: 1,
+                  );
+                } else {
+                  wishListProvider.deleteWishListedProduct(
+                      wishListID: widget.product.productID);
+                }
+              });
+            },
           ),
           ProductBottomNavigationBar(
             title: 'Add To Cart',
@@ -48,6 +72,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             color: textColor,
             backgroundColor: primaryColor,
             iconColor: textColor,
+            onTap: () {},
           ),
         ],
       ),

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/config/config.dart';
 import 'package:flutter_food_app/models/models.dart';
-import 'package:flutter_food_app/providers/cart_provider.dart';
 import 'package:flutter_food_app/widgets/single_item.dart';
 import 'package:provider/provider.dart';
+
+import '../../providers/providers.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({Key? key}) : super(key: key);
