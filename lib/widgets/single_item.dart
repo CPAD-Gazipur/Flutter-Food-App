@@ -212,7 +212,7 @@ class SingleItem extends StatelessWidget {
                                   Text(
                                     '$quantity',
                                     style: TextStyle(
-                                      color: primaryColor,
+                                      color: textColor,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),

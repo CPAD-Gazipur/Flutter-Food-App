@@ -25,8 +25,33 @@ class CartProvider extends ChangeNotifier {
           'cartImage': cartImage,
           'cartPrice': cartPrice,
           'cartQuantity': cartQuantity,
+          'isAdded': true,
         })
         .then((value) => debugPrint('Product Added To Cart'))
+        .catchError((e) => debugPrint('CartError: $e'));
+  }
+
+  void updateProductToCart({
+    required String cartID,
+    required String cartName,
+    required String cartImage,
+    required num cartPrice,
+    required int cartQuantity,
+  }) async {
+    await FirebaseFirestore.instance
+        .collection('cart')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('MyCartedProducts')
+        .doc(cartID)
+        .update({
+          'cartID': cartID,
+          'cartName': cartName,
+          'cartImage': cartImage,
+          'cartPrice': cartPrice,
+          'cartQuantity': cartQuantity,
+          'isAdded': true,
+        })
+        .then((value) => debugPrint('Product Updated To Cart'))
         .catchError((e) => debugPrint('CartError: $e'));
   }
 
@@ -66,7 +91,7 @@ class CartProvider extends ChangeNotifier {
         .collection('MyCartedProducts')
         .doc(cartID)
         .delete()
-        .then((value) => debugPrint('Product deleted from cart'))
+        .then((value) => debugPrint('Product remove from cart'))
         .onError((error, stackTrace) => debugPrint('Error: $error'));
 
     notifyListeners();
