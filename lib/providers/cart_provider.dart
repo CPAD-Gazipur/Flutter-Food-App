@@ -29,6 +29,8 @@ class CartProvider extends ChangeNotifier {
         })
         .then((value) => debugPrint('Product Added To Cart'))
         .catchError((e) => debugPrint('CartError: $e'));
+
+    notifyListeners();
   }
 
   void updateProductToCart({
@@ -53,6 +55,8 @@ class CartProvider extends ChangeNotifier {
         })
         .then((value) => debugPrint('Product Updated To Cart'))
         .catchError((e) => debugPrint('CartError: $e'));
+
+    notifyListeners();
   }
 
   void fetchCartedProducts() async {

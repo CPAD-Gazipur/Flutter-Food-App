@@ -1,7 +1,9 @@
+import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/config/config.dart';
+import 'package:flutter_food_app/providers/cart_provider.dart';
 import 'package:flutter_food_app/providers/providers.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -17,6 +19,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   ProductProvider? productProvider;
+  late CartProvider cartProvider;
 
   @override
   void initState() {
@@ -31,6 +34,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     productProvider = Provider.of(context);
+    cartProvider = Provider.of<CartProvider>(context);
+    cartProvider.fetchCartedProducts();
 
     final imageList = productProvider!.getHomeBannerList;
 
@@ -70,10 +75,27 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 );
               },
-              icon: Icon(
-                Icons.shop,
-                color: textColor,
-              ),
+              icon: cartProvider.getCartedProductList.isNotEmpty
+                  ? Badge(
+                      toAnimate: false,
+                      shape: BadgeShape.circle,
+                      animationType: BadgeAnimationType.slide,
+                      badgeColor: Colors.red,
+                      elevation: 2,
+                      borderRadius: BorderRadius.circular(8),
+                      badgeContent: Text(
+                        '${cartProvider.cartedProductList.length}',
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      child: Icon(
+                        Icons.shop,
+                        color: textColor,
+                      ),
+                    )
+                  : Icon(
+                      Icons.shop,
+                      color: textColor,
+                    ),
             ),
           ),
         ],

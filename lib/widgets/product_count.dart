@@ -37,6 +37,7 @@ class _ProductCountState extends State<ProductCount> {
         });
       } else {
         isAdded = false;
+        productCount = 1;
       }
     });
   }
