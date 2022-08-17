@@ -113,7 +113,9 @@ class AppDrawer extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const CartScreen(),
+                    builder: (context) => const CartScreen(
+                      isAppDrawer: true,
+                    ),
                   ),
                 );
               },
@@ -178,7 +180,13 @@ class AppDrawer extends StatelessWidget {
               ),
             ),
             ListTile(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const WishListScreen(),
+                  ),
+                );
+              },
               leading: const Icon(
                 Icons.favorite_outline,
                 size: 32,

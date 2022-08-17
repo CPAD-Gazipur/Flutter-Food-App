@@ -1,4 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/config/config.dart';
 import 'package:flutter_food_app/models/models.dart';
@@ -24,10 +26,29 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   bool isWishListed = false;
 
+  void getWishListedProduct() {
+    FirebaseFirestore.instance
+        .collection('wishList')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('MyWishListProducts')
+        .doc(widget.product.productID)
+        .get()
+        .then((value) {
+      if (mounted && value.exists) {
+        setState(() {
+          isWishListed = value.get('isWishListed');
+        });
+      } else {
+        isWishListed = false;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     WishListProvider wishListProvider = Provider.of<WishListProvider>(context);
     wishListProvider.fetchWishListedProducts();
+    getWishListedProduct();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColor,
@@ -61,7 +82,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   );
                 } else {
                   wishListProvider.deleteWishListedProduct(
-                      wishListID: widget.product.productID);
+                    wishListID: widget.product.productID,
+                  );
                 }
               });
             },

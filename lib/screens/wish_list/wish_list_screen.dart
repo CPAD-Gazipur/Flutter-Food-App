@@ -1,29 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_food_app/config/config.dart';
 import 'package:flutter_food_app/models/models.dart';
-import 'package:flutter_food_app/widgets/single_item.dart';
+import 'package:flutter_food_app/providers/wish_list_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../../providers/providers.dart';
+import '../../config/config.dart';
+import '../../widgets/widgets.dart';
 
-class CartScreen extends StatelessWidget {
-  final bool isAppDrawer;
-  const CartScreen({
-    Key? key,
-    this.isAppDrawer = false,
-  }) : super(key: key);
+class WishListScreen extends StatefulWidget {
+  const WishListScreen({Key? key}) : super(key: key);
+
+  @override
+  State<WishListScreen> createState() => _WishListScreenState();
+}
+
+class _WishListScreenState extends State<WishListScreen> {
+  late WishListProvider wishListProvider;
 
   @override
   Widget build(BuildContext context) {
-    CartProvider cartProvider = Provider.of<CartProvider>(context);
-    cartProvider.fetchCartedProducts();
+    wishListProvider = Provider.of<WishListProvider>(context);
+    wishListProvider.fetchWishListedProducts();
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         backgroundColor: primaryColor,
         iconTheme: IconThemeData(color: textColor),
         title: Text(
-          'Review Cart',
+          'WishList',
           style: TextStyle(
             fontFamily: 'Roboto',
             fontSize: 18,
@@ -31,56 +34,26 @@ class CartScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: ListTile(
-        title: const Text(
-          'Total Order',
-          style: TextStyle(
-            fontFamily: 'Roboto',
-          ),
-        ),
-        subtitle: Text(
-          '\$ 145.00',
-          style: TextStyle(
-            color: Colors.green[900],
-            fontFamily: 'Roboto',
-          ),
-        ),
-        trailing: SizedBox(
-          width: 160,
-          child: MaterialButton(
-            onPressed: () {},
-            color: primaryColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: const Text(
-              'Submit',
-              style: TextStyle(
-                fontFamily: 'Roboto',
-              ),
-            ),
-          ),
-        ),
-      ),
-      body: cartProvider.getCartedProductList.isNotEmpty
+      body: wishListProvider.getWishListedProductList.isNotEmpty
           ? ListView.builder(
-              itemCount: cartProvider.getCartedProductList.length,
+              itemCount: wishListProvider.getWishListedProductList.length,
               itemBuilder: (context, index) {
-                CartModel data = cartProvider.getCartedProductList[index];
+                WishListModel data =
+                    wishListProvider.getWishListedProductList[index];
                 ProductModel product = ProductModel(
-                  productID: data.cartID,
-                  productName: data.cartName,
-                  productImage: data.cartImage,
+                  productID: data.wishListID,
+                  productName: data.wishListName,
+                  productImage: data.wishListImage,
                   productDetails: '',
-                  productPrice: data.cartPrice,
+                  productPrice: data.wishListPrice,
                 );
                 return Column(
                   children: [
                     const SizedBox(height: 5),
                     SingleItem(
                       product: product,
-                      quantity: data.cartQuantity,
-                      isCarted: true,
+                      quantity: data.wishListQuantity,
+                      isCarted: false,
                       onDeletePressed: () {
                         AlertDialog alert = AlertDialog(
                           title: const Text(
@@ -91,7 +64,7 @@ class CartScreen extends StatelessWidget {
                             ),
                           ),
                           content: Text(
-                              'Are you sure to remove "${data.cartName}" from cart?'),
+                              'Are you sure to remove "${data.wishListName}" from wishlist?'),
                           actions: [
                             TextButton(
                               child: const Text(
@@ -102,8 +75,9 @@ class CartScreen extends StatelessWidget {
                                 ),
                               ),
                               onPressed: () {
-                                cartProvider.deleteCartedProduct(
-                                    cartID: data.cartID);
+                                wishListProvider.deleteWishListedProduct(
+                                  wishListID: data.wishListID,
+                                );
                                 Navigator.pop(context);
                               },
                             ),
@@ -139,7 +113,7 @@ class CartScreen extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const Text(
-                    'No product added into cart',
+                    'No product added into wishlist',
                     style: TextStyle(
                       color: Colors.grey,
                       fontSize: 16,
@@ -153,13 +127,8 @@ class CartScreen extends StatelessWidget {
                       minimumSize: const Size(150, 40),
                     ),
                     onPressed: () {
-                      if(isAppDrawer){
-                        Navigator.pop(context);
-                        Navigator.pop(context);
-                      }else{
-                        Navigator.pop(context);
-                      }
-
+                      Navigator.pop(context);
+                      Navigator.pop(context);
                     },
                     child: Text(
                       'Go Shop',

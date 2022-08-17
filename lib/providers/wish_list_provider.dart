@@ -33,7 +33,7 @@ class WishListProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateProductToWishList({
+  /*void updateProductToWishList({
     required String wishListID,
     required String wishListName,
     required String wishListImage,
@@ -57,7 +57,7 @@ class WishListProvider extends ChangeNotifier {
         .catchError((e) => debugPrint('CartError: $e'));
 
     notifyListeners();
-  }
+  }*/
 
   void fetchWishListedProducts() async {
     List<WishListModel> newList = [];
