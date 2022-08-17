@@ -77,6 +77,10 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
                 fillColor: const Color(0xFFD7D7D7),
                 filled: true,
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 15,
+                  vertical: 15,
+                ),
                 hintText: 'Search for item in the store',
                 suffixIcon: const Icon(Icons.search_outlined),
               ),
@@ -87,6 +91,7 @@ class _SearchScreenState extends State<SearchScreen> {
             children: searchItem
                 .map((product) => SingleItem(
                       isCarted: false,
+                      isSearchScreen: true,
                       product: product,
                     ))
                 .toList(),
