@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_food_app/config/config.dart';
 import 'package:flutter_food_app/models/models.dart';
 import 'package:flutter_food_app/providers/providers.dart';
+import 'package:flutter_food_app/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -25,6 +26,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   SignInCharacter? _character = SignInCharacter.fill;
 
   bool isWishListed = false;
+  bool isCarted = false;
 
   void getWishListedProduct() {
     FirebaseFirestore.instance
@@ -44,11 +46,31 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     });
   }
 
+  void getCartAddedProduct() {
+    FirebaseFirestore.instance
+        .collection('cart')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('MyCartedProducts')
+        .doc(widget.product.productID)
+        .get()
+        .then((value) {
+      if (mounted && value.exists) {
+        setState(() {
+          isCarted = value.get('isAdded');
+        });
+      } else {
+        isCarted = false;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     WishListProvider wishListProvider = Provider.of<WishListProvider>(context);
+    CartProvider cartProvider = Provider.of<CartProvider>(context);
     wishListProvider.fetchWishListedProducts();
     getWishListedProduct();
+    getCartAddedProduct();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColor,
@@ -89,12 +111,26 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             },
           ),
           ProductBottomNavigationBar(
-            title: 'Add To Cart',
+            title: isCarted ? 'Go To Cart' : 'Add To Cart',
             iconData: Icons.shop_outlined,
             color: textColor,
             backgroundColor: primaryColor,
             iconColor: textColor,
-            onTap: () {},
+            onTap: () {
+              if (isCarted) {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const CartScreen(),
+                ));
+              } else {
+                cartProvider.addProductToCart(
+                  cartID: widget.product.productID,
+                  cartName: widget.product.productName,
+                  cartImage: widget.product.productImage,
+                  cartPrice: widget.product.productPrice,
+                  cartQuantity: 1,
+                );
+              }
+            },
           ),
         ],
       ),
@@ -182,91 +218,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         color: textColor,
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 30,
-                        vertical: 10,
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        border: Border.all(color: Colors.grey),
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.add,
-                            size: 17,
-                            color: primaryColor,
-                          ),
-                          const SizedBox(width: 5),
-                          Text(
-                            'ADD',
-                            style: TextStyle(
-                              fontFamily: 'Roboto',
-                              color: primaryColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 3,
-                          backgroundColor: Colors.green[700],
+                    const SizedBox(width: 10),
+                    SizedBox(
+                      width: 100,
+                      height: 40,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          right: 10,
                         ),
-                        Radio(
-                          activeColor: Colors.green[700],
-                          value: SignInCharacter.cover,
-                          groupValue: _character,
-                          onChanged: (value) {
-                            setState(() {
-                              _character = value as SignInCharacter?;
-                            });
-                          },
+                        child: ProductCount(
+                          product: widget.product,
+                          iconSize: 20,
+                          textSize: 16,
                         ),
-                      ],
-                    ),
-                    Text(
-                      '\$0.20 / 100gram',
-                      style: TextStyle(
-                        fontFamily: 'Roboto',
-                        color: textColor,
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 30,
-                        vertical: 10,
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        border: Border.all(color: Colors.grey),
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.add,
-                            size: 17,
-                            color: primaryColor,
-                          ),
-                          const SizedBox(width: 5),
-                          Text(
-                            'ADD',
-                            style: TextStyle(
-                              fontFamily: 'Roboto',
-                              color: primaryColor,
-                            ),
-                          ),
-                        ],
                       ),
                     ),
                   ],

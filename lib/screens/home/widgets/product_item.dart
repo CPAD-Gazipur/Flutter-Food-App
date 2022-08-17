@@ -102,29 +102,70 @@ class ProductItem extends StatelessWidget {
                         child: Row(
                           children: [
                             Expanded(
-                              child: Container(
-                                height: 30,
-                                width: 50,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
-                                    Text(
-                                      '50 gram',
-                                      style: TextStyle(
-                                        fontSize: 12,
+                              child: InkWell(
+                                onTap: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    backgroundColor: Colors.transparent,
+                                    builder: (context) => Container(
+                                      decoration: const BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(12),
+                                          topLeft: Radius.circular(12),
+                                        ),
+                                      ),
+                                      child: ListView(
+                                        shrinkWrap: true,
+                                        //mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          ListTile(
+                                            title: const Text('50 Gram'),
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                          ListTile(
+                                            title: const Text('500 Gram'),
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                          ListTile(
+                                            title: const Text('1 Kg'),
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                    Icon(
-                                      Icons.keyboard_arrow_down,
-                                      size: 14,
+                                  );
+                                },
+                                child: Container(
+                                  height: 30,
+                                  width: 50,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                      color: Colors.grey,
                                     ),
-                                  ],
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: const [
+                                      Text(
+                                        '50 gram',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                      Icon(
+                                        Icons.keyboard_arrow_down,
+                                        size: 14,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),

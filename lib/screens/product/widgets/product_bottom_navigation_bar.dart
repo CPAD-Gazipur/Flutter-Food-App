@@ -26,6 +26,7 @@ class ProductBottomNavigationBar extends StatelessWidget {
           color: backgroundColor,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Icon(
                 iconData,
@@ -35,10 +36,12 @@ class ProductBottomNavigationBar extends StatelessWidget {
               const SizedBox(width: 5),
               Text(
                 title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: color,
                   fontFamily: 'Roboto',
-                  fontSize: 16,
+                  fontSize: 15,
                   fontWeight: FontWeight.w400,
                 ),
               ),

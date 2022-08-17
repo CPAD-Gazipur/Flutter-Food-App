@@ -9,9 +9,13 @@ import '../providers/providers.dart';
 
 class ProductCount extends StatefulWidget {
   final ProductModel product;
+  final double iconSize;
+  final double textSize;
   const ProductCount({
     Key? key,
     required this.product,
+    this.iconSize = 14,
+    this.textSize = 12,
   }) : super(key: key);
 
   @override
@@ -81,14 +85,14 @@ class _ProductCountState extends State<ProductCount> {
                   },
                   child: Icon(
                     Icons.remove,
-                    size: 14,
+                    size: widget.iconSize,
                     color: primaryColor,
                   ),
                 ),
                 Text(
                   '$productCount',
-                  style: const TextStyle(
-                    fontSize: 12,
+                  style: TextStyle(
+                    fontSize: widget.textSize,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -107,7 +111,7 @@ class _ProductCountState extends State<ProductCount> {
                   },
                   child: Icon(
                     Icons.add,
-                    size: 14,
+                    size: widget.iconSize,
                     color: primaryColor,
                   ),
                 ),

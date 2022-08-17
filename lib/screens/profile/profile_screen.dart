@@ -52,161 +52,163 @@ class ProfileScreen extends StatelessWidget {
                 width: double.infinity,
                 color: primaryColor,
               ),
-              Container(
-                height: 635,
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 15,
-                  vertical: 10,
-                ),
-                decoration: BoxDecoration(
-                  color: backgroundColor,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 15,
+                    vertical: 10,
                   ),
-                ),
-                child: ListView(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Container(
-                          width: 250,
-                          height: 80,
-                          padding: const EdgeInsets.only(
-                            left: 20,
+                  decoration: BoxDecoration(
+                    color: backgroundColor,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
+                    ),
+                  ),
+                  child: ListView(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container(
+                            width: 250,
+                            height: 80,
+                            padding: const EdgeInsets.only(
+                              left: 20,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      userName!,
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Roboto',
+                                        color: textColor,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    Text(
+                                      userEmail!,
+                                      style: const TextStyle(
+                                        fontFamily: 'Roboto',
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                CircleAvatar(
+                                  radius: 15,
+                                  backgroundColor: primaryColor,
+                                  child: CircleAvatar(
+                                    radius: 12,
+                                    backgroundColor: backgroundColor,
+                                    child: Icon(
+                                      Icons.edit,
+                                      color: primaryColor,
+                                      size: 16,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    userName!,
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'Roboto',
-                                      color: textColor,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  Text(
-                                    userEmail!,
-                                    style: const TextStyle(
-                                      fontFamily: 'Roboto',
-                                    ),
-                                  ),
-                                ],
+                        ],
+                      ),
+                      CustomListTile(
+                        text: 'My Orders',
+                        icon: Icons.shop_outlined,
+                        onTap: () {},
+                      ),
+                      CustomListTile(
+                        text: 'My Delivery Address',
+                        icon: Icons.location_on_outlined,
+                        onTap: () {},
+                      ),
+                      CustomListTile(
+                        text: 'Refer A Friend',
+                        icon: Icons.person_outlined,
+                        onTap: () {},
+                      ),
+                      CustomListTile(
+                        text: 'Terms & Conditions',
+                        icon: Icons.file_copy_outlined,
+                        onTap: () {},
+                      ),
+                      CustomListTile(
+                        text: 'Privacy Policy',
+                        icon: Icons.policy_outlined,
+                        onTap: () {},
+                      ),
+                      CustomListTile(
+                        text: 'About',
+                        icon: Icons.add_chart_outlined,
+                        onTap: () {},
+                      ),
+                      CustomListTile(
+                        text: 'Logout',
+                        icon: Icons.exit_to_app_outlined,
+                        onTap: () {
+                          AlertDialog alert = AlertDialog(
+                            title: const Text(
+                              'Warning!!!',
+                              style: TextStyle(
+                                fontFamily: 'Roboto',
+                                color: Colors.red,
                               ),
-                              CircleAvatar(
-                                radius: 15,
-                                backgroundColor: primaryColor,
-                                child: CircleAvatar(
-                                  radius: 12,
-                                  backgroundColor: backgroundColor,
-                                  child: Icon(
-                                    Icons.edit,
-                                    color: primaryColor,
-                                    size: 16,
+                            ),
+                            content: const Text(
+                                'Are you sure to logout from the app?'),
+                            actions: [
+                              TextButton(
+                                child: const Text(
+                                  'Yes',
+                                  style: TextStyle(
+                                    fontFamily: 'Roboto',
+                                    color: Colors.grey,
                                   ),
                                 ),
-                              )
+                                onPressed: () {
+                                  auth.signOut();
+                                  Navigator.of(context).pushAndRemoveUntil(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SignInScreen(),
+                                    ),
+                                    (route) => false,
+                                  );
+                                },
+                              ),
+                              TextButton(
+                                child: Text(
+                                  'No',
+                                  style: TextStyle(
+                                    fontFamily: 'Roboto',
+                                    color: textColor,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
                             ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    CustomListTile(
-                      text: 'My Orders',
-                      icon: Icons.shop_outlined,
-                      onTap: () {},
-                    ),
-                    CustomListTile(
-                      text: 'My Delivery Address',
-                      icon: Icons.location_on_outlined,
-                      onTap: () {},
-                    ),
-                    CustomListTile(
-                      text: 'Refer A Friend',
-                      icon: Icons.person_outlined,
-                      onTap: () {},
-                    ),
-                    CustomListTile(
-                      text: 'Terms & Conditions',
-                      icon: Icons.file_copy_outlined,
-                      onTap: () {},
-                    ),
-                    CustomListTile(
-                      text: 'Privacy Policy',
-                      icon: Icons.policy_outlined,
-                      onTap: () {},
-                    ),
-                    CustomListTile(
-                      text: 'About',
-                      icon: Icons.add_chart_outlined,
-                      onTap: () {},
-                    ),
-                    CustomListTile(
-                      text: 'Logout',
-                      icon: Icons.exit_to_app_outlined,
-                      onTap: () {
-                        AlertDialog alert = AlertDialog(
-                          title: const Text(
-                            'Warning!!!',
-                            style: TextStyle(
-                              fontFamily: 'Roboto',
-                              color: Colors.red,
-                            ),
-                          ),
-                          content: const Text(
-                              'Are you sure to logout from the app?'),
-                          actions: [
-                            TextButton(
-                              child: const Text(
-                                'Yes',
-                                style: TextStyle(
-                                  fontFamily: 'Roboto',
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              onPressed: () {
-                                auth.signOut();
-                                Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(
-                                    builder: (context) => const SignInScreen(),
-                                  ),
-                                  (route) => false,
-                                );
-                              },
-                            ),
-                            TextButton(
-                              child: Text(
-                                'No',
-                                style: TextStyle(
-                                  fontFamily: 'Roboto',
-                                  color: textColor,
-                                ),
-                              ),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                            ),
-                          ],
-                        );
-                        // show the dialog
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return alert;
-                          },
-                        );
-                      },
-                    ),
-                  ],
+                          );
+                          // show the dialog
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return alert;
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
