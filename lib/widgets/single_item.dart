@@ -217,33 +217,6 @@ class SingleItem extends StatelessWidget {
                               textSize: 16,
                             ),
                           ),
-                          /* Container(
-                            height: 25,
-                            width: 70,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              border: Border.all(color: Colors.grey),
-                            ),
-                            child: Center(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.add,
-                                    color: primaryColor,
-                                    size: 20,
-                                  ),
-                                  const SizedBox(width: 5),
-                                  Text(
-                                    'ADD',
-                                    style: TextStyle(
-                                      color: primaryColor,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),*/
                         ],
                       )
                     : Column(
@@ -263,40 +236,6 @@ class SingleItem extends StatelessWidget {
                               textSize: 16,
                             ),
                           ),
-                          /*Container(
-                            height: 25,
-                            width: 70,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              border: Border.all(color: Colors.grey),
-                            ),
-                            child: Center(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.remove,
-                                    color: primaryColor,
-                                    size: 20,
-                                  ),
-                                  const SizedBox(width: 5),
-                                  Text(
-                                    '$quantity',
-                                    style: TextStyle(
-                                      color: textColor,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 5),
-                                  Icon(
-                                    Icons.add,
-                                    color: primaryColor,
-                                    size: 20,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          )*/
                         ],
                       ),
               ),

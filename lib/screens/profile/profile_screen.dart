@@ -1,31 +1,33 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/config/config.dart';
+import 'package:flutter_food_app/providers/providers.dart';
 import 'package:flutter_food_app/screens/screens.dart';
 
+import '../../models/models.dart';
+
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  final UserProvider userProvider;
+  const ProfileScreen({
+    Key? key,
+    required this.userProvider,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final FirebaseAuth auth = FirebaseAuth.instance;
+    UserModel userData = userProvider.getCurrentUserData;
 
-    String? userName, userImage, userEmail;
+    String userName, userImage, userEmail;
 
-    if (auth.currentUser != null) {
-      try {
-        userName = auth.currentUser?.displayName;
-        userEmail = auth.currentUser?.email;
-        userImage = auth.currentUser?.photoURL;
-      } catch (e) {
-        userName = 'Guest';
-        userImage = '';
-        userEmail = 'example@gmail.com';
-      }
-    } else {
+    try {
+      userName = userData.userName;
+      userEmail = userData.userEmail;
+      userImage = userData.userImage;
+    } catch (e) {
       userName = 'Guest';
       userImage = '';
       userEmail = 'example@gmail.com';
+      debugPrint('Error: $e');
     }
 
     return Scaffold(
@@ -85,7 +87,7 @@ class ProfileScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      userName!,
+                                      userName,
                                       style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold,
@@ -95,7 +97,7 @@ class ProfileScreen extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 10),
                                     Text(
-                                      userEmail!,
+                                      userEmail,
                                       style: const TextStyle(
                                         fontFamily: 'Roboto',
                                       ),
@@ -174,7 +176,7 @@ class ProfileScreen extends StatelessWidget {
                                   ),
                                 ),
                                 onPressed: () {
-                                  auth.signOut();
+                                  FirebaseAuth.instance.signOut();
                                   Navigator.of(context).pushAndRemoveUntil(
                                     MaterialPageRoute(
                                       builder: (context) =>
@@ -224,7 +226,7 @@ class ProfileScreen extends StatelessWidget {
               child: CircleAvatar(
                 radius: 45,
                 backgroundColor: backgroundColor,
-                backgroundImage: NetworkImage(userImage!),
+                backgroundImage: NetworkImage(userImage),
               ),
             ),
           )

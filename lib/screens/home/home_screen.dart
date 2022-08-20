@@ -19,6 +19,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   ProductProvider? productProvider;
   late CartProvider cartProvider;
+  late UserProvider userProvider;
 
   @override
   void initState() {
@@ -32,15 +33,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    productProvider = Provider.of(context);
+    productProvider = Provider.of<ProductProvider>(context);
+
     cartProvider = Provider.of<CartProvider>(context);
     cartProvider.fetchCartedProducts();
+
+    userProvider = Provider.of<UserProvider>(context);
+    userProvider.fetchCurrentUserData();
 
     final imageList = productProvider!.getHomeBannerList;
 
     return Scaffold(
       backgroundColor: backgroundColor,
-      drawer: const AppDrawer(),
+      drawer: AppDrawer(userProvider: userProvider),
       appBar: AppBar(
         backgroundColor: primaryColor,
         iconTheme: IconThemeData(color: textColor),

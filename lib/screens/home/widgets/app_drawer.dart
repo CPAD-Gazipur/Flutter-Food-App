@@ -1,38 +1,33 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/config/config.dart';
+import 'package:flutter_food_app/models/models.dart';
+import 'package:flutter_food_app/providers/providers.dart';
 
 import '../../screens.dart';
 
 class AppDrawer extends StatelessWidget {
-  const AppDrawer({Key? key}) : super(key: key);
+  final UserProvider userProvider;
+  const AppDrawer({
+    Key? key,
+    required this.userProvider,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final FirebaseAuth auth = FirebaseAuth.instance;
+    UserModel userData = userProvider.getCurrentUserData;
 
-    String? userName, userEmail, userPhoneNumber, userImage;
+    String userName, userImage;
 
-    if (auth.currentUser != null) {
-      try {
-        userName = auth.currentUser?.displayName;
-        userEmail = auth.currentUser?.email;
-        userPhoneNumber = auth.currentUser?.phoneNumber;
-        userImage = auth.currentUser?.photoURL;
-      } catch (e) {
-        userName = 'Guest';
-        userImage = '';
-        userEmail = 'example@gmail.com';
-        userPhoneNumber = '+8801621893919';
-        debugPrint('Error: $e');
-      }
-    } else {
+    try {
+      userName = userData.userName;
+
+      userImage = userData.userImage;
+    } catch (e) {
       userName = 'Guest';
       userImage = '';
-      userEmail = 'example@gmail.com';
-      userPhoneNumber = '+8801621893919';
+      debugPrint('Error: $e');
     }
-
     return Drawer(
       child: Container(
         color: Colors.amber,
@@ -47,49 +42,65 @@ class AppDrawer extends StatelessWidget {
                     child: CircleAvatar(
                       radius: 40,
                       backgroundColor: primaryColor,
-                      backgroundImage: NetworkImage(userImage!),
+                      backgroundImage: NetworkImage(userImage),
                     ),
                   ),
                   const SizedBox(width: 20),
-                  Column(
-                    //crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Welcome, $userName',
-                        style: const TextStyle(
-                          fontFamily: 'Roboto',
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment:
+                          FirebaseAuth.instance.currentUser == null
+                              ? CrossAxisAlignment.center
+                              : CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          userName,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 16,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 7),
-                      auth.currentUser == null
-                          ? InkWell(
-                              onTap: () {
-                                debugPrint('Login Clicked');
-                              },
-                              child: Container(
-                                height: 30,
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 15,
-                                  vertical: 5,
-                                ),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.white54,
-                                    width: 2,
+                        const SizedBox(height: 7),
+                        FirebaseAuth.instance.currentUser == null
+                            ? InkWell(
+                                onTap: () {
+                                  debugPrint('Login Clicked');
+                                },
+                                child: Container(
+                                  height: 30,
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 15,
+                                    vertical: 5,
                                   ),
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                child: const Text(
-                                  'LOGIN',
-                                  style: TextStyle(
-                                    fontFamily: 'Roboto',
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.white54,
+                                      width: 2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(15),
                                   ),
+                                  child: const Text(
+                                    'LOGIN',
+                                    style: TextStyle(
+                                      fontFamily: 'Roboto',
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : Text(
+                                userData.userEmail,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: const TextStyle(
+                                  fontFamily: 'Roboto',
+                                  color: Colors.black45,
                                 ),
                               ),
-                            )
-                          : Container(),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -135,7 +146,9 @@ class AppDrawer extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const ProfileScreen(),
+                    builder: (context) => ProfileScreen(
+                      userProvider: userProvider,
+                    ),
                   ),
                 );
               },
@@ -280,19 +293,19 @@ class AppDrawer extends StatelessWidget {
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: const [
                           Text(
-                            userPhoneNumber ?? '+8801621893919',
-                            style: const TextStyle(
+                            '+8801621893919',
+                            style: TextStyle(
                               fontSize: 16,
                               fontFamily: 'Roboto',
                               color: Colors.black45,
                             ),
                           ),
-                          const SizedBox(height: 10),
+                          SizedBox(height: 10),
                           Text(
-                            userEmail!,
-                            style: const TextStyle(
+                            'support@foodie.com',
+                            style: TextStyle(
                               fontSize: 16,
                               fontFamily: 'Roboto',
                               color: Colors.black45,
