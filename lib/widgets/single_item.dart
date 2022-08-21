@@ -234,6 +234,7 @@ class SingleItem extends StatelessWidget {
                               product: product,
                               iconSize: 18,
                               textSize: 16,
+                              isCart: isCarted,
                             ),
                           ),
                         ],

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/models/models.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import '../config/config.dart';
@@ -11,11 +12,13 @@ class ProductCount extends StatefulWidget {
   final ProductModel product;
   final double iconSize;
   final double textSize;
+  final bool isCart;
   const ProductCount({
     Key? key,
     required this.product,
     this.iconSize = 14,
     this.textSize = 12,
+    this.isCart = false,
   }) : super(key: key);
 
   @override
@@ -76,10 +79,32 @@ class _ProductCountState extends State<ProductCount> {
                           cartQuantity: productCount,
                         );
                       } else {
-                        isAdded = false;
-                        cartProvider.deleteCartedProduct(
-                          cartID: widget.product.productID,
-                        );
+                        if (widget.isCart) {
+                          Fluttertoast.showToast(
+                            msg: "You reach minimum limit",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.CENTER,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.amberAccent,
+                            textColor: Colors.black87,
+                            fontSize: 16.0,
+                          );
+                        } else {
+                          isAdded = false;
+                          cartProvider.deleteCartedProduct(
+                            cartID: widget.product.productID,
+                          );
+                          Fluttertoast.showToast(
+                            msg:
+                                '${widget.product.productName} remove from cart',
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.CENTER,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.amberAccent,
+                            textColor: Colors.black87,
+                            fontSize: 16.0,
+                          );
+                        }
                       }
                     });
                   },
@@ -99,14 +124,26 @@ class _ProductCountState extends State<ProductCount> {
                 InkWell(
                   onTap: () {
                     setState(() {
-                      productCount++;
-                      cartProvider.updateProductToCart(
-                        cartID: widget.product.productID,
-                        cartName: widget.product.productName,
-                        cartImage: widget.product.productImage,
-                        cartPrice: widget.product.productPrice,
-                        cartQuantity: productCount,
-                      );
+                      if (productCount < 10) {
+                        productCount++;
+                        cartProvider.updateProductToCart(
+                          cartID: widget.product.productID,
+                          cartName: widget.product.productName,
+                          cartImage: widget.product.productImage,
+                          cartPrice: widget.product.productPrice,
+                          cartQuantity: productCount,
+                        );
+                      } else {
+                        Fluttertoast.showToast(
+                          msg: "You reach maximum limit",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.CENTER,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.amberAccent,
+                          textColor: Colors.black87,
+                          fontSize: 16.0,
+                        );
+                      }
                     });
                   },
                   child: Icon(
@@ -129,6 +166,16 @@ class _ProductCountState extends State<ProductCount> {
                   cartImage: widget.product.productImage,
                   cartPrice: widget.product.productPrice,
                   cartQuantity: productCount,
+                );
+
+                Fluttertoast.showToast(
+                  msg: '${widget.product.productName} added to cart',
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.amberAccent,
+                  textColor: Colors.black87,
+                  fontSize: 16.0,
                 );
               },
               child: Center(
