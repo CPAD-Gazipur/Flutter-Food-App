@@ -73,6 +73,7 @@ class CartScreen extends StatelessWidget {
                   productImage: data.cartImage,
                   productDetails: '',
                   productPrice: data.cartPrice,
+                  productUnit: [],
                 );
                 return Column(
                   children: [
@@ -81,6 +82,7 @@ class CartScreen extends StatelessWidget {
                       product: product,
                       quantity: data.cartQuantity,
                       isCarted: true,
+                      productUnit: data.cartUnit,
                       onDeletePressed: () {
                         AlertDialog alert = AlertDialog(
                           title: const Text(
@@ -153,13 +155,12 @@ class CartScreen extends StatelessWidget {
                       minimumSize: const Size(150, 40),
                     ),
                     onPressed: () {
-                      if(isAppDrawer){
+                      if (isAppDrawer) {
                         Navigator.pop(context);
                         Navigator.pop(context);
-                      }else{
+                      } else {
                         Navigator.pop(context);
                       }
-
                     },
                     child: Text(
                       'Go Shop',

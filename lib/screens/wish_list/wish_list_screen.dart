@@ -46,6 +46,7 @@ class _WishListScreenState extends State<WishListScreen> {
                   productImage: data.wishListImage,
                   productDetails: '',
                   productPrice: data.wishListPrice,
+                  productUnit: [],
                 );
                 return Column(
                   children: [

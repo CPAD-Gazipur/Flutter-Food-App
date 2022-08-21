@@ -13,9 +13,11 @@ class ProductCount extends StatefulWidget {
   final double iconSize;
   final double textSize;
   final bool isCart;
+  final String productUnit;
   const ProductCount({
     Key? key,
     required this.product,
+    required this.productUnit,
     this.iconSize = 14,
     this.textSize = 12,
     this.isCart = false,
@@ -77,6 +79,7 @@ class _ProductCountState extends State<ProductCount> {
                           cartImage: widget.product.productImage,
                           cartPrice: widget.product.productPrice,
                           cartQuantity: productCount,
+                          cartUnit: widget.productUnit,
                         );
                       } else {
                         if (widget.isCart) {
@@ -132,6 +135,7 @@ class _ProductCountState extends State<ProductCount> {
                           cartImage: widget.product.productImage,
                           cartPrice: widget.product.productPrice,
                           cartQuantity: productCount,
+                          cartUnit: widget.productUnit,
                         );
                       } else {
                         Fluttertoast.showToast(
@@ -166,6 +170,7 @@ class _ProductCountState extends State<ProductCount> {
                   cartImage: widget.product.productImage,
                   cartPrice: widget.product.productPrice,
                   cartQuantity: productCount,
+                  cartUnit: widget.productUnit,
                 );
 
                 Fluttertoast.showToast(

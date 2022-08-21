@@ -80,6 +80,7 @@ class ProductProvider extends ChangeNotifier {
       productImage: product.get('productImage'),
       productDetails: product.get('productDetails'),
       productPrice: product.get('productPrice'),
+      productUnit: product.get('productUnit'),
     );
     allProductList.add(productModel);
   }

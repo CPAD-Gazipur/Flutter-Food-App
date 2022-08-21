@@ -4,6 +4,7 @@ class CartModel {
   String cartImage;
   num cartPrice;
   int cartQuantity;
+  String cartUnit;
 
   CartModel({
     required this.cartID,
@@ -11,5 +12,6 @@ class CartModel {
     required this.cartImage,
     required this.cartPrice,
     required this.cartQuantity,
+    required this.cartUnit,
   });
 }

@@ -6,11 +6,12 @@ import 'package:shimmer/shimmer.dart';
 
 import '../models/models.dart';
 
-class SingleItem extends StatelessWidget {
+class SingleItem extends StatefulWidget {
   final bool isCarted;
   final bool isSearchScreen;
   final ProductModel product;
   final int? quantity;
+  final String? productUnit;
   final Function()? onDeletePressed;
 
   const SingleItem({
@@ -18,9 +19,17 @@ class SingleItem extends StatelessWidget {
     this.isCarted = false,
     this.isSearchScreen = false,
     required this.product,
+    this.productUnit,
     this.quantity,
     this.onDeletePressed,
   }) : super(key: key);
+
+  @override
+  State<SingleItem> createState() => _SingleItemState();
+}
+
+class _SingleItemState extends State<SingleItem> {
+  late String unitData = widget.product.productUnit[0];
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +48,7 @@ class SingleItem extends StatelessWidget {
           children: [
             Expanded(
               child: CachedNetworkImage(
-                imageUrl: product.productImage,
+                imageUrl: widget.product.productImage,
                 imageBuilder: (context, imageProvider) => Container(
                   height: 100,
                   margin: const EdgeInsets.only(
@@ -87,7 +96,7 @@ class SingleItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          product.productName,
+                          widget.product.productName,
                           style: TextStyle(
                             color: textColor,
                             fontFamily: 'Roboto',
@@ -96,7 +105,7 @@ class SingleItem extends StatelessWidget {
                         ),
                         const SizedBox(height: 5),
                         Text(
-                          '\$${product.productPrice.toString()}/50 gram',
+                          '\$${widget.product.productPrice.toString()}',
                           style: const TextStyle(
                             fontFamily: 'Roboto',
                             fontWeight: FontWeight.w400,
@@ -104,82 +113,54 @@ class SingleItem extends StatelessWidget {
                         ),
                       ],
                     ),
-                    isCarted == false
-                        ? InkWell(
-                            onTap: () {
-                              showModalBottomSheet(
-                                context: context,
-                                backgroundColor: Colors.transparent,
-                                builder: (context) => Container(
-                                  decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(12),
-                                      topLeft: Radius.circular(12),
-                                    ),
-                                  ),
-                                  child: ListView(
-                                    shrinkWrap: true,
-                                    //mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      ListTile(
-                                        title: const Text('50 Gram'),
-                                        onTap: () {
-                                          Navigator.pop(context);
-                                        },
-                                      ),
-                                      ListTile(
-                                        title: const Text('500 Gram'),
-                                        onTap: () {
-                                          Navigator.pop(context);
-                                        },
-                                      ),
-                                      ListTile(
-                                        title: const Text('1 Kg'),
-                                        onTap: () {
-                                          Navigator.pop(context);
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                            child: Container(
-                              height: 35,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                border: Border.all(color: Colors.grey),
-                              ),
-                              margin: const EdgeInsets.only(right: 15),
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Expanded(
-                                    child: Text(
-                                      '50 gram',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.grey,
+                    widget.isCarted == false
+                        ? SizedBox(
+                            width: 80,
+                            height: 30,
+                            child: ProductUnitBottomSheet(
+                              title: unitData,
+                              fontSize: 12,
+                              onTap: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (context) => Container(
+                                    decoration: const BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(12),
+                                        topLeft: Radius.circular(12),
                                       ),
                                     ),
-                                  ),
-                                  Center(
-                                    child: Icon(
-                                      Icons.arrow_drop_down,
-                                      size: 20,
-                                      color: primaryColor,
+                                    child: ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount:
+                                          widget.product.productUnit.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return ListTile(
+                                          title: Text(
+                                            '${widget.product.productUnit[index]}',
+                                          ),
+                                          onTap: () {
+                                            setState(() {
+                                              unitData = widget
+                                                  .product.productUnit[index];
+                                            });
+
+                                            Navigator.pop(context);
+                                          },
+                                        );
+                                      },
                                     ),
                                   ),
-                                ],
-                              ),
+                                );
+                              },
                             ),
                           )
-                        : const Text(
-                            '50 gram',
-                            style: TextStyle(
+                        : Text(
+                            widget.productUnit!,
+                            style: const TextStyle(
                               fontSize: 14,
                             ),
                           ),
@@ -194,27 +175,28 @@ class SingleItem extends StatelessWidget {
                   left: 15,
                   right: 15,
                 ),
-                child: isCarted == false
+                child: widget.isCarted == false
                     ? Column(
-                        crossAxisAlignment: isSearchScreen
+                        crossAxisAlignment: widget.isSearchScreen
                             ? CrossAxisAlignment.center
                             : CrossAxisAlignment.end,
-                        mainAxisAlignment: isSearchScreen
+                        mainAxisAlignment: widget.isSearchScreen
                             ? MainAxisAlignment.center
                             : MainAxisAlignment.center,
                         children: [
-                          if (!isSearchScreen)
+                          if (!widget.isSearchScreen)
                             IconButton(
-                              onPressed: onDeletePressed,
+                              onPressed: widget.onDeletePressed,
                               icon: const Icon(Icons.delete),
                             ),
-                          if (!isSearchScreen) const SizedBox(height: 5),
+                          if (!widget.isSearchScreen) const SizedBox(height: 5),
                           SizedBox(
                             width: 70,
                             child: ProductCount(
-                              product: product,
+                              product: widget.product,
                               iconSize: 18,
                               textSize: 16,
+                              productUnit: unitData,
                             ),
                           ),
                         ],
@@ -223,7 +205,7 @@ class SingleItem extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           IconButton(
-                            onPressed: onDeletePressed,
+                            onPressed: widget.onDeletePressed,
                             icon: const Icon(Icons.delete),
                           ),
                           const SizedBox(height: 5),
@@ -231,10 +213,11 @@ class SingleItem extends StatelessWidget {
                             height: 30,
                             width: 65,
                             child: ProductCount(
-                              product: product,
+                              product: widget.product,
                               iconSize: 18,
                               textSize: 16,
-                              isCart: isCarted,
+                              isCart: widget.isCarted,
+                              productUnit: widget.productUnit!,
                             ),
                           ),
                         ],

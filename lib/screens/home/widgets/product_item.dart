@@ -5,7 +5,7 @@ import 'package:flutter_food_app/models/models.dart';
 import 'package:flutter_food_app/widgets/widgets.dart';
 import 'package:shimmer/shimmer.dart';
 
-class ProductItem extends StatelessWidget {
+class ProductItem extends StatefulWidget {
   final ProductModel product;
   final Function() onProductClicked;
 
@@ -14,6 +14,13 @@ class ProductItem extends StatelessWidget {
     required this.product,
     required this.onProductClicked,
   }) : super(key: key);
+
+  @override
+  State<ProductItem> createState() => _ProductItemState();
+}
+
+class _ProductItemState extends State<ProductItem> {
+  late String unitData = widget.product.productUnit[0];
 
   @override
   Widget build(BuildContext context) {
@@ -32,19 +39,19 @@ class ProductItem extends StatelessWidget {
         color: Colors.white,
       ),
       child: InkWell(
-        onTap: onProductClicked,
+        onTap: widget.onProductClicked,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
               flex: 2,
               child: CachedNetworkImage(
-                imageUrl: product.productImage,
+                imageUrl: widget.product.productImage,
                 imageBuilder: (context, imageProvider) => Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Center(
                     child: Hero(
-                      tag: product.productImage,
+                      tag: widget.product.productImage,
                       child: Container(
                         decoration: BoxDecoration(
                           image: DecorationImage(
@@ -79,7 +86,7 @@ class ProductItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      product.productName,
+                      widget.product.productName,
                       style: TextStyle(
                         color: textColor,
                         fontFamily: 'Roboto',
@@ -87,7 +94,7 @@ class ProductItem extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '\$${product.productPrice.toString()}/50 gram',
+                      '\$${widget.product.productPrice.toString()}/${widget.product.productUnit[0]}',
                       style: const TextStyle(
                         color: Colors.grey,
                         fontFamily: 'Roboto',
@@ -102,7 +109,8 @@ class ProductItem extends StatelessWidget {
                         child: Row(
                           children: [
                             Expanded(
-                              child: InkWell(
+                              child: ProductUnitBottomSheet(
+                                title: unitData,
                                 onTap: () {
                                   showModalBottomSheet(
                                     context: context,
@@ -115,63 +123,35 @@ class ProductItem extends StatelessWidget {
                                           topLeft: Radius.circular(12),
                                         ),
                                       ),
-                                      child: ListView(
+                                      child: ListView.builder(
                                         shrinkWrap: true,
-                                        //mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          ListTile(
-                                            title: const Text('50 Gram'),
+                                        itemCount:
+                                            widget.product.productUnit.length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return ListTile(
+                                            title: Text(
+                                              '${widget.product.productUnit[index]}',
+                                            ),
                                             onTap: () {
+                                              unitData = widget
+                                                  .product.productUnit[index];
                                               Navigator.pop(context);
                                             },
-                                          ),
-                                          ListTile(
-                                            title: const Text('500 Gram'),
-                                            onTap: () {
-                                              Navigator.pop(context);
-                                            },
-                                          ),
-                                          ListTile(
-                                            title: const Text('1 Kg'),
-                                            onTap: () {
-                                              Navigator.pop(context);
-                                            },
-                                          ),
-                                        ],
+                                          );
+                                        },
                                       ),
                                     ),
                                   );
                                 },
-                                child: Container(
-                                  height: 30,
-                                  width: 50,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: const [
-                                      Text(
-                                        '50 gram',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                      Icon(
-                                        Icons.keyboard_arrow_down,
-                                        size: 14,
-                                      ),
-                                    ],
-                                  ),
-                                ),
                               ),
                             ),
-                            const SizedBox(width: 10),
+                            const SizedBox(width: 5),
                             Expanded(
-                              child: ProductCount(product: product),
+                              child: ProductCount(
+                                product: widget.product,
+                                productUnit: unitData,
+                              ),
                             ),
                           ],
                         ),

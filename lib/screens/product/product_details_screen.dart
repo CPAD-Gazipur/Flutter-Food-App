@@ -23,7 +23,7 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
-  SignInCharacter? _character = SignInCharacter.fill;
+  late String unitData = widget.product.productUnit[0];
 
   bool isWishListed = false;
   bool isCarted = false;
@@ -128,6 +128,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   cartImage: widget.product.productImage,
                   cartPrice: widget.product.productPrice,
                   cartQuantity: 1,
+                  cartUnit: unitData,
                 );
               }
             },
@@ -189,33 +190,54 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.only(
+                  left: 20,
+                  right: 15,
+                  top: 10,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 3,
-                          backgroundColor: Colors.green[700],
-                        ),
-                        Radio(
-                          activeColor: Colors.green[700],
-                          value: SignInCharacter.fill,
-                          groupValue: _character,
-                          onChanged: (value) {
-                            setState(() {
-                              _character = value as SignInCharacter?;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                    Text(
-                      '\$0.10 / 50gram',
-                      style: TextStyle(
-                        fontFamily: 'Roboto',
-                        color: textColor,
+                    SizedBox(
+                      width: 120,
+                      height: 40,
+                      child: ProductUnitBottomSheet(
+                        title: unitData,
+                        fontSize: 16,
+                        onTap: () {
+                          showModalBottomSheet(
+                            context: context,
+                            backgroundColor: Colors.transparent,
+                            builder: (context) => Container(
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(12),
+                                  topLeft: Radius.circular(12),
+                                ),
+                              ),
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: widget.product.productUnit.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return ListTile(
+                                    title: Text(
+                                      '${widget.product.productUnit[index]}',
+                                    ),
+                                    onTap: () {
+                                      setState(() {
+                                        unitData =
+                                            widget.product.productUnit[index];
+                                      });
+
+                                      Navigator.pop(context);
+                                    },
+                                  );
+                                },
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -224,10 +246,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       height: 40,
                       child: Padding(
                         padding: const EdgeInsets.only(
-                          right: 10,
+                          right: 5,
                         ),
                         child: ProductCount(
                           product: widget.product,
+                          productUnit: unitData,
                           iconSize: 20,
                           textSize: 16,
                         ),
