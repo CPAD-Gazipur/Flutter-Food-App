@@ -93,6 +93,14 @@ class CartProvider extends ChangeNotifier {
     return cartedProductList;
   }
 
+  double fetchTotalPrice() {
+    double totalPrice = 0;
+    for (var product in cartedProductList) {
+      totalPrice += product.cartPrice * product.cartQuantity;
+    }
+    return totalPrice;
+  }
+
   void deleteCartedProduct({required String cartID}) async {
     await FirebaseFirestore.instance
         .collection('cart')

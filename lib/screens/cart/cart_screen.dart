@@ -31,37 +31,54 @@ class CartScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: ListTile(
-        title: const Text(
-          'Total Order',
-          style: TextStyle(
-            fontFamily: 'Roboto',
-          ),
-        ),
-        subtitle: Text(
-          '\$ 145.00',
-          style: TextStyle(
-            color: Colors.green[900],
-            fontFamily: 'Roboto',
-          ),
-        ),
-        trailing: SizedBox(
-          width: 160,
-          child: MaterialButton(
-            onPressed: () {},
-            color: primaryColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: const Text(
-              'Submit',
-              style: TextStyle(
-                fontFamily: 'Roboto',
+      bottomNavigationBar: cartProvider.getCartedProductList.isNotEmpty
+          ? Card(
+              elevation: 4,
+              margin: EdgeInsets.zero,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(24),
+                  topRight: Radius.circular(24),
+                ),
               ),
-            ),
-          ),
-        ),
-      ),
+              child: ListTile(
+                title: Text(
+                  cartProvider.getCartedProductList.length == 1
+                      ? 'Total Order: ${cartProvider.getCartedProductList.length} item'
+                      : 'Total Order: ${cartProvider.getCartedProductList.length} items',
+                  style: const TextStyle(
+                    fontFamily: 'Roboto',
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                subtitle: Text(
+                  'Total Price: \$ ${cartProvider.fetchTotalPrice()}',
+                  style: TextStyle(
+                    color: Colors.green[900],
+                    fontFamily: 'Roboto',
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
+                  ),
+                ),
+                trailing: SizedBox(
+                  width: 160,
+                  child: MaterialButton(
+                    onPressed: () {},
+                    color: primaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: const Text(
+                      'Submit',
+                      style: TextStyle(
+                        fontFamily: 'Roboto',
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            )
+          : const SizedBox(),
       body: cartProvider.getCartedProductList.isNotEmpty
           ? ListView.builder(
               itemCount: cartProvider.getCartedProductList.length,
