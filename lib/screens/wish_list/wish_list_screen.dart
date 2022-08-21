@@ -40,21 +40,21 @@ class _WishListScreenState extends State<WishListScreen> {
               itemBuilder: (context, index) {
                 WishListModel data =
                     wishListProvider.getWishListedProductList[index];
-                ProductModel product = ProductModel(
-                  productID: data.wishListID,
-                  productName: data.wishListName,
-                  productImage: data.wishListImage,
-                  productDetails: '',
-                  productPrice: data.wishListPrice,
-                  productUnit: [],
+                wishListProvider.fetchSingleWishListProduct(
+                  productID: data.productID,
+                  productCategory: data.productCategory,
                 );
+
+                ProductModel product =
+                    wishListProvider.getSingleWishListProduct;
+
                 return Column(
                   children: [
                     const SizedBox(height: 5),
                     SingleItem(
                       product: product,
-                      quantity: data.wishListQuantity,
                       isCarted: false,
+                      productUnit: '',
                       onDeletePressed: () {
                         AlertDialog alert = AlertDialog(
                           title: const Text(
@@ -65,7 +65,7 @@ class _WishListScreenState extends State<WishListScreen> {
                             ),
                           ),
                           content: Text(
-                              'Are you sure to remove "${data.wishListName}" from wishlist?'),
+                              'Are you sure to remove "${product.productName}" from wishlist?'),
                           actions: [
                             TextButton(
                               child: const Text(
@@ -77,7 +77,7 @@ class _WishListScreenState extends State<WishListScreen> {
                               ),
                               onPressed: () {
                                 wishListProvider.deleteWishListedProduct(
-                                  wishListID: data.wishListID,
+                                  productID: data.productID,
                                 );
                                 Navigator.pop(context);
                               },

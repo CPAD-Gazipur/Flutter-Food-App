@@ -1,15 +1,9 @@
 class WishListModel {
-  String wishListID;
-  String wishListName;
-  String wishListImage;
-  num wishListPrice;
-  int wishListQuantity;
+  String productID;
+  String productCategory;
 
   WishListModel({
-    required this.wishListID,
-    required this.wishListName,
-    required this.wishListImage,
-    required this.wishListPrice,
-    required this.wishListQuantity,
+    required this.productID,
+    required this.productCategory,
   });
 }

@@ -96,15 +96,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
                 if (isWishListed) {
                   wishListProvider.addProductToWishList(
-                    wishListID: widget.product.productID,
-                    wishListName: widget.product.productName,
-                    wishListImage: widget.product.productImage,
-                    wishListPrice: widget.product.productPrice,
-                    wishListQuantity: 1,
+                    productID: widget.product.productID,
+                    productCategory: widget.product.productCategory,
                   );
                 } else {
                   wishListProvider.deleteWishListedProduct(
-                    wishListID: widget.product.productID,
+                    productID: widget.product.productID,
                   );
                 }
               });

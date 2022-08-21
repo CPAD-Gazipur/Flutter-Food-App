@@ -69,7 +69,7 @@ class CartScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30),
                     ),
                     child: const Text(
-                      'Submit',
+                      'Checkout',
                       style: TextStyle(
                         fontFamily: 'Roboto',
                       ),
@@ -86,6 +86,7 @@ class CartScreen extends StatelessWidget {
                 CartModel data = cartProvider.getCartedProductList[index];
                 ProductModel product = ProductModel(
                   productID: data.cartID,
+                  productCategory: '',
                   productName: data.cartName,
                   productImage: data.cartImage,
                   productDetails: '',

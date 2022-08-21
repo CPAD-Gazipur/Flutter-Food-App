@@ -6,25 +6,20 @@ import '../models/models.dart';
 
 class WishListProvider extends ChangeNotifier {
   List<WishListModel> wishListedProductList = [];
+  late ProductModel productModel;
 
   void addProductToWishList({
-    required String wishListID,
-    required String wishListName,
-    required String wishListImage,
-    required num wishListPrice,
-    required int wishListQuantity,
+    required String productID,
+    required String productCategory,
   }) async {
     await FirebaseFirestore.instance
         .collection('wishList')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('MyWishListProducts')
-        .doc(wishListID)
+        .doc(productID)
         .set({
-          'wishListID': wishListID,
-          'wishListName': wishListName,
-          'wishListImage': wishListImage,
-          'wishListPrice': wishListPrice,
-          'wishListQuantity': wishListQuantity,
+          'productID': productID,
+          'productCategory': productCategory,
           'isWishListed': true,
         })
         .then((value) => debugPrint('Product Added To WishList'))
@@ -70,11 +65,8 @@ class WishListProvider extends ChangeNotifier {
 
     for (var wishListProduct in querySnapshot.docs) {
       WishListModel wishListModel = WishListModel(
-        wishListID: wishListProduct.get('wishListID'),
-        wishListName: wishListProduct.get('wishListName'),
-        wishListImage: wishListProduct.get('wishListImage'),
-        wishListPrice: wishListProduct.get('wishListPrice'),
-        wishListQuantity: wishListProduct.get('wishListQuantity'),
+        productID: wishListProduct.get('productID'),
+        productCategory: wishListProduct.get('productCategory'),
       );
 
       newList.add(wishListModel);
@@ -88,12 +80,40 @@ class WishListProvider extends ChangeNotifier {
     return wishListedProductList;
   }
 
-  void deleteWishListedProduct({required String wishListID}) async {
+  void fetchSingleWishListProduct({
+    required String productID,
+    required String productCategory,
+  }) async {
+    ProductModel newProductModel;
+
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+        .collection(productCategory)
+        .doc(productID)
+        .get();
+
+    newProductModel = ProductModel(
+      productID: snapshot.get('productID'),
+      productCategory: snapshot.get('productCategory'),
+      productName: snapshot.get('productName'),
+      productImage: snapshot.get('productImage'),
+      productDetails: snapshot.get('productDetails'),
+      productPrice: snapshot.get('productPrice'),
+      productUnit: snapshot.get('productUnit'),
+    );
+
+    productModel = newProductModel;
+  }
+
+  ProductModel get getSingleWishListProduct {
+    return productModel;
+  }
+
+  void deleteWishListedProduct({required String productID}) async {
     await FirebaseFirestore.instance
         .collection('wishList')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('MyWishListProducts')
-        .doc(wishListID)
+        .doc(productID)
         .delete()
         .then((value) => debugPrint('Product remove from wishList'))
         .onError((error, stackTrace) => debugPrint('WishListError: $error'));
