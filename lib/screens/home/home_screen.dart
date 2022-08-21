@@ -84,13 +84,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       toAnimate: true,
                       shape: BadgeShape.circle,
                       animationType: BadgeAnimationType.slide,
-                      //animationDuration: Duration(milliseconds: 200),
                       badgeColor: Colors.red,
                       elevation: 2,
                       borderRadius: BorderRadius.circular(8),
                       badgeContent: Text(
-                        '${cartProvider.cartedProductList.length}',
-                        style: const TextStyle(color: Colors.white),
+                        cartProvider.cartedProductList.length > 9
+                            ? '9+'
+                            : '${cartProvider.cartedProductList.length}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
                       ),
                       child: Icon(
                         Icons.shop,
