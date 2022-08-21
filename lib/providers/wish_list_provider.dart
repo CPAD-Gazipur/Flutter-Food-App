@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import '../models/models.dart';
 
 class WishListProvider extends ChangeNotifier {
-  List<WishListModel> wishListedProductList = [];
-  late ProductModel productModel;
+  List<ProductModel> wishListedProductList = [];
 
   void addProductToWishList({
     required String productID,
@@ -28,34 +27,9 @@ class WishListProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  /*void updateProductToWishList({
-    required String wishListID,
-    required String wishListName,
-    required String wishListImage,
-    required num wishListPrice,
-    required int wishListQuantity,
-  }) async {
-    await FirebaseFirestore.instance
-        .collection('wishList')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('MyWishListProducts')
-        .doc(wishListID)
-        .update({
-          'wishListID': wishListID,
-          'wishListName': wishListName,
-          'wishListImage': wishListImage,
-          'wishListPrice': wishListPrice,
-          'wishListQuantity': wishListQuantity,
-          'isWishListed': true,
-        })
-        .then((value) => debugPrint('Product Updated To Cart'))
-        .catchError((e) => debugPrint('CartError: $e'));
-
-    notifyListeners();
-  }*/
-
   void fetchWishListedProducts() async {
     List<WishListModel> newList = [];
+    List<ProductModel> newProductList = [];
 
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('wishList')
@@ -72,40 +46,31 @@ class WishListProvider extends ChangeNotifier {
       newList.add(wishListModel);
     }
 
-    wishListedProductList = newList;
+    for (var wishListProduct in newList) {
+      DocumentSnapshot snapshot = await FirebaseFirestore.instance
+          .collection(wishListProduct.productCategory)
+          .doc(wishListProduct.productID)
+          .get();
+
+      ProductModel productModel = ProductModel(
+        productID: snapshot.get('productID'),
+        productCategory: snapshot.get('productCategory'),
+        productName: snapshot.get('productName'),
+        productImage: snapshot.get('productImage'),
+        productDetails: snapshot.get('productDetails'),
+        productPrice: snapshot.get('productPrice'),
+        productUnit: snapshot.get('productUnit'),
+      );
+
+      newProductList.add(productModel);
+    }
+
+    wishListedProductList = newProductList;
     notifyListeners();
   }
 
-  List<WishListModel> get getWishListedProductList {
+  List<ProductModel> get getWishListedProductList {
     return wishListedProductList;
-  }
-
-  void fetchSingleWishListProduct({
-    required String productID,
-    required String productCategory,
-  }) async {
-    ProductModel newProductModel;
-
-    DocumentSnapshot snapshot = await FirebaseFirestore.instance
-        .collection(productCategory)
-        .doc(productID)
-        .get();
-
-    newProductModel = ProductModel(
-      productID: snapshot.get('productID'),
-      productCategory: snapshot.get('productCategory'),
-      productName: snapshot.get('productName'),
-      productImage: snapshot.get('productImage'),
-      productDetails: snapshot.get('productDetails'),
-      productPrice: snapshot.get('productPrice'),
-      productUnit: snapshot.get('productUnit'),
-    );
-
-    productModel = newProductModel;
-  }
-
-  ProductModel get getSingleWishListProduct {
-    return productModel;
   }
 
   void deleteWishListedProduct({required String productID}) async {

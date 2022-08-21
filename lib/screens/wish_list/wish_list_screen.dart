@@ -20,6 +20,7 @@ class _WishListScreenState extends State<WishListScreen> {
   Widget build(BuildContext context) {
     wishListProvider = Provider.of<WishListProvider>(context);
     wishListProvider.fetchWishListedProducts();
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -38,16 +39,8 @@ class _WishListScreenState extends State<WishListScreen> {
           ? ListView.builder(
               itemCount: wishListProvider.getWishListedProductList.length,
               itemBuilder: (context, index) {
-                WishListModel data =
-                    wishListProvider.getWishListedProductList[index];
-                wishListProvider.fetchSingleWishListProduct(
-                  productID: data.productID,
-                  productCategory: data.productCategory,
-                );
-
                 ProductModel product =
-                    wishListProvider.getSingleWishListProduct;
-
+                    wishListProvider.getWishListedProductList[index];
                 return Column(
                   children: [
                     const SizedBox(height: 5),
@@ -77,7 +70,9 @@ class _WishListScreenState extends State<WishListScreen> {
                               ),
                               onPressed: () {
                                 wishListProvider.deleteWishListedProduct(
-                                  productID: data.productID,
+                                  productID: wishListProvider
+                                      .getWishListedProductList[index]
+                                      .productID,
                                 );
                                 Navigator.pop(context);
                               },
