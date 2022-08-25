@@ -47,10 +47,55 @@ class _SignInState extends State<SignInScreen> {
       }
 
       return user;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        debugPrint('Signup Error: Password is Weak');
+      } else if (e.code == 'email-already-in-use') {
+        debugPrint('Signup Error: This email already in used');
+      } else if (e.code == 'user-not-found') {
+        debugPrint('Signup Error: User not found');
+      } else if (e.code == 'wrong-password') {
+        debugPrint('Signup Error: Wrong Password');
+      }
+      return null;
     } catch (e) {
       debugPrint('Signup Error: ${e.toString()}');
       return null;
     }
+  }
+
+  _emailPasswordSignUpAndLogin() async {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            backgroundColor: Colors.white,
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 15,
+                vertical: 10,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(),
+                      ),
+                    ],
+                  ),
+                  Text('LOGIN'),
+                  Text('SIGN UP'),
+                  Text('THIS FEATURE IS ON DEVELOPMENT'),
+                ],
+              ),
+            ),
+          );
+        });
   }
 
   @override
@@ -69,7 +114,7 @@ class _SignInState extends State<SignInScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
+            SizedBox(
               height: MediaQuery.of(context).size.height * 0.50,
               width: double.infinity,
               child: Column(
@@ -96,6 +141,14 @@ class _SignInState extends State<SignInScreen> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      SignInButton(
+                        Buttons.Email,
+                        text: 'Sign in with Email',
+                        onPressed: () {
+                          _emailPasswordSignUpAndLogin();
+                        },
+                      ),
+                      const SizedBox(height: 5),
                       SignInButton(
                         Buttons.Facebook,
                         text: "Sign in with Facebook",

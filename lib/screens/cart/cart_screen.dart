@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/config/config.dart';
 import 'package:flutter_food_app/models/models.dart';
+import 'package:flutter_food_app/screens/screens.dart';
 import 'package:flutter_food_app/widgets/single_item.dart';
 import 'package:provider/provider.dart';
 
@@ -52,7 +53,7 @@ class CartScreen extends StatelessWidget {
                   ),
                 ),
                 subtitle: Text(
-                  'Total Price: \$ ${cartProvider.fetchTotalPrice()}',
+                  'Total Price: \$ ${cartProvider.fetchTotalPrice().toStringAsFixed(2)}',
                   style: TextStyle(
                     color: Colors.green[900],
                     fontFamily: 'Roboto',
@@ -63,7 +64,13 @@ class CartScreen extends StatelessWidget {
                 trailing: SizedBox(
                   width: 160,
                   child: MaterialButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const DeliveryDetailsScreen(),
+                        ),
+                      );
+                    },
                     color: primaryColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),

@@ -68,7 +68,7 @@ class CartProvider extends ChangeNotifier {
 
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('cart')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .doc(FirebaseAuth.instance.currentUser?.uid)
         .collection('MyCartedProducts')
         .get();
 
