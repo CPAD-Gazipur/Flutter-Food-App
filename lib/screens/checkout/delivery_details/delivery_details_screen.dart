@@ -23,7 +23,13 @@ class DeliveryDetailsScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: primaryColor,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const AddDeliveryAddressScreen(),
+            ),
+          );
+        },
         child: Icon(
           Icons.add,
           color: textColor,
@@ -67,7 +73,7 @@ class DeliveryDetailsScreen extends StatelessWidget {
           ),
           const Divider(height: 1),
           Column(
-            children: [
+            children: const [
               SingleDeliveryItem(
                 title: 'Md. Al-Amin',
                 address:

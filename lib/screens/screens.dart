@@ -1,6 +1,7 @@
 export 'auth/sign_in_screen.dart';
 export 'cart/cart_screen.dart';
 export 'checkout/checkout_screen.dart';
+export 'checkout/delivery_details/add_delivery_address_screen.dart';
 export 'checkout/delivery_details/delivery_details_screen.dart';
 export 'checkout/widgets/single_delivery_item.dart';
 export 'home/home_screen.dart';
