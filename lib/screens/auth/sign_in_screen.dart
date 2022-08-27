@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_food_app/providers/providers.dart';
 import 'package:flutter_food_app/screens/home/home_screen.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
@@ -16,6 +17,8 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInState extends State<SignInScreen> {
   late UserProvider userProvider;
+  AccessToken? _accessToken;
+  Map<String, dynamic>? _userData;
 
   Future<User?> _googleSignUp() async {
     try {
@@ -61,6 +64,21 @@ class _SignInState extends State<SignInScreen> {
     } catch (e) {
       debugPrint('Signup Error: ${e.toString()}');
       return null;
+    }
+  }
+
+  _facebookLogin() async {
+    final LoginResult result = await FacebookAuth.instance.login();
+
+    if (result.status == LoginStatus.success) {
+      _accessToken = result.accessToken;
+
+      final userData = await FacebookAuth.instance.getUserData();
+      _userData = userData;
+      debugPrint('$_userData');
+    } else {
+      debugPrint('${result.status}');
+      debugPrint('${result.message}');
     }
   }
 
@@ -152,7 +170,9 @@ class _SignInState extends State<SignInScreen> {
                       SignInButton(
                         Buttons.Facebook,
                         text: "Sign in with Facebook",
-                        onPressed: () {},
+                        onPressed: () {
+                          _facebookLogin();
+                        },
                       ),
                       const SizedBox(height: 5),
                       (defaultTargetPlatform != TargetPlatform.iOS)

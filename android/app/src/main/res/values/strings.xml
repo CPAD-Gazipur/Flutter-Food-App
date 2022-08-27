@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Flutter Food App</string>
+    <string name="facebook_app_id">480820800555343</string>
+    <string name="fb_login_protocol_scheme">fb480820800555343</string>
+    <string name="facebook_client_token">5152d92a817e1d0c52195c1450f29135</string>
+</resources>

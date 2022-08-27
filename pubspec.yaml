@@ -44,6 +44,7 @@ dependencies:
   shimmer: ^2.0.0
   badges: ^2.0.3
   fluttertoast: ^8.0.9
+  flutter_facebook_auth: ^4.4.1
 
 dev_dependencies:
   flutter_test:
