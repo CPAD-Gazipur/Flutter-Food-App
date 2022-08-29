@@ -1,9 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_food_app/config/config.dart';
 import 'package:flutter_food_app/providers/providers.dart';
 import 'package:flutter_food_app/screens/home/home_screen.dart';
+import 'package:flutter_food_app/widgets/widgets.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +22,18 @@ class _SignInState extends State<SignInScreen> {
   late UserProvider userProvider;
   AccessToken? _accessToken;
   Map<String, dynamic>? _userData;
+  bool isLogin = true;
+  bool isPasswordVisible = true;
+
+  TextEditingController emailLoginController = TextEditingController();
+  TextEditingController passwordLoginController = TextEditingController();
+
+  final _formSignUpKey = GlobalKey<FormState>();
+  final _formLoginUpKey = GlobalKey<FormState>();
+
+  TextEditingController nameSignUpController = TextEditingController();
+  TextEditingController emailSignUpController = TextEditingController();
+  TextEditingController passwordSignUpController = TextEditingController();
 
   Future<User?> _googleSignUp() async {
     try {
@@ -42,7 +57,7 @@ class _SignInState extends State<SignInScreen> {
 
       if (user != null) {
         userProvider.addUserData(
-          currentUser: user,
+          uID: user.uid,
           userName: user.displayName!,
           userEmail: user.email!,
           userImage: user.photoURL!,
@@ -88,32 +103,361 @@ class _SignInState extends State<SignInScreen> {
         builder: (BuildContext context) {
           return Dialog(
             backgroundColor: Colors.white,
-            child: Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 15,
-                vertical: 10,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: ListView(
-                shrinkWrap: true,
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(),
+            child: StatefulBuilder(builder: (context, setState) {
+              return Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 15,
+                  vertical: 10,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            color: isLogin
+                                ? const Color(0xFFF1EFEF)
+                                : Colors.white,
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 10,
+                              horizontal: 10,
+                            ),
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  isLogin = true;
+                                });
+                              },
+                              child: const Center(
+                                child: Text(
+                                  'LOGIN',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 18,
+                                    fontFamily: 'Roboto',
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            color: isLogin
+                                ? Colors.white
+                                : const Color(0xFFF1EFEF),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 10,
+                              horizontal: 10,
+                            ),
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  isLogin = false;
+                                });
+                              },
+                              child: const Center(
+                                child: Text(
+                                  'SIGN UP',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 18,
+                                    fontFamily: 'Roboto',
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0,
+                        vertical: 5.0,
                       ),
-                    ],
-                  ),
-                  Text('LOGIN'),
-                  Text('SIGN UP'),
-                  Text('THIS FEATURE IS ON DEVELOPMENT'),
-                ],
-              ),
-            ),
+                      child: isLogin
+                          ? Form(
+                              key: _formLoginUpKey,
+                              child: ListView(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                children: [
+                                  CustomTextField(
+                                    controller: emailLoginController,
+                                    hintText: 'Ex.. example@gmail.com',
+                                    labelText: 'Email Address',
+                                    keyboardType: TextInputType.emailAddress,
+                                    validator: (String? value) {
+                                      if (value == '') {
+                                        return 'Email address is required';
+                                      } else if (!value!.contains('@')) {
+                                        return 'Enter valid email address';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                  TextFormField(
+                                    obscureText: isPasswordVisible,
+                                    controller: passwordLoginController,
+                                    keyboardType: TextInputType.visiblePassword,
+                                    validator: (String? value) {
+                                      if (value == '') {
+                                        return 'Password is required';
+                                      } else if (value!.length < 6) {
+                                        return 'Password must be 6 digit long';
+                                      }
+                                      return null;
+                                    },
+                                    decoration: InputDecoration(
+                                      hintText: 'Enter your password',
+                                      hintStyle: const TextStyle(
+                                        fontFamily: 'Roboto',
+                                      ),
+                                      labelText: 'Password',
+                                      suffixIcon: IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            isPasswordVisible =
+                                                !isPasswordVisible;
+                                          });
+                                        },
+                                        icon: Icon(
+                                          isPasswordVisible
+                                              ? Icons.visibility_off
+                                              : Icons.visibility,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      primary: primaryColor,
+                                    ),
+                                    onPressed: () {
+                                      if (!_formLoginUpKey.currentState!
+                                          .validate()) {
+                                        return;
+                                      } else {
+                                        _loginUsingEmailAndPassword().then(
+                                          (value) => Navigator.of(context)
+                                              .pushReplacement(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const HomeScreen(),
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    child: Text(
+                                      'LOGIN',
+                                      style: TextStyle(
+                                        fontFamily: 'Roboto',
+                                        color: textColor,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Form(
+                              key: _formSignUpKey,
+                              child: ListView(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                children: [
+                                  CustomTextField(
+                                    controller: nameSignUpController,
+                                    hintText: 'Ex.. Md. Al-Amin',
+                                    labelText: 'Your Name',
+                                    keyboardType: TextInputType.emailAddress,
+                                    validator: (String? value) {
+                                      if (value == '') {
+                                        return 'Name is required';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                  CustomTextField(
+                                    controller: emailSignUpController,
+                                    hintText: 'Ex.. example@gmail.com',
+                                    labelText: 'Email Address',
+                                    keyboardType: TextInputType.emailAddress,
+                                    validator: (String? value) {
+                                      if (value == '') {
+                                        return 'Email address is required';
+                                      } else if (!value!.contains('@')) {
+                                        return 'Enter valid email address';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                  TextFormField(
+                                    obscureText: isPasswordVisible,
+                                    controller: passwordSignUpController,
+                                    keyboardType: TextInputType.visiblePassword,
+                                    validator: (String? value) {
+                                      if (value == '') {
+                                        return 'Password is required';
+                                      } else if (value!.length < 6) {
+                                        return 'Password must be 6 digit long';
+                                      }
+                                      return null;
+                                    },
+                                    decoration: InputDecoration(
+                                      hintText: 'Enter password',
+                                      hintStyle: const TextStyle(
+                                        fontFamily: 'Roboto',
+                                      ),
+                                      labelText: 'Password',
+                                      suffixIcon: IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            isPasswordVisible =
+                                                !isPasswordVisible;
+                                          });
+                                        },
+                                        icon: Icon(
+                                          isPasswordVisible
+                                              ? Icons.visibility_off
+                                              : Icons.visibility,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      primary: primaryColor,
+                                    ),
+                                    onPressed: () {
+                                      if (!_formSignUpKey.currentState!
+                                          .validate()) {
+                                        return;
+                                      } else {
+                                        _signUpUsingEmailAndPassword().then(
+                                          (value) => Navigator.of(context)
+                                              .pushReplacement(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const HomeScreen(),
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    child: Text(
+                                      'SIGN UP',
+                                      style: TextStyle(
+                                        fontFamily: 'Roboto',
+                                        color: textColor,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                    ),
+                  ],
+                ),
+              );
+            }),
           );
         });
+  }
+
+  Future<User?> _signUpUsingEmailAndPassword() async {
+    EasyLoading.show(status: 'Creating account...');
+
+    // try {
+    final credential = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+      email: emailSignUpController.text,
+      password: passwordSignUpController.text,
+    )
+        .catchError((e) {
+      debugPrint('$e');
+      EasyLoading.showError('$e');
+    });
+
+    EasyLoading.dismiss();
+
+    debugPrint('${credential.user}');
+
+    final User? user = credential.user;
+
+    debugPrint('Signed User Name: ${user?.displayName}');
+
+    if (user != null) {
+      userProvider.addUserData(
+        uID: user.uid,
+        userName: nameSignUpController.text,
+        userEmail: emailSignUpController.text,
+        userImage: user.photoURL ?? '',
+      );
+    } else {
+      userProvider.addUserData(
+        uID: user!.uid,
+        userName: nameSignUpController.text,
+        userEmail: emailSignUpController.text,
+        userImage: user.photoURL ?? '',
+      );
+    }
+
+    nameSignUpController.text = '';
+    emailSignUpController.text = '';
+    passwordSignUpController.text = '';
+
+    EasyLoading.dismiss();
+
+    return credential.user;
+    /*// } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        debugPrint('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        debugPrint('The account already exists for that email.');
+      }
+      EasyLoading.dismiss();
+      return null;
+    } catch (e) {
+      debugPrint('$e');
+      EasyLoading.dismiss();
+      return null;
+    }*/
+  }
+
+  Future<User?> _loginUsingEmailAndPassword() async {
+    EasyLoading.show(status: 'Login...');
+
+    try {
+      return await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+            email: emailLoginController.text,
+            password: passwordLoginController.text,
+          )
+          .then((value) => value.user)
+          .catchError((e) {
+        EasyLoading.dismiss();
+        debugPrint('$e');
+      });
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        debugPrint('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        debugPrint('Wrong password provided for that user.');
+      } else {
+        debugPrint(e.toString());
+      }
+      EasyLoading.dismiss();
+      return null;
+    }
   }
 
   @override

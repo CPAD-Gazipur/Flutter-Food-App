@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_food_app/config/config.dart';
 import 'package:provider/provider.dart';
 
@@ -24,11 +25,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<ProductProvider>(
-          create: (context) => ProductProvider(),
-        ),
         ChangeNotifierProvider<UserProvider>(
           create: (context) => UserProvider(),
+        ),
+        ChangeNotifierProvider<ProductProvider>(
+          create: (context) => ProductProvider(),
         ),
         ChangeNotifierProvider<CartProvider>(
           create: (context) => CartProvider(),
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
           primaryColor: primaryColor,
           scaffoldBackgroundColor: backgroundColor,
         ),
+        builder: EasyLoading.init(),
         home: FirebaseAuth.instance.currentUser != null
             ? const HomeScreen()
             : const SignInScreen(),

@@ -7,19 +7,16 @@ class UserProvider extends ChangeNotifier {
   late UserModel _currentUserData;
 
   void addUserData({
-    required User currentUser,
+    required String uID,
     required String userName,
     required String userEmail,
     required String userImage,
   }) async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(currentUser.uid)
-        .set({
+    await FirebaseFirestore.instance.collection('users').doc(uID).set({
       'userName': userName,
       'userEmail': userEmail,
       'userImage': userImage,
-      'userID': currentUser.uid,
+      'userID': uID,
     });
   }
 
