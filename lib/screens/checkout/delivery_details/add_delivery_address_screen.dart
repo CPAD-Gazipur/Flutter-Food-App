@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/providers/providers.dart';
+import 'package:flutter_food_app/screens/screens.dart';
 import 'package:flutter_food_app/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
@@ -153,8 +154,14 @@ class _AddDeliveryAddressScreenState extends State<AddDeliveryAddressScreen> {
                   return null;
                 },
               ),
-              /*InkWell(
-                onTap: () {},
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const GoogleMapScreen(),
+                    ),
+                  );
+                },
                 child: SizedBox(
                   height: 47,
                   width: double.infinity,
@@ -174,7 +181,7 @@ class _AddDeliveryAddressScreenState extends State<AddDeliveryAddressScreen> {
                   ),
                 ),
               ),
-              Divider(color: textColor),*/
+              Divider(color: textColor),
               ListTile(
                 title: Text(
                   'Address Type',
