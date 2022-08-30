@@ -37,6 +37,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<WishListProvider>(
           create: (context) => WishListProvider(),
         ),
+        ChangeNotifierProvider<CheckoutProvider>(
+          create: (context) => CheckoutProvider(),
+        ),
       ],
       child: MaterialApp(
         title: 'Food Order App',

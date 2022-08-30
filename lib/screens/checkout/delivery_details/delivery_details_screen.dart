@@ -7,7 +7,7 @@ class DeliveryDetailsScreen extends StatelessWidget {
   DeliveryDetailsScreen({Key? key}) : super(key: key);
 
   List<Widget> addressList = const [
-    SingleDeliveryItem(
+    SingleDeliveryDetailsItem(
       title: 'Md. Al-Amin',
       address:
           'North Khailkur, Board Bazar, National University - 1704, Gazipur',
@@ -15,7 +15,7 @@ class DeliveryDetailsScreen extends StatelessWidget {
       addressType: 'Home',
       isSelected: true,
     ),
-    SingleDeliveryItem(
+    SingleDeliveryDetailsItem(
       title: 'Md. Al-Amin',
       address: 'Rokomari Head Office, Arambag, Motijil - 1000, Dhaka',
       number: '+8801621893919',

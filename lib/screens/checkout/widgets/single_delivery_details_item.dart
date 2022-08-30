@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/config/config.dart';
 
-class SingleDeliveryItem extends StatelessWidget {
+class SingleDeliveryDetailsItem extends StatelessWidget {
   final String title, address, number, addressType;
   final bool isSelected;
   final bool isLeading;
-  const SingleDeliveryItem({
+  const SingleDeliveryDetailsItem({
     Key? key,
     required this.title,
     required this.address,

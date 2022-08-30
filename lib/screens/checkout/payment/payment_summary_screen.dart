@@ -98,7 +98,7 @@ class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
                   ),
                 ),
                 const Divider(height: 1),
-                const SingleDeliveryItem(
+                const SingleDeliveryDetailsItem(
                   title: 'Md. Al-Amin',
                   address:
                       'North Khailkur, Board Bazar, National University - 1704, Gazipur',
