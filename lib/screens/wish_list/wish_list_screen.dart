@@ -22,19 +22,7 @@ class _WishListScreenState extends State<WishListScreen> {
     wishListProvider.fetchWishListedProducts();
 
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: primaryColor,
-        iconTheme: IconThemeData(color: textColor),
-        title: Text(
-          'WishList',
-          style: TextStyle(
-            fontFamily: 'Roboto',
-            fontSize: 18,
-            color: textColor,
-          ),
-        ),
-      ),
+      appBar: const CustomAppBar(title: 'WishList'),
       body: wishListProvider.getWishListedProductList.isNotEmpty
           ? ListView.builder(
               itemCount: wishListProvider.getWishListedProductList.length,

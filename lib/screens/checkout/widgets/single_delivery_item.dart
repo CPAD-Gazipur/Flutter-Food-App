@@ -4,6 +4,7 @@ import 'package:flutter_food_app/config/config.dart';
 class SingleDeliveryItem extends StatelessWidget {
   final String title, address, number, addressType;
   final bool isSelected;
+  final bool isLeading;
   const SingleDeliveryItem({
     Key? key,
     required this.title,
@@ -11,6 +12,7 @@ class SingleDeliveryItem extends StatelessWidget {
     required this.number,
     required this.addressType,
     this.isSelected = false,
+    this.isLeading = true,
   }) : super(key: key);
 
   @override
@@ -49,16 +51,23 @@ class SingleDeliveryItem extends StatelessWidget {
               ),
             ],
           ),
-          leading: CircleAvatar(
-            radius: 10,
-            backgroundColor: textColor,
-            child: Center(
-              child: CircleAvatar(
-                radius: 8,
-                backgroundColor: isSelected ? primaryColor : Colors.white,
-              ),
-            ),
-          ),
+          leading: isLeading
+              ? CircleAvatar(
+                  radius: 9,
+                  backgroundColor: isSelected ? primaryColor : Colors.grey,
+                  child: Center(
+                    child: CircleAvatar(
+                      radius: 7,
+                      backgroundColor: Colors.white,
+                      child: CircleAvatar(
+                        radius: 5,
+                        backgroundColor:
+                            isSelected ? primaryColor : Colors.white,
+                      ),
+                    ),
+                  ),
+                )
+              : null,
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

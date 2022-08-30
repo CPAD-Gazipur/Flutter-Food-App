@@ -376,49 +376,52 @@ class _SignInState extends State<SignInScreen> {
   Future<User?> _signUpUsingEmailAndPassword() async {
     EasyLoading.show(status: 'Creating account...');
 
-    // try {
-    final credential = await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(
-      email: emailSignUpController.text,
-      password: passwordSignUpController.text,
-    )
-        .catchError((e) {
-      debugPrint('$e');
-      EasyLoading.showError('$e');
-    });
+    try {
+      final credential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+        email: emailSignUpController.text,
+        password: passwordSignUpController.text,
+      )
+          .catchError((e) {
+        debugPrint('$e');
+        EasyLoading.showError('$e');
+        EasyLoading.dismiss();
+      });
 
-    EasyLoading.dismiss();
+      EasyLoading.dismiss();
 
-    debugPrint('${credential.user}');
+      debugPrint('${credential.user}');
 
-    final User? user = credential.user;
+      final User? user = credential.user;
 
-    debugPrint('Signed User Name: ${user?.displayName}');
+      debugPrint('Signed User Name: ${user?.displayName}');
 
-    if (user != null) {
-      userProvider.addUserData(
-        uID: user.uid,
-        userName: nameSignUpController.text,
-        userEmail: emailSignUpController.text,
-        userImage: user.photoURL ?? '',
-      );
-    } else {
-      userProvider.addUserData(
-        uID: user!.uid,
-        userName: nameSignUpController.text,
-        userEmail: emailSignUpController.text,
-        userImage: user.photoURL ?? '',
-      );
-    }
+      if (user != null) {
+        userProvider.addUserData(
+          uID: user.uid,
+          userName: nameSignUpController.text,
+          userEmail: emailSignUpController.text,
+          userImage: user.photoURL ?? '',
+        );
+      } else {
+        userProvider.addUserData(
+          uID: user!.uid,
+          userName: nameSignUpController.text,
+          userEmail: emailSignUpController.text,
+          userImage: user.photoURL ?? '',
+        );
+      }
 
-    nameSignUpController.text = '';
-    emailSignUpController.text = '';
-    passwordSignUpController.text = '';
+      nameSignUpController.text = '';
+      emailSignUpController.text = '';
+      passwordSignUpController.text = '';
 
-    EasyLoading.dismiss();
+      EasyLoading.showSuccess('Account Created Successfully');
 
-    return credential.user;
-    /*// } on FirebaseAuthException catch (e) {
+      EasyLoading.dismiss();
+
+      return credential.user;
+    } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         debugPrint('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
@@ -430,23 +433,28 @@ class _SignInState extends State<SignInScreen> {
       debugPrint('$e');
       EasyLoading.dismiss();
       return null;
-    }*/
+    }
   }
 
   Future<User?> _loginUsingEmailAndPassword() async {
     EasyLoading.show(status: 'Login...');
 
     try {
-      return await FirebaseAuth.instance
+      final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(
-            email: emailLoginController.text,
-            password: passwordLoginController.text,
-          )
-          .then((value) => value.user)
+        email: emailLoginController.text,
+        password: passwordLoginController.text,
+      )
           .catchError((e) {
+        EasyLoading.showError('$e');
         EasyLoading.dismiss();
         debugPrint('$e');
       });
+
+      EasyLoading.showSuccess('Login Successful');
+      EasyLoading.dismiss();
+
+      return credential.user;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         debugPrint('No user found for that email.');

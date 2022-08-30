@@ -3,6 +3,7 @@ import 'package:flutter_food_app/config/config.dart';
 import 'package:flutter_food_app/models/models.dart';
 import 'package:flutter_food_app/screens/screens.dart';
 import 'package:flutter_food_app/widgets/single_item.dart';
+import 'package:flutter_food_app/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/providers.dart';
@@ -19,19 +20,7 @@ class CartScreen extends StatelessWidget {
     CartProvider cartProvider = Provider.of<CartProvider>(context);
     cartProvider.fetchCartedProducts();
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: primaryColor,
-        iconTheme: IconThemeData(color: textColor),
-        title: Text(
-          'Review Cart',
-          style: TextStyle(
-            fontFamily: 'Roboto',
-            fontSize: 18,
-            color: textColor,
-          ),
-        ),
-      ),
+      appBar: const CustomAppBar(title: 'Review Cart'),
       bottomNavigationBar: cartProvider.getCartedProductList.isNotEmpty
           ? Card(
               elevation: 4,
@@ -67,7 +56,7 @@ class CartScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => const DeliveryDetailsScreen(),
+                          builder: (context) => DeliveryDetailsScreen(),
                         ),
                       );
                     },

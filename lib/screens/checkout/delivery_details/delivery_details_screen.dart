@@ -1,40 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/config/config.dart';
 import 'package:flutter_food_app/screens/screens.dart';
+import 'package:flutter_food_app/widgets/widgets.dart';
 
 class DeliveryDetailsScreen extends StatelessWidget {
-  const DeliveryDetailsScreen({Key? key}) : super(key: key);
+  DeliveryDetailsScreen({Key? key}) : super(key: key);
+
+  List<Widget> addressList = const [
+    SingleDeliveryItem(
+      title: 'Md. Al-Amin',
+      address:
+          'North Khailkur, Board Bazar, National University - 1704, Gazipur',
+      number: '+8801621893919',
+      addressType: 'Home',
+      isSelected: true,
+    ),
+    SingleDeliveryItem(
+      title: 'Md. Al-Amin',
+      address: 'Rokomari Head Office, Arambag, Motijil - 1000, Dhaka',
+      number: '+8801621893919',
+      addressType: 'Office',
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Delivery Details',
-          style: TextStyle(
-            fontFamily: 'Roboto',
-            fontSize: 18,
-            color: textColor,
-          ),
-        ),
-        elevation: 0,
-        backgroundColor: primaryColor,
-        iconTheme: IconThemeData(color: textColor),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: primaryColor,
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const AddDeliveryAddressScreen(),
-            ),
-          );
-        },
-        child: Icon(
-          Icons.add,
-          color: textColor,
-        ),
-      ),
+      appBar: const CustomAppBar(title: 'Delivery Details'),
+      floatingActionButton: addressList.isNotEmpty
+          ? FloatingActionButton(
+              backgroundColor: primaryColor,
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const AddDeliveryAddressScreen(),
+                  ),
+                );
+              },
+              child: Icon(
+                Icons.add,
+                color: textColor,
+              ),
+            )
+          : const SizedBox(),
       bottomNavigationBar: Container(
         height: 48,
         margin: const EdgeInsets.symmetric(
@@ -47,16 +55,32 @@ class DeliveryDetailsScreen extends StatelessWidget {
           ),
           color: primaryColor,
           child: Text(
-            'Process To Pay',
+            addressList.isNotEmpty ? 'Process To Pay' : 'Add new Address',
             style: TextStyle(
               fontFamily: 'Roboto',
               color: textColor,
             ),
           ),
-          onPressed: () {},
+          onPressed: () {
+            if (addressList.isNotEmpty) {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const PaymentSummaryScreen(),
+                ),
+              );
+            } else {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const AddDeliveryAddressScreen(),
+                ),
+              );
+            }
+          },
         ),
       ),
       body: ListView(
+        shrinkWrap: true,
+        physics: const ScrollPhysics(),
         children: [
           ListTile(
             title: Text(
@@ -73,22 +97,7 @@ class DeliveryDetailsScreen extends StatelessWidget {
           ),
           const Divider(height: 1),
           Column(
-            children: const [
-              SingleDeliveryItem(
-                title: 'Md. Al-Amin',
-                address:
-                    'North Khailkur, Board Bazar, National University - 1704, Gazipur',
-                number: '+8801621893919',
-                addressType: 'Home',
-                isSelected: true,
-              ),
-              SingleDeliveryItem(
-                title: 'Md. Al-Amin',
-                address: 'Rokomari Head Office, Arambag, Motijil - 1000, Dhaka',
-                number: '+8801621893919',
-                addressType: 'Office',
-              ),
-            ],
+            children: addressList,
           )
         ],
       ),

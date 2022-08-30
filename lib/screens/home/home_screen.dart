@@ -1,4 +1,3 @@
-import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -46,68 +45,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: backgroundColor,
       drawer: AppDrawer(userProvider: userProvider),
-      appBar: AppBar(
-        backgroundColor: primaryColor,
-        iconTheme: IconThemeData(color: textColor),
-        title: Text(
-          'Home',
-          style: TextStyle(color: textColor),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => SearchScreen(
-                    searchProducts: productProvider!.getAllProductList,
-                  ),
-                ),
-              );
-            },
-            icon: Icon(
-              Icons.search,
-              color: textColor,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: IconButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const CartScreen(),
-                  ),
-                );
-              },
-              icon: cartProvider.getCartedProductList.isNotEmpty
-                  ? Badge(
-                      toAnimate: true,
-                      shape: BadgeShape.circle,
-                      animationType: BadgeAnimationType.slide,
-                      badgeColor: Colors.red,
-                      elevation: 2,
-                      borderRadius: BorderRadius.circular(8),
-                      badgeContent: Text(
-                        cartProvider.cartedProductList.length > 9
-                            ? '9+'
-                            : '${cartProvider.cartedProductList.length}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                        ),
-                      ),
-                      child: Icon(
-                        Icons.shop,
-                        color: textColor,
-                      ),
-                    )
-                  : Icon(
-                      Icons.shop,
-                      color: textColor,
-                    ),
-            ),
-          ),
-        ],
+      appBar: HomeAppBar(
+        productProvider: productProvider!,
+        cartProvider: cartProvider,
       ),
       body: ListView(
         children: [

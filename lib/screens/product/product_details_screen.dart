@@ -72,16 +72,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     getWishListedProduct();
     getCartAddedProduct();
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: primaryColor,
-        iconTheme: IconThemeData(color: textColor),
-        title: Text(
-          'Product Overview',
-          style: TextStyle(
-            color: textColor,
-          ),
-        ),
-      ),
+      appBar: const CustomAppBar(title: 'Product Overview'),
       bottomNavigationBar: Row(
         children: [
           ProductBottomNavigationBar(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_food_app/config/config.dart';
 import 'package:flutter_food_app/providers/providers.dart';
 import 'package:flutter_food_app/screens/screens.dart';
+import 'package:flutter_food_app/widgets/widgets.dart';
 
 import '../../models/models.dart';
 
@@ -32,19 +33,7 @@ class ProfileScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: primaryColor,
-      appBar: AppBar(
-        elevation: 0,
-        iconTheme: IconThemeData(color: textColor),
-        backgroundColor: primaryColor,
-        title: Text(
-          'My Profile',
-          style: TextStyle(
-            fontSize: 18,
-            fontFamily: 'Roboto',
-            color: textColor,
-          ),
-        ),
-      ),
+      appBar: const CustomAppBar(title: 'My Profile'),
       body: Stack(
         children: [
           Column(

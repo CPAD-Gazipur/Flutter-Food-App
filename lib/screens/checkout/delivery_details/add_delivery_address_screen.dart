@@ -26,19 +26,7 @@ class _AddDeliveryAddressScreenState extends State<AddDeliveryAddressScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Add Address Details',
-          style: TextStyle(
-            fontFamily: 'Roboto',
-            fontSize: 18,
-            color: textColor,
-          ),
-        ),
-        elevation: 0,
-        backgroundColor: primaryColor,
-        iconTheme: IconThemeData(color: textColor),
-      ),
+      appBar: const CustomAppBar(title: 'Add Address Details'),
       bottomNavigationBar: Container(
         height: 48,
         margin: const EdgeInsets.symmetric(
