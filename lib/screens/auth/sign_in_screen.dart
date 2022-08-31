@@ -245,15 +245,21 @@ class _SignInState extends State<SignInScreen> {
                                           .validate()) {
                                         return;
                                       } else {
-                                        _loginUsingEmailAndPassword().then(
-                                          (value) => Navigator.of(context)
-                                              .pushReplacement(
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const HomeScreen(),
-                                            ),
-                                          ),
-                                        );
+                                        _loginUsingEmailAndPassword()
+                                            .then((value) {
+                                          if (value != null) {
+                                            Navigator.of(context)
+                                                .pushReplacement(
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const HomeScreen(),
+                                              ),
+                                            );
+                                          } else {
+                                            EasyLoading.showError(
+                                                'Login Failed');
+                                          }
+                                        });
                                       }
                                     },
                                     child: Text(
@@ -446,8 +452,8 @@ class _SignInState extends State<SignInScreen> {
         password: passwordLoginController.text,
       )
           .catchError((e) {
-        EasyLoading.showError('$e');
-        EasyLoading.dismiss();
+        String error = e.toString().split("] ")[1];
+        EasyLoading.showError(error);
         debugPrint('$e');
       });
 
@@ -532,14 +538,18 @@ class _SignInState extends State<SignInScreen> {
                               Buttons.Google,
                               text: "Sign in with Google",
                               onPressed: () {
-                                _googleSignUp().then(
-                                  (value) =>
-                                      Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                      builder: (context) => const HomeScreen(),
-                                    ),
-                                  ),
-                                );
+                                _googleSignUp().then((value) {
+                                  if (value?.uid != null) {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const HomeScreen(),
+                                      ),
+                                    );
+                                  } else {
+                                    EasyLoading.showError('Login Failed');
+                                  }
+                                });
                               },
                             )
                           : Container(),
