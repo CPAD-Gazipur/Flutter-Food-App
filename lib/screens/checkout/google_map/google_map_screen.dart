@@ -120,7 +120,10 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
                       } else {
                         EasyLoading.showError('Something went wrong.');
                       }
+                    }).catchError((e){
+                      debugPrint('LocationError: $e');
                     });
+                    EasyLoading.dismiss();
                   },
                   color: primaryColor,
                   shape: const StadiumBorder(),
