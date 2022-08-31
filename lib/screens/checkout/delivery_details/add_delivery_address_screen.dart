@@ -156,11 +156,13 @@ class _AddDeliveryAddressScreenState extends State<AddDeliveryAddressScreen> {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const GoogleMapScreen(),
-                    ),
-                  );
+                  Navigator.of(context)
+                      .push(
+                        MaterialPageRoute(
+                          builder: (context) => const GoogleMapScreen(),
+                        ),
+                      )
+                      .then((value) => setState(() {}));
                 },
                 child: SizedBox(
                   height: 47,
@@ -169,14 +171,23 @@ class _AddDeliveryAddressScreenState extends State<AddDeliveryAddressScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        'Set Locations',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'Roboto',
-                          color: textColor,
-                        ),
-                      ),
+                      checkoutProvider.setLocation?.latitude == null
+                          ? Text(
+                              'Set Locations (Maps)',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: 'Roboto',
+                                color: textColor,
+                              ),
+                            )
+                          : Text(
+                              'Location (${checkoutProvider.setLocation?.latitude?.toStringAsFixed(2)}, ${checkoutProvider.setLocation?.longitude?.toStringAsFixed(2)})',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: 'Roboto',
+                                color: textColor,
+                              ),
+                            ),
                     ],
                   ),
                 ),

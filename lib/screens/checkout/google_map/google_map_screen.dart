@@ -15,9 +15,46 @@ class GoogleMapScreen extends StatefulWidget {
 }
 
 class _GoogleMapScreenState extends State<GoogleMapScreen> {
-  final LatLng _initialMapLocation = const LatLng(23.7288051, 90.422799);
+  LatLng _initialMapLocation = const LatLng(24.5957, 90.9224);
   final Location _location = Location();
   late GoogleMapController googleMapController;
+  late bool _serviceEnabled;
+  late PermissionStatus _permissionGranted;
+
+  @override
+  void initState() {
+    super.initState();
+    debugPrint('GETTING LOCATION PERMISSION');
+    _getLocationPermission();
+    _getCurrentLocation();
+  }
+
+  void _getLocationPermission() async {
+    _serviceEnabled = await _location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await _location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+
+    _permissionGranted = await _location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await _location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+  }
+
+  void _getCurrentLocation() async {
+    LocationData locationData = await _location.getLocation();
+
+    _initialMapLocation =
+        LatLng(locationData.latitude!, locationData.longitude!);
+
+    debugPrint('MAP LOCATION: $_initialMapLocation');
+  }
 
   void _onMapCreated(GoogleMapController value) {
     googleMapController = value;
@@ -72,13 +109,18 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
                   onPressed: () async {
                     EasyLoading.show(status: 'Getting Location....');
                     await _location.getLocation().then((value) {
-                      setState(() {
-                        checkoutProvider.setLocation = value;
-                        EasyLoading.showSuccess('Done');
-                      });
+                      if (value.longitude != null) {
+                        setState(() {
+                          checkoutProvider.setLocation = value;
+                          debugPrint(
+                              'LOCATION: ${value.latitude}, ${value.longitude}');
+                          EasyLoading.showSuccess('Done');
+                          Navigator.pop(context);
+                        });
+                      } else {
+                        EasyLoading.showError('Something went wrong.');
+                      }
                     });
-                    EasyLoading.dismiss();
-                    Navigator.pop(context);
                   },
                   color: primaryColor,
                   shape: const StadiumBorder(),

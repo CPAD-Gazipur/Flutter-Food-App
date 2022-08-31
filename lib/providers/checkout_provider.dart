@@ -5,7 +5,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:location/location.dart';
 
 class CheckoutProvider extends ChangeNotifier {
-  late LocationData setLocation;
+  LocationData? setLocation;
 
   addDeliveryAddress({
     required BuildContext context,
@@ -17,9 +17,8 @@ class CheckoutProvider extends ChangeNotifier {
     required String city,
     required String addressType,
   }) async {
-    if (setLocation.longitude == null) {
+    if (setLocation?.longitude == null) {
       EasyLoading.showError('Please set location first');
-      EasyLoading.dismiss();
       notifyListeners();
     } else {
       EasyLoading.show(status: 'Adding new Address...');
@@ -36,8 +35,8 @@ class CheckoutProvider extends ChangeNotifier {
         'zipCode': zipCode,
         'city': city,
         'addressType': addressType,
-        'latitude': setLocation.latitude,
-        'longitude': setLocation.longitude,
+        'latitude': setLocation!.latitude ?? '',
+        'longitude': setLocation!.longitude ?? '',
       }).then((value) {
         EasyLoading.showSuccess('Added Successfully');
         EasyLoading.dismiss();
