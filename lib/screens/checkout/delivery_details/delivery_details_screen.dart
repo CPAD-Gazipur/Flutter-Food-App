@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/config/config.dart';
+import 'package:flutter_food_app/models/models.dart';
+import 'package:flutter_food_app/providers/providers.dart';
 import 'package:flutter_food_app/screens/screens.dart';
 import 'package:flutter_food_app/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 
-class DeliveryDetailsScreen extends StatelessWidget {
+class DeliveryDetailsScreen extends StatefulWidget {
   DeliveryDetailsScreen({Key? key}) : super(key: key);
 
-  List<Widget> addressList = const [
+  @override
+  State<DeliveryDetailsScreen> createState() => _DeliveryDetailsScreenState();
+}
+
+class _DeliveryDetailsScreenState extends State<DeliveryDetailsScreen> {
+  int selectedAddress = 0;
+
+  List<DeliveryAddressModel> deliveryList = [];
+
+  /* List<Widget> addressList = const [
     SingleDeliveryDetailsItem(
       title: 'Md. Al-Amin',
       address:
@@ -21,13 +33,19 @@ class DeliveryDetailsScreen extends StatelessWidget {
       number: '+8801621893919',
       addressType: 'Office',
     ),
-  ];
+  ];*/
 
   @override
   Widget build(BuildContext context) {
+    CheckoutProvider checkoutProvider = Provider.of<CheckoutProvider>(context);
+    checkoutProvider.fetchDeliveryAddress();
+    deliveryList = checkoutProvider.getDeliveryAddress;
+
+    debugPrint('DeliveryAddress: $deliveryList');
+
     return Scaffold(
       appBar: const CustomAppBar(title: 'Delivery Details'),
-      floatingActionButton: addressList.isNotEmpty
+      floatingActionButton: deliveryList.isNotEmpty
           ? FloatingActionButton(
               backgroundColor: primaryColor,
               onPressed: () {
@@ -55,14 +73,14 @@ class DeliveryDetailsScreen extends StatelessWidget {
           ),
           color: primaryColor,
           child: Text(
-            addressList.isNotEmpty ? 'Process To Pay' : 'Add new Address',
+            deliveryList.isNotEmpty ? 'Process To Pay' : 'Add new Address',
             style: TextStyle(
               fontFamily: 'Roboto',
               color: textColor,
             ),
           ),
           onPressed: () {
-            if (addressList.isNotEmpty) {
+            if (deliveryList.isNotEmpty) {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => const PaymentSummaryScreen(),
@@ -78,9 +96,7 @@ class DeliveryDetailsScreen extends StatelessWidget {
           },
         ),
       ),
-      body: ListView(
-        shrinkWrap: true,
-        physics: const ScrollPhysics(),
+      body: Column(
         children: [
           ListTile(
             title: Text(
@@ -96,9 +112,36 @@ class DeliveryDetailsScreen extends StatelessWidget {
             ),
           ),
           const Divider(height: 1),
-          Column(
-            children: addressList,
-          )
+          deliveryList.isNotEmpty
+              ? ListView.builder(
+                  shrinkWrap: true,
+                  physics: const ScrollPhysics(),
+                  itemCount: deliveryList.length,
+                  itemBuilder: (context, index) {
+                    return SingleDeliveryDetailsItem(
+                      value: index,
+                      groupValue: selectedAddress,
+                      onChanged: (int? value) {
+                        setState(() {
+                          selectedAddress = value!;
+                        });
+                      },
+                      checkoutProvider: checkoutProvider,
+                      deliveryAddress: deliveryList[index],
+                    );
+                  },
+                )
+              : const SizedBox(
+                  height: 400,
+                  child: Center(
+                    child: Text(
+                      'No Delivery Address Found',
+                      style: TextStyle(
+                        fontFamily: 'Roboto',
+                      ),
+                    ),
+                  ),
+                ),
         ],
       ),
     );
