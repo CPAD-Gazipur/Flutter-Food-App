@@ -106,19 +106,19 @@ class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
                 SelectedDeliveryDetails(
                   deliveryAddress: widget.deliveryAddress,
                 ),
-                const ExpansionTile(
+                ExpansionTile(
                   title: Text(
-                    'Order Item',
-                    style: TextStyle(
+                    'Order Item (${cartProvider.getCartedProductList.length})',
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                       fontFamily: 'Roboto',
                     ),
                   ),
-                  children: [
-                    OrderItemListTile(),
-                    OrderItemListTile(),
-                  ],
+                  children: cartProvider.getCartedProductList
+                      .map((product) =>
+                          OrderItemListTile(productDetails: product))
+                      .toList(),
                 ),
                 const Divider(),
                 const ListTile(

@@ -77,6 +77,7 @@ class CartScreen extends StatelessWidget {
           : const SizedBox(),
       body: cartProvider.getCartedProductList.isNotEmpty
           ? ListView.builder(
+              shrinkWrap: true,
               itemCount: cartProvider.getCartedProductList.length,
               itemBuilder: (context, index) {
                 CartModel data = cartProvider.getCartedProductList[index];

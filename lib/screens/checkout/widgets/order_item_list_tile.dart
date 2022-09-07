@@ -1,19 +1,23 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_food_app/models/models.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../config/config.dart';
 
 class OrderItemListTile extends StatelessWidget {
-  const OrderItemListTile({Key? key}) : super(key: key);
+  final CartModel productDetails;
+  const OrderItemListTile({
+    Key? key,
+    required this.productDetails,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       leading: CachedNetworkImage(
         width: 60,
-        imageUrl:
-            'https://www.nicepng.com/png/full/927-9276396_mint-png-clipart-background-fresh-mint.png',
+        imageUrl: productDetails.cartImage,
         imageBuilder: (context, imageProvider) => Padding(
           padding: const EdgeInsets.all(16.0),
           child: Center(
@@ -46,33 +50,38 @@ class OrderItemListTile extends StatelessWidget {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            'Fresh Mint',
-            style: TextStyle(
-              color: textColor,
-              fontFamily: 'Roboto',
-              fontWeight: FontWeight.bold,
+          SizedBox(
+            width: 100,
+            child: Text(
+              productDetails.cartName,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: textColor,
+                fontFamily: 'Roboto',
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-          const Text(
-            '50 Gram',
-            style: TextStyle(
+          Text(
+            productDetails.cartUnit,
+            style: const TextStyle(
               fontSize: 14,
               fontFamily: 'Roboto',
             ),
           ),
-          const Text(
-            '\$ 2.5',
-            style: TextStyle(
+          Text(
+            '\$ ${productDetails.cartPrice}',
+            style: const TextStyle(
               fontFamily: 'Roboto',
               fontWeight: FontWeight.w400,
             ),
           ),
         ],
       ),
-      subtitle: const Text(
-        'Total Item: 2',
-        style: TextStyle(
+      subtitle: Text(
+        'Total Item: ${productDetails.cartQuantity}',
+        style: const TextStyle(
           fontFamily: 'Roboto',
           fontWeight: FontWeight.w400,
         ),
