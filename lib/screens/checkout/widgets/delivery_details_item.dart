@@ -3,7 +3,7 @@ import 'package:flutter_food_app/config/config.dart';
 import 'package:flutter_food_app/models/models.dart';
 import 'package:flutter_food_app/providers/providers.dart';
 
-class SingleDeliveryDetailsItem extends StatelessWidget {
+class DeliveryDetailsItem extends StatelessWidget {
   final DeliveryAddressModel deliveryAddress;
   final CheckoutProvider checkoutProvider;
   final int value;
@@ -11,7 +11,7 @@ class SingleDeliveryDetailsItem extends StatelessWidget {
   final Function(int?) onChanged;
   final bool isSelected;
   final bool isLeading;
-  const SingleDeliveryDetailsItem({
+  const DeliveryDetailsItem({
     Key? key,
     required this.deliveryAddress,
     required this.checkoutProvider,
@@ -167,79 +167,6 @@ class SingleDeliveryDetailsItem extends StatelessWidget {
           ),
         ),
         const Divider(),
-        /*ListTile(
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                deliveryAddress.name,
-                style: TextStyle(
-                  fontFamily: 'Roboto',
-                  color: textColor,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              Container(
-                width: 60,
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  color: primaryColor,
-                  borderRadius: BorderRadius.circular(18),
-                ),
-                child: Center(
-                  child: Text(
-                    deliveryAddress.addressType.toUpperCase(),
-                    style: TextStyle(
-                      fontFamily: 'Roboto',
-                      color: textColor,
-                      fontSize: 13,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          leading: isLeading
-              ? CircleAvatar(
-                  radius: 9,
-                  backgroundColor: isSelected ? primaryColor : Colors.grey,
-                  child: Center(
-                    child: CircleAvatar(
-                      radius: 7,
-                      backgroundColor: Colors.white,
-                      child: CircleAvatar(
-                        radius: 5,
-                        backgroundColor:
-                            isSelected ? primaryColor : Colors.white,
-                      ),
-                    ),
-                  ),
-                )
-              : null,
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              const SizedBox(height: 5),
-              Text(
-                '${deliveryAddress.streetAddress} - ${deliveryAddress.zipCode}, ${deliveryAddress.city}',
-                style: TextStyle(
-                  fontFamily: 'Roboto',
-                  color: textColor,
-                ),
-              ),
-              const SizedBox(height: 5),
-              Text(
-                deliveryAddress.phoneNumber,
-                style: TextStyle(
-                  fontFamily: 'Roboto',
-                  color: textColor,
-                ),
-              ),
-            ],
-          ),
-        ),
-        const Divider(height: 35),*/
       ],
     );
   }

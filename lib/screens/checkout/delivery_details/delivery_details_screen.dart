@@ -18,29 +18,11 @@ class _DeliveryDetailsScreenState extends State<DeliveryDetailsScreen> {
 
   List<DeliveryAddressModel> deliveryList = [];
 
-  /* List<Widget> addressList = const [
-    SingleDeliveryDetailsItem(
-      title: 'Md. Al-Amin',
-      address:
-          'North Khailkur, Board Bazar, National University - 1704, Gazipur',
-      number: '+8801621893919',
-      addressType: 'Home',
-      isSelected: true,
-    ),
-    SingleDeliveryDetailsItem(
-      title: 'Md. Al-Amin',
-      address: 'Rokomari Head Office, Arambag, Motijil - 1000, Dhaka',
-      number: '+8801621893919',
-      addressType: 'Office',
-    ),
-  ];*/
-
   @override
   Widget build(BuildContext context) {
     CheckoutProvider checkoutProvider = Provider.of<CheckoutProvider>(context);
     checkoutProvider.fetchDeliveryAddress();
     deliveryList = checkoutProvider.getDeliveryAddress;
-
     debugPrint('DeliveryAddress: $deliveryList');
 
     return Scaffold(
@@ -83,7 +65,9 @@ class _DeliveryDetailsScreenState extends State<DeliveryDetailsScreen> {
             if (deliveryList.isNotEmpty) {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => const PaymentSummaryScreen(),
+                  builder: (context) => PaymentSummaryScreen(
+                    deliveryAddress: deliveryList[selectedAddress],
+                  ),
                 ),
               );
             } else {
@@ -118,7 +102,7 @@ class _DeliveryDetailsScreenState extends State<DeliveryDetailsScreen> {
                   physics: const ScrollPhysics(),
                   itemCount: deliveryList.length,
                   itemBuilder: (context, index) {
-                    return SingleDeliveryDetailsItem(
+                    return DeliveryDetailsItem(
                       value: index,
                       groupValue: selectedAddress,
                       onChanged: (int? value) {

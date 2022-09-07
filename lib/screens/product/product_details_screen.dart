@@ -76,7 +76,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       bottomNavigationBar: Row(
         children: [
           ProductBottomNavigationBar(
-            title: isWishListed ? 'Added To WishList' : 'Add To WishList',
+            title: isWishListed ? 'Added' : 'Add To WishList',
             iconData: isWishListed ? Icons.favorite : Icons.favorite_outline,
             color: Colors.white70,
             backgroundColor: textColor,

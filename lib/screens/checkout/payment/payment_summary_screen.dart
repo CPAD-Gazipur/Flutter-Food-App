@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_food_app/models/models.dart';
 import 'package:flutter_food_app/screens/checkout/widgets/order_item_list_tile.dart';
 import 'package:flutter_food_app/screens/screens.dart';
 import 'package:flutter_food_app/widgets/widgets.dart';
@@ -8,7 +9,11 @@ import '../../../config/colors.dart';
 import '../../../providers/providers.dart';
 
 class PaymentSummaryScreen extends StatefulWidget {
-  const PaymentSummaryScreen({Key? key}) : super(key: key);
+  final DeliveryAddressModel deliveryAddress;
+  const PaymentSummaryScreen({
+    Key? key,
+    required this.deliveryAddress,
+  }) : super(key: key);
 
   @override
   State<PaymentSummaryScreen> createState() => _PaymentSummaryScreenState();
@@ -98,14 +103,9 @@ class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
                   ),
                 ),
                 const Divider(height: 1),
-                /*const SingleDeliveryDetailsItem(
-                  title: 'Md. Al-Amin',
-                  address:
-                      'North Khailkur, Board Bazar, National University - 1704, Gazipur',
-                  number: '+8801621893919',
-                  addressType: 'Home',
-                  isLeading: false,
-                ),*/
+                SelectedDeliveryDetails(
+                  deliveryAddress: widget.deliveryAddress,
+                ),
                 const ExpansionTile(
                   title: Text(
                     'Order Item',
