@@ -28,6 +28,20 @@ class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
   Widget build(BuildContext context) {
     CartProvider cartProvider = Provider.of<CartProvider>(context);
     cartProvider.fetchCartedProducts();
+
+    double discountPercent = 5;
+    double discountAmount = 0;
+    double shippingCharge = 0.15;
+    double priceAfterDiscount;
+    double totalPrice = cartProvider.fetchTotalPrice();
+    priceAfterDiscount = totalPrice + shippingCharge;
+    if (totalPrice > 100) {
+      discountAmount = (totalPrice * discountPercent) / 100;
+      priceAfterDiscount = totalPrice - discountAmount + shippingCharge;
+    } else {
+      discountPercent = 0;
+    }
+
     return Scaffold(
       appBar: const CustomAppBar(title: 'Payment Summary'),
       bottomNavigationBar: cartProvider.getCartedProductList.isNotEmpty
@@ -51,7 +65,7 @@ class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
                   ),
                 ),
                 subtitle: Text(
-                  'Total Price: \$ ${cartProvider.fetchTotalPrice().toStringAsFixed(2)}',
+                  'Payable: \$ ${priceAfterDiscount.toStringAsFixed(2)}',
                   style: TextStyle(
                     color: Colors.green[900],
                     fontFamily: 'Roboto',
@@ -116,13 +130,14 @@ class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
                     ),
                   ),
                   children: cartProvider.getCartedProductList
-                      .map((product) =>
-                          OrderItemListTile(productDetails: product))
+                      .map(
+                        (product) => OrderItemListTile(productDetails: product),
+                      )
                       .toList(),
                 ),
                 const Divider(),
-                const ListTile(
-                  leading: Text(
+                ListTile(
+                  leading: const Text(
                     'Sub Total:',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -130,8 +145,8 @@ class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
                     ),
                   ),
                   trailing: Text(
-                    '\$2.50',
-                    style: TextStyle(
+                    '\$${totalPrice.toStringAsFixed(2)}',
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Roboto',
                     ),
@@ -145,9 +160,9 @@ class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
                       fontFamily: 'Roboto',
                     ),
                   ),
-                  trailing: const Text(
-                    '\$0.15',
-                    style: TextStyle(
+                  trailing: Text(
+                    '\$${shippingCharge.toStringAsFixed(2)}',
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Roboto',
                     ),
@@ -155,15 +170,33 @@ class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
                 ),
                 ListTile(
                   leading: Text(
-                    'Discount:',
+                    'Discount (${discountPercent.toStringAsFixed(1)}%):',
                     style: TextStyle(
                       color: Colors.grey[600],
                       fontFamily: 'Roboto',
                     ),
                   ),
-                  trailing: const Text(
-                    '\$0.02',
+                  trailing: Text(
+                    '\$${discountAmount.toStringAsFixed(2)}',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Roboto',
+                    ),
+                  ),
+                ),
+                const Divider(),
+                ListTile(
+                  leading: Text(
+                    'Total:',
                     style: TextStyle(
+                      color: Colors.grey[600],
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  trailing: Text(
+                    '\$${priceAfterDiscount.toStringAsFixed(2)}',
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Roboto',
                     ),
