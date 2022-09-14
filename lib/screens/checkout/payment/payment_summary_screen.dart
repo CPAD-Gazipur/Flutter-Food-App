@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_food_app/models/models.dart';
 import 'package:flutter_food_app/screens/screens.dart';
 import 'package:flutter_food_app/widgets/widgets.dart';
@@ -25,7 +26,7 @@ class PaymentSummaryScreen extends StatefulWidget {
   State<PaymentSummaryScreen> createState() => _PaymentSummaryScreenState();
 }
 
-enum PaymentType { bKash, nagad, cashOnDelivery }
+enum PaymentType { sslcommerz, bKash, nagad, cashOnDelivery }
 
 class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
   var paymentType = PaymentType.bKash;
@@ -82,8 +83,8 @@ class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
                 trailing: SizedBox(
                   width: 160,
                   child: MaterialButton(
-                    onPressed: () {
-                      if (paymentType == PaymentType.bKash) {
+                    onPressed: () async {
+                      if (paymentType == PaymentType.sslcommerz) {
                         debugPrint('Pay with bKash');
 
                         Sslcommerz sslcommerz = Sslcommerz(
@@ -126,7 +127,18 @@ class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
                           ),
                         );
 
-                        sslcommerz.payNow();
+                        await sslcommerz.payNow().then((value) {
+                          if (value.status?.toLowerCase() == 'failed' ||
+                              value.status == null ||
+                              value.status == '') {
+                            EasyLoading.showError('Transaction Failed');
+                          } else {
+                            EasyLoading.showSuccess(
+                                'Transaction is ${value.status} & Paid Amount is ${value.amount} BDT');
+                          }
+                        }).catchError((e) {
+                          EasyLoading.showError('Transaction not complete.');
+                        });
                       }
                     },
                     color: primaryColor,
@@ -263,6 +275,30 @@ class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
                       fontFamily: 'Roboto',
                       color: textColor,
                     ),
+                  ),
+                ),
+                RadioListTile(
+                  tileColor: paymentType == PaymentType.sslcommerz
+                      ? Colors.white
+                      : null,
+                  activeColor: primaryColor,
+                  value: PaymentType.sslcommerz,
+                  groupValue: paymentType,
+                  onChanged: (PaymentType? value) {
+                    setState(() {
+                      paymentType = value!;
+                    });
+                  },
+                  title: Text(
+                    'SSLCommerz',
+                    style: TextStyle(
+                      fontFamily: 'Roboto',
+                      color: textColor,
+                    ),
+                  ),
+                  secondary: Image.asset(
+                    'assets/images/ssl_commerz_icon.png',
+                    width: 60,
                   ),
                 ),
                 RadioListTile(
