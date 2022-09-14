@@ -48,6 +48,7 @@ dependencies:
   flutter_easyloading: ^3.0.5
   location: ^4.4.0
   google_maps_flutter: ^2.1.12
+  flutter_sslcommerz: ^2.2.0-nullsafety.0
 
 dev_dependencies:
   flutter_test:

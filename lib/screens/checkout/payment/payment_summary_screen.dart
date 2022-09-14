@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/models/models.dart';
-import 'package:flutter_food_app/screens/checkout/widgets/order_item_list_tile.dart';
 import 'package:flutter_food_app/screens/screens.dart';
 import 'package:flutter_food_app/widgets/widgets.dart';
+import 'package:flutter_sslcommerz/model/SSLCSdkType.dart';
+import 'package:flutter_sslcommerz/model/SSLCShipmentInfoInitializer.dart';
+import 'package:flutter_sslcommerz/model/SSLCommerzInitialization.dart';
+import 'package:flutter_sslcommerz/model/SSLCurrencyType.dart';
+import 'package:flutter_sslcommerz/model/sslproductinitilizer/General.dart';
+import 'package:flutter_sslcommerz/model/sslproductinitilizer/SSLCProductInitializer.dart';
+import 'package:flutter_sslcommerz/sslcommerz.dart';
 import 'package:provider/provider.dart';
 
 import '../../../config/colors.dart';
@@ -76,7 +82,53 @@ class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
                 trailing: SizedBox(
                   width: 160,
                   child: MaterialButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (paymentType == PaymentType.bKash) {
+                        debugPrint('Pay with bKash');
+
+                        Sslcommerz sslcommerz = Sslcommerz(
+                          initializer: SSLCommerzInitialization(
+                            ipn_url: "www.ipnurl.com",
+                            multi_card_name: "visa,master,bkash",
+                            currency: SSLCurrencyType.BDT,
+                            product_category: "Food",
+                            sdkType: SSLCSdkType.TESTBOX,
+                            store_id: "flutt631f1be7b7c05",
+                            store_passwd: "flutt631f1be7b7c05@ssl",
+                            total_amount: double.parse(
+                                priceAfterDiscount.toStringAsFixed(2)),
+                            tran_id: "custom_transaction_id",
+                          ),
+                        );
+
+                        sslcommerz.addShipmentInfoInitializer(
+                          sslcShipmentInfoInitializer:
+                              SSLCShipmentInfoInitializer(
+                            shipmentMethod: "yes",
+                            numOfItems: 5,
+                            shipmentDetails: ShipmentDetails(
+                              shipAddress1: "Ship address 1",
+                              shipCity: "Faridpur",
+                              shipCountry: "Bangladesh",
+                              shipName: "Ship name 1",
+                              shipPostCode: "7860",
+                            ),
+                          ),
+                        );
+
+                        sslcommerz.addProductInitializer(
+                          sslcProductInitializer: SSLCProductInitializer(
+                            productName: "Water Filter",
+                            productCategory: "Widgets",
+                            general: General(
+                                general: "General Purpose",
+                                productProfile: "Product Profile"),
+                          ),
+                        );
+
+                        sslcommerz.payNow();
+                      }
+                    },
                     color: primaryColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
