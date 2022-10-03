@@ -29,7 +29,7 @@ class PaymentSummaryScreen extends StatefulWidget {
 enum PaymentType { sslcommerz, bKash, nagad, cashOnDelivery }
 
 class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
-  var paymentType = PaymentType.bKash;
+  var paymentType = PaymentType.sslcommerz;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
     double priceAfterDiscount;
     double totalPrice = cartProvider.fetchTotalPrice();
     priceAfterDiscount = totalPrice + shippingCharge;
-    if (totalPrice > 100) {
+    if (totalPrice >= 100) {
       discountAmount = (totalPrice * discountPercent) / 100;
       priceAfterDiscount = totalPrice - discountAmount + shippingCharge;
     } else {
@@ -248,6 +248,16 @@ class _PaymentSummaryScreenState extends State<PaymentSummaryScreen> {
                     ),
                   ),
                 ),
+                totalPrice < 100
+                    ? Text(
+                        'Add \$${100 - totalPrice} products to get 5.0% discount .',
+                        style: TextStyle(
+                          color: Colors.grey[600],
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Roboto',
+                        ),
+                      )
+                    : const SizedBox(),
                 const Divider(),
                 ListTile(
                   leading: Text(
