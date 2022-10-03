@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "320503605984-qu6goar5qrnf803av9cqjmteflvc6kad.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.alaminkarno.flutter_food_app",
+            "certificate_hash": "d3ca72c1736fa931b7e39b2689285e8c0a700994"
+          }
+        },
+        {
           "client_id": "320503605984-fmgj93j1jsvfa4qe6k6gnd7lv1hlj9au.apps.googleusercontent.com",
           "client_type": 3
         }

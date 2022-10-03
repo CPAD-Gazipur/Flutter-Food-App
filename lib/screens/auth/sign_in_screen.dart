@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -39,16 +41,20 @@ class _SignInState extends State<SignInScreen> {
     try {
       final GoogleSignIn googleSignIn = GoogleSignIn(
         scopes: ['email'],
+        hostedDomain: "",
+        clientId: Platform.isIOS
+            ? "320503605984-k1f8sgacuj6etsnn56puoqbi5amf63r9.apps.googleusercontent.com"
+            : "",
       );
       final FirebaseAuth auth = FirebaseAuth.instance;
 
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser!.authentication;
 
       final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
       );
 
       final User? user = (await auth.signInWithCredential(credential)).user;
@@ -533,26 +539,23 @@ class _SignInState extends State<SignInScreen> {
                         },
                       ),
                       const SizedBox(height: 5),
-                      (defaultTargetPlatform != TargetPlatform.iOS)
-                          ? SignInButton(
-                              Buttons.Google,
-                              text: "Sign in with Google",
-                              onPressed: () {
-                                _googleSignUp().then((value) {
-                                  if (value?.uid != null) {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const HomeScreen(),
-                                      ),
-                                    );
-                                  } else {
-                                    EasyLoading.showError('Login Failed');
-                                  }
-                                });
-                              },
-                            )
-                          : Container(),
+                      SignInButton(
+                        Buttons.Google,
+                        text: "Sign in with Google",
+                        onPressed: () {
+                          _googleSignUp().then((value) {
+                            if (value?.uid != null) {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => const HomeScreen(),
+                                ),
+                              );
+                            } else {
+                              EasyLoading.showError('Login Failed');
+                            }
+                          });
+                        },
+                      ),
                       const SizedBox(height: 5),
                       (defaultTargetPlatform != TargetPlatform.android)
                           ? SignInButton(

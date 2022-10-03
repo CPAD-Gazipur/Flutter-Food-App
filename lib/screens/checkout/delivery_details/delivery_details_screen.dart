@@ -7,7 +7,7 @@ import 'package:flutter_food_app/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
 class DeliveryDetailsScreen extends StatefulWidget {
-  DeliveryDetailsScreen({Key? key}) : super(key: key);
+  const DeliveryDetailsScreen({Key? key}) : super(key: key);
 
   @override
   State<DeliveryDetailsScreen> createState() => _DeliveryDetailsScreenState();
