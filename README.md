@@ -1,4 +1,4 @@
-<h1 align=center> On Progress (Delevloping)... </h1>
+<h1 align=center> On Progress (Developing)... </h1>
 
 # Flutter Food App
 
