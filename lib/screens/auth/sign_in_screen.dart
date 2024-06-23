@@ -22,7 +22,6 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInState extends State<SignInScreen> {
   late UserProvider userProvider;
-  AccessToken? _accessToken;
   Map<String, dynamic>? _userData;
   bool isLogin = true;
   bool isPasswordVisible = true;
@@ -92,8 +91,6 @@ class _SignInState extends State<SignInScreen> {
     final LoginResult result = await FacebookAuth.instance.login();
 
     if (result.status == LoginStatus.success) {
-      _accessToken = result.accessToken;
-
       final userData = await FacebookAuth.instance.getUserData();
       _userData = userData;
       debugPrint('$_userData');

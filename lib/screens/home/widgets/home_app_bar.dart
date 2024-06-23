@@ -51,12 +51,14 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
             },
             icon: cartProvider.getCartedProductList.isNotEmpty
                 ? badge.Badge(
-                    toAnimate: true,
-                    shape: badge.BadgeShape.circle,
-                    animationType: badge.BadgeAnimationType.slide,
-                    badgeColor: Colors.red,
-                    elevation: 2,
-                    borderRadius: BorderRadius.circular(8),
+                    showBadge: true,
+                    badgeAnimation: const badge.BadgeAnimation.slide(),
+                    badgeStyle: badge.BadgeStyle(
+                      shape: badge.BadgeShape.circle,
+                      elevation: 2,
+                      badgeColor: Colors.red,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                     badgeContent: Text(
                       cartProvider.cartedProductList.length > 9
                           ? '9+'
