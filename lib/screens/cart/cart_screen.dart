@@ -30,43 +30,45 @@ class CartScreen extends StatelessWidget {
                   topRight: Radius.circular(24),
                 ),
               ),
-              child: ListTile(
-                title: Text(
-                  cartProvider.getCartedProductList.length == 1
-                      ? 'Total Order: ${cartProvider.getCartedProductList.length} item'
-                      : 'Total Order: ${cartProvider.getCartedProductList.length} items',
-                  style: const TextStyle(
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                subtitle: Text(
-                  'Total Price: \$ ${cartProvider.fetchTotalPrice().toStringAsFixed(2)}',
-                  style: TextStyle(
-                    color: Colors.green[900],
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16,
-                  ),
-                ),
-                trailing: SizedBox(
-                  width: 160,
-                  child: MaterialButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const DeliveryDetailsScreen(),
-                        ),
-                      );
-                    },
-                    color: primaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+              child: SafeArea(
+                child: ListTile(
+                  title: Text(
+                    cartProvider.getCartedProductList.length == 1
+                        ? 'Total Order: ${cartProvider.getCartedProductList.length} item'
+                        : 'Total Order: ${cartProvider.getCartedProductList.length} items',
+                    style: const TextStyle(
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.w400,
                     ),
-                    child: const Text(
-                      'Checkout',
-                      style: TextStyle(
-                        fontFamily: 'Roboto',
+                  ),
+                  subtitle: Text(
+                    'Total Price: \$ ${cartProvider.fetchTotalPrice().toStringAsFixed(2)}',
+                    style: TextStyle(
+                      color: Colors.green[900],
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                    ),
+                  ),
+                  trailing: SizedBox(
+                    width: 160,
+                    child: MaterialButton(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const DeliveryDetailsScreen(),
+                          ),
+                        );
+                      },
+                      color: primaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: const Text(
+                        'Checkout',
+                        style: TextStyle(
+                          fontFamily: 'Roboto',
+                        ),
                       ),
                     ),
                   ),

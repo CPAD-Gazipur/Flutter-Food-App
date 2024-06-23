@@ -25,7 +25,7 @@ class _ProductItemState extends State<ProductItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 230,
+      height: 235,
       width: 160,
       margin: const EdgeInsets.only(
         right: 10,
@@ -35,7 +35,7 @@ class _ProductItemState extends State<ProductItem> {
         bottom: 5,
       ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(12),
         color: Colors.white,
       ),
       child: InkWell(
@@ -43,36 +43,52 @@ class _ProductItemState extends State<ProductItem> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              flex: 2,
-              child: CachedNetworkImage(
-                imageUrl: widget.product.productImage,
-                imageBuilder: (context, imageProvider) => Padding(
+            CachedNetworkImage(
+              height: 140,
+              imageUrl: widget.product.productImage,
+              imageBuilder: (context, imageProvider) => Center(
+                child: Container(
+                  height: 140,
+                  width: 150,
                   padding: const EdgeInsets.all(16.0),
-                  child: Center(
-                    child: Hero(
-                      tag: widget.product.productImage,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.contain,
-                          ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.grey.shade50,
+                  ),
+                  child: Hero(
+                    tag: widget.product.productImage,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.contain,
                         ),
                       ),
                     ),
                   ),
                 ),
-                placeholder: (context, url) => Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Shimmer.fromColors(
-                    baseColor: Colors.grey,
-                    highlightColor: Colors.white,
-                    child: Image.asset('assets/images/placeholder_image.png'),
-                  ),
+              ),
+              placeholder: (context, url) => Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Shimmer.fromColors(
+                  baseColor: Colors.grey,
+                  highlightColor: Colors.white,
+                  child: Image.asset('assets/images/placeholder_image.png'),
                 ),
-                errorWidget: (context, url, error) => const Center(
-                  child: Icon(Icons.error),
+              ),
+              errorWidget: (context, url, error) => Center(
+                child: Container(
+                  height: 140,
+                  width: 150,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.grey.shade50,
+                  ),
+                  child: Icon(
+                    Icons.image,
+                    size: 80,
+                    color: Colors.grey.shade300,
+                  ),
                 ),
               ),
             ),
@@ -103,10 +119,10 @@ class _ProductItemState extends State<ProductItem> {
                     ),
                     Expanded(
                       child: Container(
-                        padding: const EdgeInsets.only(
-                          top: 8,
-                        ),
+                        padding: const EdgeInsets.only(top: 8),
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Expanded(
                               child: ProductUnitBottomSheet(
@@ -146,12 +162,10 @@ class _ProductItemState extends State<ProductItem> {
                                 },
                               ),
                             ),
-                            const SizedBox(width: 5),
-                            Expanded(
-                              child: ProductCount(
-                                product: widget.product,
-                                productUnit: unitData,
-                              ),
+                            const SizedBox(width: 8.0),
+                            ProductCount(
+                              product: widget.product,
+                              productUnit: unitData,
                             ),
                           ],
                         ),

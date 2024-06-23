@@ -122,9 +122,12 @@ class _SignInState extends State<SignInScreen> {
                       children: [
                         Expanded(
                           child: Container(
-                            color: isLogin
-                                ? const Color(0xFFF1EFEF)
-                                : Colors.white,
+                            decoration: BoxDecoration(
+                              color: isLogin
+                                  ? const Color(0xFFF1EFEF)
+                                  : Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                             padding: const EdgeInsets.symmetric(
                               vertical: 10,
                               horizontal: 10,
@@ -150,9 +153,12 @@ class _SignInState extends State<SignInScreen> {
                         ),
                         Expanded(
                           child: Container(
-                            color: isLogin
-                                ? Colors.white
-                                : const Color(0xFFF1EFEF),
+                            decoration: BoxDecoration(
+                              color: isLogin
+                                  ? Colors.white
+                                  : const Color(0xFFF1EFEF),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                             padding: const EdgeInsets.symmetric(
                               vertical: 10,
                               horizontal: 10,
@@ -218,7 +224,7 @@ class _SignInState extends State<SignInScreen> {
                                       return null;
                                     },
                                     decoration: InputDecoration(
-                                      hintText: 'Enter your password',
+                                      hintText: 'Ex. ******',
                                       hintStyle: const TextStyle(
                                         fontFamily: 'Roboto',
                                       ),
@@ -499,9 +505,7 @@ class _SignInState extends State<SignInScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  const Text(
-                    'Sign in to continue',
-                  ),
+                  const Text('Sign in to continue'),
                   Text(
                     'Foodie',
                     style: TextStyle(

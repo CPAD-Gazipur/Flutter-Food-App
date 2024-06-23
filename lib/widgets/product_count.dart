@@ -55,18 +55,19 @@ class _ProductCountState extends State<ProductCount> {
   Widget build(BuildContext context) {
     CartProvider cartProvider = Provider.of<CartProvider>(context);
     getAddedProductAndProductQuantity();
-    return Container(
-      height: 30,
-      width: 50,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: Colors.grey,
-        ),
-      ),
-      child: isAdded
-          ? Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return isAdded
+        ? Container(
+            decoration: const ShapeDecoration(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                side: BorderSide(
+                  width: 1,
+                  color: Color(0xFFD9D9D9),
+                ),
+              ),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 InkWell(
                   onTap: () {
@@ -111,17 +112,35 @@ class _ProductCountState extends State<ProductCount> {
                       }
                     });
                   },
-                  child: Icon(
-                    Icons.remove,
-                    size: widget.iconSize,
-                    color: primaryColor,
+                  child: Container(
+                    width: 20,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFF4F4F4),
+                      border: Border(
+                        right: BorderSide(
+                          width: 1,
+                          color: Color(0xFFD9D9D9),
+                        ),
+                      ),
+                    ),
+                    child: const Center(
+                      child: Icon(
+                        Icons.remove,
+                        size: 11,
+                        color: Color(0xFF333333),
+                      ),
+                    ),
                   ),
                 ),
-                Text(
-                  '$productCount',
-                  style: TextStyle(
-                    fontSize: widget.textSize,
-                    fontWeight: FontWeight.bold,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Text(
+                    '$productCount',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: const Color(0xFF333333),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400),
                   ),
                 ),
                 InkWell(
@@ -150,15 +169,39 @@ class _ProductCountState extends State<ProductCount> {
                       }
                     });
                   },
-                  child: Icon(
-                    Icons.add,
-                    size: widget.iconSize,
-                    color: primaryColor,
+                  child: Container(
+                    width: 20,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFF4F4F4),
+                      border: Border(
+                        left: BorderSide(
+                          width: 1,
+                          color: Color(0xFFD9D9D9),
+                        ),
+                      ),
+                    ),
+                    child: const Center(
+                      child: Icon(
+                        Icons.add,
+                        size: 11,
+                        color: Color(0xFF333333),
+                      ),
+                    ),
                   ),
                 ),
               ],
-            )
-          : InkWell(
+            ),
+          )
+        : Container(
+            height: 30,
+            width: 50,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                color: Colors.grey,
+              ),
+            ),
+            child: InkWell(
               onTap: () {
                 setState(() {
                   isAdded = true;
@@ -186,12 +229,10 @@ class _ProductCountState extends State<ProductCount> {
               child: Center(
                 child: Text(
                   'ADD',
-                  style: TextStyle(
-                    color: primaryColor,
-                  ),
+                  style: TextStyle(color: primaryColor),
                 ),
               ),
             ),
-    );
+          );
   }
 }

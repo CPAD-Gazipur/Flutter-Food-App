@@ -160,10 +160,23 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     child: Image.asset('assets/images/placeholder_image.png'),
                   ),
                 ),
-                errorWidget: (context, url, error) => const Center(
-                  child: Icon(Icons.error),
+                errorWidget: (context, url, error) => Center(
+                  child: Container(
+                    height: 250,
+                    width: 250,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.grey.shade100,
+                    ),
+                    child: Icon(
+                      Icons.image,
+                      size: 100,
+                      color: Colors.grey.shade300,
+                    ),
+                  ),
                 ),
               ),
+              const SizedBox(height: 10),
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -229,19 +242,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       ),
                     ),
                     const SizedBox(width: 10),
-                    SizedBox(
-                      width: 100,
-                      height: 40,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          right: 5,
-                        ),
-                        child: ProductCount(
-                          product: widget.product,
-                          productUnit: unitData,
-                          iconSize: 20,
-                          textSize: 16,
-                        ),
+                    Container(
+                      height: 35,
+                      padding: const EdgeInsets.only(right: 5),
+                      child: ProductCount(
+                        product: widget.product,
+                        productUnit: unitData,
+                        iconSize: 20,
+                        textSize: 16,
                       ),
                     ),
                   ],
