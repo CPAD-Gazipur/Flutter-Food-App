@@ -107,7 +107,7 @@ class _WishListScreenState extends State<WishListScreen> {
                   const SizedBox(height: 20),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: primaryColor,
+                      backgroundColor: primaryColor,
                       minimumSize: const Size(150, 40),
                     ),
                     onPressed: () {

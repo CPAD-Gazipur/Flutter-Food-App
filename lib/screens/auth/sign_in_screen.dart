@@ -244,7 +244,7 @@ class _SignInState extends State<SignInScreen> {
                                   const SizedBox(height: 20),
                                   ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      primary: primaryColor,
+                                      backgroundColor: primaryColor,
                                     ),
                                     onPressed: () {
                                       if (!_formLoginUpKey.currentState!
@@ -347,7 +347,7 @@ class _SignInState extends State<SignInScreen> {
                                   const SizedBox(height: 20),
                                   ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      primary: primaryColor,
+                                      backgroundColor: primaryColor,
                                     ),
                                     onPressed: () {
                                       if (!_formSignUpKey.currentState!

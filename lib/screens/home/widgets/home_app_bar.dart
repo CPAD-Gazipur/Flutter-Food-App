@@ -1,4 +1,4 @@
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badge;
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/providers/providers.dart';
 
@@ -50,10 +50,10 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
               );
             },
             icon: cartProvider.getCartedProductList.isNotEmpty
-                ? Badge(
+                ? badge.Badge(
                     toAnimate: true,
-                    shape: BadgeShape.circle,
-                    animationType: BadgeAnimationType.slide,
+                    shape: badge.BadgeShape.circle,
+                    animationType: badge.BadgeAnimationType.slide,
                     badgeColor: Colors.red,
                     elevation: 2,
                     borderRadius: BorderRadius.circular(8),

@@ -12,7 +12,7 @@ A new Flutter Food Ordering/ Delivery app using Flutter, Firebase and Provider
 <p align="center">
 <table align="center">
   <tbody><tr>
-     <td align="center"><a href="https://github.com/alamin-karno"><img alt="" src="https://avatars.githubusercontent.com/alamin-karno" width="125px;"><br><sub><b> Md. Al-Amin </b></sub></a><br></td> </a></td>
+     <td align="center"><a href="https://github.com/alamin-karno"><img alt="" src="https://avatars.githubusercontent.com/alamin-karno" width="125px;"><br><sub><b> Md. Al-Amin </b></sub></a><br></td> </tr></td>
 
 </tbody></table>
 
@@ -22,7 +22,7 @@ A new Flutter Food Ordering/ Delivery app using Flutter, Firebase and Provider
   
 	
 <a href="https://github.com/CPAD-Gazipur/Flutter-Food-App/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=CPAD-Gazipur/Flutter-Food-App" />
+  <img src="https://contrib.rocks/image?repo=CPAD-Gazipur/Flutter-Food-App"  alt="Food App Contributors"/>
 </a>
 </p>
 <h3 align="center"> Happy Coding 👨‍💻 </h3>
